@@ -3,7 +3,7 @@ from data.usuario.usuario_model import Usuario
 from data.usuario.usuario_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS
 from data.usuario.usuario_model import Usuario
 from data.usuario.usuario_sql import *
-from data.usuario.util import get_connection
+from data.usuario.uti import get_connection
 
 def criar_tabela() -> bool:
     with get_connection() as conn:
