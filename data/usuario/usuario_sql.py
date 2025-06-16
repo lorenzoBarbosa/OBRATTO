@@ -29,7 +29,7 @@ SET nome = ?, email = ?, senha = ?, cpf_cnpj = ?, telefone = ?, data_cadastro = 
 WHERE id = ?;
 
 """
-USUARIO_POR_ID = """
+OBTER_POR_ID = """
 SELECT * FROM usuario WHERE id = ?;
 """
 

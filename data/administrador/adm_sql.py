@@ -26,16 +26,13 @@ ORDER BY u.nome
 """
 
 
-UPDATE_ADMINISTRADOR = """
+UPDATE = """
 UPDATE administrador
 SET id_usuario = ?
 WHERE id = ?
 """
-#OBTER_POR_ID = """
 
-
-
-DELETE_ADMINISTRADOR = """
+DELETE = """
 DELETE FROM administrador
 WHERE id = ?
 """
