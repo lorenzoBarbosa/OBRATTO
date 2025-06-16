@@ -5,3 +5,6 @@ from data.usuario.usuario_model import Usuario
 @dataclass
 class Administrador (Usuario):
     id: int 
+
+    
+ print("Administrador model loaded successfully.")
