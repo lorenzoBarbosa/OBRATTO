@@ -6,5 +6,5 @@ from data.usuario.usuario_model import Usuario
 class Administrador (Usuario):
     id: int 
 
-    
- print("Administrador model loaded successfully.")
+
+ 
