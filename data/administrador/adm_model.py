@@ -7,4 +7,4 @@ class Administrador (Usuario):
     id: int 
 
 
- 
+ ç
