@@ -1,19 +1,20 @@
+from asyncio import open_connection
 from typing import Optional
 from data.usuario.usuario_model import Usuario
 from data.usuario.usuario_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS
 from data.usuario.usuario_model import Usuario
 from data.usuario.usuario_sql import *
-from data.usuario.uti import get_connection
+
 
 def criar_tabela() -> bool:
-    with get_connection() as conn:
+    with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
         return cursor.rowcount > 0
    
 
 def inserir(usuario: Usuario) -> Optional[int]:
-    with get_connection() as conn:
+    with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
             usuario.nome, 
@@ -27,7 +28,7 @@ def inserir(usuario: Usuario) -> Optional[int]:
     
 
 def obter_todos() -> list[Usuario]:
-    with get_connection() as conn:
+    with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()

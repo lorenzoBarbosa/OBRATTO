@@ -3,5 +3,7 @@ from data.usuario.usuario_model import Usuario
 
 
 @dataclass
-class Administrador (Usuario):
-    id: int 
+class Fornecedor(Usuario):
+    razao_social: str
+    
+

@@ -12,7 +12,7 @@ cpf TEXT NOT NULL)
 """
 
 INSERIR = """
-INSERT INTO cliente (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, cpf) 
+INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, cpf) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 """
 
@@ -22,3 +22,18 @@ id, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, cpf
 FROM usuario
 ORDER BY nome
 """ 
+
+UPDATE_USUARIO = """
+UPDATE usuario
+SET nome = ?, email = ?, senha = ?, cpf_cnpj = ?, telefone = ?, data_cadastro = ?, endereco = ?, cpf = ?
+WHERE id = ?;
+
+"""
+USUARIO_POR_ID = """
+SELECT * FROM usuario WHERE id = ?;
+"""
+
+DELETE_USUARIO = """
+DELETE FROM usuario
+WHERE id = ?
+"""
