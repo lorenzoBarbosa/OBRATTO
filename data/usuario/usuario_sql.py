@@ -23,7 +23,7 @@ FROM usuario
 ORDER BY nome
 """ 
 
-UPDATE_USUARIO = """
+UPDATE = """
 UPDATE usuario
 SET nome = ?, email = ?, senha = ?, cpf_cnpj = ?, telefone = ?, data_cadastro = ?, endereco = ?, cpf = ?
 WHERE id = ?;
@@ -33,7 +33,7 @@ OBTER_POR_ID = """
 SELECT * FROM usuario WHERE id = ?;
 """
 
-DELETE_USUARIO = """
+DELETE= """
 DELETE FROM usuario
 WHERE id = ?
 """

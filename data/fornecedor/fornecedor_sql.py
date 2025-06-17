@@ -1,9 +1,9 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS fornecedor (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-id_usuario INTEGER NOT NULL,
-razao_social TEXT NOT NULL,
-FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INTEGER NOT NULL,
+    razao_social TEXT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 """
 
@@ -45,13 +45,14 @@ FROM fornecedor f
 JOIN usuario u ON f.id_usuario = u.id
 WHERE f.id = ?;
 """
+
 UPDATE = """
 UPDATE fornecedor
 SET id_usuario = ?, razao_social = ?
 WHERE id = ?;
 """
 
-DELETE= """
+DELETE = """
 DELETE FROM fornecedor
 WHERE id = ?;
 """

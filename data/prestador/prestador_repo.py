@@ -1,7 +1,7 @@
 from typing import Optional, List
 from data.prestador.prestador_model import Prestador
 from data.prestador.prestador_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
-from utils.db import open_connection  
+from utils.db import open_connection
 
 
 def criar_tabela() -> bool:
@@ -9,9 +9,14 @@ def criar_tabela() -> bool:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
         conn.commit()
-        return True 
+        return True
+
 
 def inserir(prestador: Prestador) -> Optional[int]:
+    """
+    Insere dados específicos do prestador.
+    O id_usuario deve existir na tabela usuario.
+    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
@@ -30,17 +35,23 @@ def obter_todos() -> List[Prestador]:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
-        prestadores = [
-            Prestador(
+        prestadores = []
+        for row in rows:
+            prestadores.append(Prestador(
                 id=row["id"],
                 id_usuario=row["id_usuario"],
+                nome=row.get("nome"),            
+                senha=None,
+                cpf_cnpj=None,
+                telefone=None,
+                data_cadastro=None,
+                endereco=None,
+                cpf=None,
                 area_atuacao=row["area_atuacao"],
                 tipo_pessoa=row["tipo_pessoa"],
                 razao_social=row["razao_social"],
                 descricao_servicos=row["descricao_servicos"]
-            )
-            for row in rows
-        ]
+            ))
         return prestadores
 
 
@@ -53,6 +64,14 @@ def obter_por_id(prestador_id: int) -> Optional[Prestador]:
             return Prestador(
                 id=row["id"],
                 id_usuario=row["id_usuario"],
+                nome=row.get("nome"),
+                email=row.get("email"),
+                senha=None,
+                cpf_cnpj=None,
+                telefone=None,
+                data_cadastro=None,
+                endereco=None,
+                cpf=None,
                 area_atuacao=row["area_atuacao"],
                 tipo_pessoa=row["tipo_pessoa"],
                 razao_social=row["razao_social"],
@@ -62,6 +81,10 @@ def obter_por_id(prestador_id: int) -> Optional[Prestador]:
 
 
 def atualizar(prestador: Prestador) -> bool:
+    """
+    Atualiza apenas dados específicos do prestador.
+    Dados do usuário são atualizados no repositório usuario.
+    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(UPDATE, (
