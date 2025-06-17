@@ -1,13 +1,10 @@
-import datetime
+from typing import Optional, List
+from data.usuario.usuario_model import Usuario
+from data.usuario.usuario_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
 from utils.db import open_connection
-from typing import List, Optional
-from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS
-from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_sql import *
 
 
-def CRIAR_TABELA() -> bool:
+def criar_tabela() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
@@ -15,7 +12,7 @@ def CRIAR_TABELA() -> bool:
         return True
 
 
-def INSERIR (usuario: Usuario) -> Optional[int]:
+def inserir(usuario: Usuario) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
@@ -24,7 +21,7 @@ def INSERIR (usuario: Usuario) -> Optional[int]:
             usuario.senha,
             usuario.cpf_cnpj,
             usuario.telefone,
-            usuario.data_cadastro.isoformat() if isinstance(usuario.data_cadastro, (datetime.date, datetime.datetime)) else usuario.data_cadastro,
+            usuario.data_cadastro,
             usuario.endereco,
             usuario.cpf
         ))
@@ -32,7 +29,7 @@ def INSERIR (usuario: Usuario) -> Optional[int]:
         return cursor.lastrowid
 
 
-def OBTER_TODOS() -> List[Usuario]:
+def obter_todos() -> List[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
@@ -53,7 +50,7 @@ def OBTER_TODOS() -> List[Usuario]:
         return usuarios
 
 
-def OBTER_POR_ID (usuario_id: int) -> Optional[Usuario]:
+def obter_por_id(usuario_id: int) -> Optional[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_POR_ID, (usuario_id,))
@@ -73,7 +70,7 @@ def OBTER_POR_ID (usuario_id: int) -> Optional[Usuario]:
         return None
 
 
-def UPDATE (usuario: Usuario) -> bool:
+def atualizar(usuario: Usuario) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(UPDATE, (
@@ -82,7 +79,7 @@ def UPDATE (usuario: Usuario) -> bool:
             usuario.senha,
             usuario.cpf_cnpj,
             usuario.telefone,
-            usuario.data_cadastro.isoformat() if isinstance(usuario.data_cadastro, (datetime.date, datetime.datetime)) else usuario.data_cadastro,
+            usuario.data_cadastro,
             usuario.endereco,
             usuario.cpf,
             usuario.id
@@ -91,7 +88,7 @@ def UPDATE (usuario: Usuario) -> bool:
         return cursor.rowcount > 0
 
 
-def DELETE(usuario_id: int) -> bool:
+def deletar(usuario_id: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(DELETE, (usuario_id,))

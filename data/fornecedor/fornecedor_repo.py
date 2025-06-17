@@ -3,45 +3,58 @@ from data.fornecedor.fornecedor_model import Fornecedor
 from data.fornecedor.fornecedor_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
 from utils.db import open_connection
 
-def CRIAR_TABELA() -> bool:
+
+def criar_tabela() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
         conn.commit()
         return True
 
-def INSERIR (fornecedor: Fornecedor) -> Optional[int]:
+
+def inserir(fornecedor: Fornecedor) -> Optional[int]:
+    """
+    Insere dados específicos do fornecedor.
+    O id_usuario deve existir na tabela usuario.
+    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
-            fornecedor.id,  # id_usuario herdado de Usuario
-            fornecedor.razao_social
+            fornecedor.id_usuario,
+            fornecedor.razao_social,
+            fornecedor.cnpj,
+            fornecedor.telefone_contato,
+            fornecedor.endereco,
         ))
         conn.commit()
         return cursor.lastrowid
 
-def OBTER_TODOS() -> List[Fornecedor]:
+
+def obter_todos() -> List[Fornecedor]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
-        fornecedores = [
-            Fornecedor(
-                id=row["id"],  # id da tabela fornecedor
-                nome=row["nome"],
-                email=row["email"],
-                senha=row["senha"],
-                cpf_cnpj=row["cpf_cnpj"],
-                telefone=row["telefone"],
-                data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"],
-                cpf=row["cpf"],
-                razao_social=row["razao_social"]
-            )
-            for row in rows
-        ]
+        fornecedores = []
+        for row in rows:
+            fornecedores.append(Fornecedor(
+                id=row["id"],
+                id_usuario=row["id_usuario"],
+                nome=row.get("nome"),
+                email=row.get("email"),
+                senha=None,
+                cpf_cnpj=None,
+                telefone=None,
+                data_cadastro=None,
+                endereco=row.get("endereco"),
+                cnpj=row.get("cnpj"),
+                razao_social=row.get("razao_social"),
+                telefone_contato=row.get("telefone_contato")
+            ))
         return fornecedores
-def OBTER_POR_ID (fornecedor_id: int) -> Optional[Fornecedor]:
+
+
+def obter_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_POR_ID, (fornecedor_id,))
@@ -49,30 +62,40 @@ def OBTER_POR_ID (fornecedor_id: int) -> Optional[Fornecedor]:
         if row:
             return Fornecedor(
                 id=row["id"],
-                nome=row["nome"],
-                email=row["email"],
-                senha=row["senha"],
-                cpf_cnpj=row["cpf_cnpj"],
-                telefone=row["telefone"],
-                data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"],
-                cpf=row["cpf"],
-                razao_social=row["razao_social"]
+                id_usuario=row["id_usuario"],
+                nome=row.get("nome"),
+                email=row.get("email"),
+                senha=None,
+                cpf_cnpj=None,
+                telefone=None,
+                data_cadastro=None,
+                endereco=row.get("endereco"),
+                cnpj=row.get("cnpj"),
+                razao_social=row.get("razao_social"),
+                telefone_contato=row.get("telefone_contato")
             )
         return None
 
-def UPDATE (fornecedor: Fornecedor) -> bool:
+
+def atualizar(fornecedor: Fornecedor) -> bool:
+    """
+    Atualiza dados da tabela fornecedor.
+    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(UPDATE, (
-            fornecedor.id,  # id_usuario herdado de Usuario
+            fornecedor.id_usuario,
             fornecedor.razao_social,
-            fornecedor.id   # id da própria tabela fornecedor
+            fornecedor.cnpj,
+            fornecedor.telefone_contato,
+            fornecedor.endereco,
+            fornecedor.id
         ))
         conn.commit()
         return cursor.rowcount > 0
 
-def DELETE (fornecedor_id: int) -> bool:
+
+def deletar(fornecedor_id: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(DELETE, (fornecedor_id,))
