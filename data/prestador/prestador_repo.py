@@ -4,18 +4,17 @@ from data.prestador.prestador_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBT
 from utils.db import open_connection  
 
 
-def criar_tabela() -> bool:
+def CRIAR_TABELA () -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
         conn.commit()
         return True 
 
-def inserir(prestador: Prestador) -> Optional[int]:
+def INSERIR(prestador: Prestador) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
-            prestador.id_usuario,
             prestador.area_atuacao,
             prestador.tipo_pessoa,
             prestador.razao_social,
@@ -25,7 +24,7 @@ def inserir(prestador: Prestador) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_todos() -> List[Prestador]:
+def OBTER_TODO () -> List[Prestador]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
@@ -33,7 +32,6 @@ def obter_todos() -> List[Prestador]:
         prestadores = [
             Prestador(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
                 area_atuacao=row["area_atuacao"],
                 tipo_pessoa=row["tipo_pessoa"],
                 razao_social=row["razao_social"],
@@ -44,7 +42,7 @@ def obter_todos() -> List[Prestador]:
         return prestadores
 
 
-def obter_por_id(prestador_id: int) -> Optional[Prestador]:
+def OBTER_POR_ID (prestador_id: int) -> Optional[Prestador]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_POR_ID, (prestador_id,))
@@ -52,7 +50,6 @@ def obter_por_id(prestador_id: int) -> Optional[Prestador]:
         if row:
             return Prestador(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
                 area_atuacao=row["area_atuacao"],
                 tipo_pessoa=row["tipo_pessoa"],
                 razao_social=row["razao_social"],
@@ -61,11 +58,10 @@ def obter_por_id(prestador_id: int) -> Optional[Prestador]:
         return None
 
 
-def atualizar(prestador: Prestador) -> bool:
+def UPDATE(prestador: Prestador) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(UPDATE, (
-            prestador.id_usuario,
             prestador.area_atuacao,
             prestador.tipo_pessoa,
             prestador.razao_social,
@@ -76,7 +72,7 @@ def atualizar(prestador: Prestador) -> bool:
         return cursor.rowcount > 0
 
 
-def deletar(prestador_id: int) -> bool:
+def DELETE (prestador_id: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(DELETE, (prestador_id,))
