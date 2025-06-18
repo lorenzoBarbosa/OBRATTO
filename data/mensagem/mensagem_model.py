@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-import datetime
-from data.mensagem.mensagem_model import Usuario
-
+from datetime import datetime   
 
 @dataclass
-class Mensagem(Usuario):
+class Mensagem:
     id_mensagem: int
     id_remetente: int
     id_destinatario: int
     conteudo: str
     data_hora: datetime
+    nome_remetente: str
+    nome_destinatario: str
