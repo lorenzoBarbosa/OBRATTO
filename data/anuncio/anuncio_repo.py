@@ -46,7 +46,7 @@ def obter_todos_anuncios() -> List[Anuncio]:
         return anuncio
 
 
-def obter_por_nome(anuncio_nome: str) -> Optional[Fornecedor]:
+def obter_anuncio_por_nome(anuncio_nome: str) -> Optional[Fornecedor]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_ANUNCIO_POR_NOME, (anuncio_nome,))
@@ -97,7 +97,7 @@ def obter_anuncio_paginado(anuncio_paginado: str) -> Optional[Anuncio]:
         return anuncio_paginado
     
 
-def obter_anuncio_POR_TERMO_PAGINADO(anuncio_por_termo: str) -> Optional[Anuncio]:
+def obter_anuncio_por_termo_paginado(anuncio_por_termo: str) -> Optional[Anuncio]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_ANUNCIO_POR_TERMO_PAGINADO, (anuncio_por_termo,))
