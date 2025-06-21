@@ -1,6 +1,5 @@
 import sqlite3
 
-
 sql_criar_tabela_usuario = """
 CREATE TABLE IF NOT EXISTS usuario (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
