@@ -1,25 +1,25 @@
 from typing import Optional, List
 from data.notificacao.notificacao_model import Notificacao
-from data.notificacao.notificacao_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
+from data.notificacao.notificacao_sql import CRIAR_TABELA_NOTIFICACAO, INSERIR_NOTIFICACAO, OBTER_NOTIFICACAO, OBTER_NOTIFICACAO_POR_ID, ATUALIZAR_NOTIFICACAO, DELETAR_NOTIFICACAO
 from utils.db import open_connection
 
 
-def criar_tabela() -> bool:
+def criar_tabela_notificacao() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
+        cursor.execute(CRIAR_TABELA_NOTIFICACAO)
         conn.commit()
         return True
 
 
-def inserir(notificacao: Notificacao) -> Optional[int]:
+def inserir_notificacao(notificacao: Notificacao) -> Optional[int]:
     """
     Insere uma nova Notificacao no banco.
     O id_usuario deve existir na tabela usuario.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (
+        cursor.execute(INSERIR_NOTIFICACAO, (
             notificacao.id_usuario,
             notificacao.mensagem,
             notificacao.data_hora,
@@ -30,10 +30,10 @@ def inserir(notificacao: Notificacao) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_todos() -> List[Notificacao]:
+def obter_notificacao() -> List[Notificacao]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_NOTIFICACAO)
         rows = cursor.fetchall()
         notificacoes = []
         for row in rows:
@@ -48,10 +48,10 @@ def obter_todos() -> List[Notificacao]:
         return notificacoes
 
 
-def obter_por_id(id_notificacao: int) -> Optional[Notificacao]:
+def obter_notificacao_por_id(id_notificacao: int) -> Optional[Notificacao]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_notificacao,))
+        cursor.execute(OBTER_NOTIFICACAO_POR_ID, (id_notificacao,))
         row = cursor.fetchone()
         if row:
             return Notificacao(
@@ -65,13 +65,13 @@ def obter_por_id(id_notificacao: int) -> Optional[Notificacao]:
         return None
 
 
-def atualizar(notificacao: Notificacao) -> bool:
+def atualizar_notificacao(notificacao: Notificacao) -> bool:
     """
     Atualiza dados da tabela notificacao.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE, (
+        cursor.execute(ATUALIZAR_NOTIFICACAO, (
             notificacao.id_usuario,
             notificacao.mensagem,
             notificacao.data_hora,
@@ -86,7 +86,7 @@ def atualizar(notificacao: Notificacao) -> bool:
 def deletar(id_notificacao: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETE, (id_notificacao,))
+        cursor.execute(DELETAR_NOTIFICACAO, (id_notificacao,))
         conn.commit()
         return cursor.rowcount > 0
 

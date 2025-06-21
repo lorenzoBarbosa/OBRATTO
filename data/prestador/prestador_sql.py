@@ -1,21 +1,23 @@
-CRIAR_TABELA = """
+CRIAR_TABELA_PRESTADOR = """
 CREATE TABLE IF NOT EXISTS prestador (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-id INTEGER NOT NULL,
-area_atuacao TEXT NOT NULL,
-tipo_pessoa TEXT NOT NULL, 
-razao_social TEXT,
-descricao_servicos TEXT,
-FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER NOT NULL,
+    area_atuacao TEXT NOT NULL,
+    tipo_pessoa TEXT NOT NULL, 
+    razao_social TEXT,
+    descricao_servicos TEXT,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 """
 
-INSERIR = """
+
+INSERIR_PRESTADOR  = """
 INSERT INTO prestador (id, area_atuacao, tipo_pessoa, razao_social, descricao_servicos)
 VALUES (?, ?, ?, ?, ?);
 """
 
-OBTER_TODOS = """
+
+OBTER_PRESTADOR = """
 SELECT 
     p.id,
     u.nome,
@@ -35,7 +37,8 @@ JOIN usuario u ON p.id = u.id
 ORDER BY u.nome;
 """
 
-OBTER_POR_ID = """
+
+OBTER_PRESTADOR_POR_ID = """
 SELECT 
     p.id,
     u.nome,
@@ -54,13 +57,20 @@ FROM prestador p
 JOIN usuario u ON p.id = u.id
 WHERE p.id = ?;
 """
-UPDATE = """
+
+
+ATUALIZAR_PRESTADOR = """
 UPDATE prestador
-SET id = ?, area_atuacao = ?, tipo_pessoa = ?, razao_social = ?, descricao_servicos = ?
+SET id = ?,
+    area_atuacao = ?,
+    tipo_pessoa = ?,
+    razao_social = ?,
+    descricao_servicos = ?
 WHERE id = ?;
 """
 
-DELETE= """
+
+DELETAR_PRESTADOR = """
 DELETE FROM prestador
 WHERE id = ?;
 """

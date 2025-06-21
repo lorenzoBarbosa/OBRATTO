@@ -54,7 +54,9 @@ WHERE c.id = ?;
 
 ATUALIZAR_CLIENTE = """
 UPDATE cliente
-SET id_usuario = ?, genero = ?, data_nascimento = ?
+SET id_usuario = ?,
+    genero = ?,
+    data_nascimento = ?
 WHERE id = ?;
 """
 

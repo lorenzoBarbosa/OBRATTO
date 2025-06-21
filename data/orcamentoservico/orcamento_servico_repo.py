@@ -1,22 +1,22 @@
 from typing import List, Optional
 from data.orcamentoservico.orcamento_servico_model import OrcamentoServico
-from data.orcamentoservico.orcamento_servico_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
+from data.orcamentoservico.orcamento_servico_sql import CRIAR_TABELA_ORCAMENTO_SERVICO, INSERIR_ORCAMENTO_SERVICO, OBTER_ORCAMENTO_SERVICO, OBTER_ORCAMENTO_SERVICO_POR_ID, ATUALIZAR_ORCAMENTO_SERVICO, DELETAR_ORCAMENTO_SERVICO
 from utils.db import open_connection
 import sqlite3
 
 
-def criar_tabela() -> bool:
+def criar_tabela_orcamento_servico() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
+        cursor.execute(CRIAR_TABELA_ORCAMENTO_SERVICO)
         conn.commit()
         return True
 
 
-def inserir(orcamento: OrcamentoServico) -> Optional[int]:
+def inserir_orcamento_servico(orcamento: OrcamentoServico) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (
+        cursor.execute(INSERIR_ORCAMENTO_SERVICO, (
             orcamento.id_servico,
             orcamento.id_prestador,
             orcamento.id_cliente,
@@ -30,11 +30,11 @@ def inserir(orcamento: OrcamentoServico) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_todos() -> List[OrcamentoServico]:
+def obter_orcamento_servico() -> List[OrcamentoServico]:
     with open_connection() as conn:
         conn.row_factory = sqlite3.Row  
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_ORCAMENTO_SERVICO)
         rows = cursor.fetchall()
         orcamentos_servicos = []
         for row in rows:
@@ -55,11 +55,11 @@ def obter_todos() -> List[OrcamentoServico]:
         return orcamentos_servicos
 
 
-def obter_por_id(id_orcamento: int) -> Optional[OrcamentoServico]:
+def obter_orcamento_servico_por_id(id_orcamento: int) -> Optional[OrcamentoServico]:
     with open_connection() as conn:
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_orcamento,))
+        cursor.execute(OBTER_ORCAMENTO_SERVICO_POR_ID, (id_orcamento,))
         row = cursor.fetchone()
         if row:
             return OrcamentoServico(
@@ -79,13 +79,13 @@ def obter_por_id(id_orcamento: int) -> Optional[OrcamentoServico]:
         return None
 
 
-def atualizar(orcamento: OrcamentoServico) -> bool:
+def atualizar_orcamento_servico(orcamento: OrcamentoServico) -> bool:
     """
     Atualiza dados da tabela orcamentoServico.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE, (
+        cursor.execute(ATUALIZAR_ORCAMENTO_SERVICO, (
             orcamento.id_servico,
             orcamento.id_prestador,
             orcamento.id_cliente,
@@ -100,9 +100,9 @@ def atualizar(orcamento: OrcamentoServico) -> bool:
         return cursor.rowcount > 0
 
 
-def deletar(id_orcamento: int) -> bool:
+def deletar_orcamento_servico(id_orcamento: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETE, (id_orcamento,))
+        cursor.execute(DELETAR_ORCAMENTO_SERVICO, (id_orcamento,))
         conn.commit()
         return cursor.rowcount > 0

@@ -50,8 +50,7 @@ WHERE av.id_avaliacao = ?
 
 ATUALIZAR_AVALIACAO = """
 UPDATE avaliacao
-SET 
-    id_avaliador = ?,
+SET id_avaliador = ?,
     id_avaliado = ?, 
     nota = ?, 
     data_avaliacao = ?,

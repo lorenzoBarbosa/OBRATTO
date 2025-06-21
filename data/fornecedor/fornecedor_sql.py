@@ -48,7 +48,8 @@ WHERE f.id = ?;
 
 ATUALIZAR_FORNECEDOR = """
 UPDATE fornecedor
-SET id_usuario = ?, razao_social = ?
+SET id_usuario = ?,
+    razao_social = ?
 WHERE id = ?;
 """
 

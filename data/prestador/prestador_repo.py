@@ -1,25 +1,25 @@
 from typing import Optional, List
 from data.prestador.prestador_model import Prestador
-from data.prestador.prestador_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
+from data.prestador.prestador_sql import CRIAR_TABELA_PRESTADOR, INSERIR_PRESTADOR, OBTER_PRESTADOR, OBTER_PRESTADOR_POR_ID, ATUALIZAR_PRESTADOR, DELETAR_PRESTADOR
 from utils.db import open_connection
 
 
-def criar_tabela() -> bool:
+def criar_tabela_prestador() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
+        cursor.execute(CRIAR_TABELA_PRESTADOR)
         conn.commit()
         return True
 
 
-def inserir(prestador: Prestador) -> Optional[int]:
+def inserir_prestador(prestador: Prestador) -> Optional[int]:
     """
     Insere dados específicos do prestador.
     O id_usuario deve existir na tabela usuario.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (
+        cursor.execute(INSERIR_PRESTADOR, (
             prestador.id_usuario,
             prestador.area_atuacao,
             prestador.tipo_pessoa,
@@ -30,10 +30,10 @@ def inserir(prestador: Prestador) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_todos() -> List[Prestador]:
+def obter_prestador() -> List[Prestador]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_PRESTADOR)
         rows = cursor.fetchall()
         prestadores = []
         for row in rows:
@@ -55,10 +55,10 @@ def obter_todos() -> List[Prestador]:
         return prestadores
 
 
-def obter_por_id(prestador_id: int) -> Optional[Prestador]:
+def obter_prestador_por_id(prestador_id: int) -> Optional[Prestador]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (prestador_id,))
+        cursor.execute(OBTER_PRESTADOR_POR_ID, (prestador_id,))
         row = cursor.fetchone()
         if row:
             return Prestador(
@@ -80,14 +80,14 @@ def obter_por_id(prestador_id: int) -> Optional[Prestador]:
         return None
 
 
-def atualizar(prestador: Prestador) -> bool:
+def atualizar_prestador(prestador: Prestador) -> bool:
     """
     Atualiza apenas dados específicos do prestador.
     Dados do usuário são atualizados no repositório usuario.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE, (
+        cursor.execute(ATUALIZAR_PRESTADOR, (
             prestador.id_usuario,
             prestador.area_atuacao,
             prestador.tipo_pessoa,
@@ -99,9 +99,9 @@ def atualizar(prestador: Prestador) -> bool:
         return cursor.rowcount > 0
 
 
-def deletar(prestador_id: int) -> bool:
+def deletar_prestador(prestador_id: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETE, (prestador_id,))
+        cursor.execute(DELETAR_PRESTADOR, (prestador_id,))
         conn.commit()
         return cursor.rowcount > 0

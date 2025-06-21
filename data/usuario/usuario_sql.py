@@ -11,10 +11,12 @@ CRIAR_TABELA_USUARIO = """
 );
 """
 
+
 INSERIR_USUARIO = """
 INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco) 
 VALUES (?, ?, ?, ?, ?, ?, ?);
 """
+
 
 OBTER_USUARIO = """
 SELECT 
@@ -23,9 +25,11 @@ FROM usuario
 ORDER BY nome
 """ 
 
+
 OBTER_USUARIO_POR_ID = """
 SELECT * FROM usuario WHERE id = ?;
 """
+
 
 ATUALIZAR_USUARIO = """
 UPDATE usuario
@@ -38,6 +42,7 @@ SET nome = ?,
     endereco = ?
 WHERE id = ?
 """
+
 
 DELETAR_USUARIO = """
 DELETE FROM usuario

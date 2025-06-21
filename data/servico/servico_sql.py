@@ -10,10 +10,12 @@ CREATE TABLE IF NOT EXISTS servico(
 );
 """
 
+
 INSERIR_SERVICO = """
 INSERT INTO servico (id_prestador, titulo, descricao, categoria, valor_base)
 VALUES  (?, ?, ?, ?, ?);
 """
+
 
 OBTER_SERVICO = """
 SELECT 
@@ -30,6 +32,7 @@ JOIN usuario u ON p.id_usuario = u.id
 ORDER BY s.titulo
 """    
 
+
 OBTER_SERVICO_POR_ID = """
 SELECT 
    s.id_servico,
@@ -45,15 +48,17 @@ JOIN usuario u ON p.id_usuario = u.id
 WHERE s.id_servico = ?;
 """
 
+
 ATUALIZAR_SERVICO = """
 UPDATE servico
 SET id_prestador = ?,
-titulo = ?,
-descricao = ?,
-categoria = ?,
-valor_base = ?
+    titulo = ?,
+    descricao = ?,
+    categoria = ?,
+    valor_base = ?
 WHERE id_servico = ?;
 """
+
 
 DELETAR_SERVICO = """
 DELETE FROM servico
