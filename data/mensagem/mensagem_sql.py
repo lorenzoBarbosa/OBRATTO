@@ -1,21 +1,21 @@
-CRIAR_TABELA = """
+CRIAR_TABELA_MENSAGEM = """
 CREATE TABLE IF NOT EXISTS mensagem (
-id_mensagem INTEGER PRIMARY KEY AUTOINCREMENT,
-id_remetente INTEGER NOT NULL,
-id_destinatario INTEGER NOT NULL,
-conteudo TEXT NOT NULL,
-data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (id_remetente) REFERENCES usuario(id),
-FOREIGN KEY (id_destinatario) REFERENCES usuario(id)
+    id_mensagem INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_remetente INTEGER NOT NULL,
+    id_destinatario INTEGER NOT NULL,
+    conteudo TEXT NOT NULL,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_remetente) REFERENCES usuario(id),
+    FOREIGN KEY (id_destinatario) REFERENCES usuario(id)
 );
 """
 
-INSERIR = """
+INSERIR_MENSAGEM = """
 INSERT INTO mensagem (id_remetente, id_destinatario, conteudo, data_hora)
 VALUES  (?, ?, ?, ?);
 """
 
-OBTER_TODOS = """
+OBTER_MENSAGEM = """
 SELECT 
     m.id_mensagem,
     remetente.nome AS nome_remetente,
@@ -28,7 +28,7 @@ JOIN usuario destinatario ON m.id_destinatario = destinatario.id
 ORDER BY m.data_hora DESC;
 """
 
-OBTER_POR_ID = """
+OBTER_MENSAGEM_POR_ID = """
 SELECT 
     m.id_mensagem,
     remetente.id AS id_remetente,
@@ -41,13 +41,16 @@ JOIN usuario destinatario ON m.id_destinatario = destinatario.id
 WHERE m.id_mensagem = ?;
 """
 
-UPDATE = """
+ATUALIZAR_MENSAGEM = """
 UPDATE mensagem
-SET id_remetente = ?, id_destinatario = ?, conteudo = ?, data_hora = ?
+SET id_remetente = ?,
+    id_destinatario = ?,
+    conteudo = ?,
+    data_hora = ?
 WHERE id_mensagem = ?;
 """
 
-DELETE= """
+DELETAR_MENSAGEM = """
 DELETE FROM mensagem
 WHERE id_mensagem = ?;
 """

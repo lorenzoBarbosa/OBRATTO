@@ -1,13 +1,13 @@
 from typing import Optional, List
 from data.avaliacao.avaliacao_model import Avaliacao
-from data.avaliacao.avaliacao_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
+from data.avaliacao.avaliacao_sql import CRIAR_TABELA_AVALIACAO, INSERIR_AVALIACAO, OBTER_TODOS, OBTER_AVALIACAO_POR_ID, ATUALIZAR_AVALIACAO, DELETAR_AVALIACAO
 from utils.db import open_connection
 
 
-def criar_tabela() -> bool:
+def criar_tabela_avaliacao() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
+        cursor.execute(CRIAR_TABELA_AVALIACAO)
         conn.commit()
         return True
 
@@ -15,7 +15,7 @@ def criar_tabela() -> bool:
 def inserir(avaliacao: Avaliacao) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (
+        cursor.execute(INSERIR_AVALIACAO, (
             avaliacao.id_avaliador,
             avaliacao.id_avaliado,
             avaliacao.nota,
@@ -46,10 +46,10 @@ def obter_todos() -> List[Avaliacao]:
         return avaliacoes
 
 
-def obter_por_id(id_avaliacao: int) -> Optional[Avaliacao]:
+def obter_avaliacao_por_id(id_avaliacao: int) -> Optional[Avaliacao]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_avaliacao,))
+        cursor.execute(OBTER_AVALIACAO_POR_ID, (id_avaliacao,))
         row = cursor.fetchone()
         if row:
             return Avaliacao(
@@ -65,13 +65,13 @@ def obter_por_id(id_avaliacao: int) -> Optional[Avaliacao]:
         return None
 
 
-def atualizar(avaliacao:Avaliacao) -> bool:
+def atualizar_avaliacao(avaliacao:Avaliacao) -> bool:
     """
     Atualiza dados da tabela avaliacao.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE, (
+        cursor.execute(ATUALIZAR_AVALIACAO, (
             avaliacao.id_avaliador,
             avaliacao.id_avaliado,
             avaliacao.nota,
@@ -83,9 +83,9 @@ def atualizar(avaliacao:Avaliacao) -> bool:
         return cursor.rowcount > 0
 
 
-def deletar(id_avaliacao: int) -> bool:
+def deletar_avaliacao(id_avaliacao: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETE, (id_avaliacao,))
+        cursor.execute(DELETAR_AVALIACAO, (id_avaliacao,))
         conn.commit()
         return cursor.rowcount > 0

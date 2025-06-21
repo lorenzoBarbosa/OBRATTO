@@ -1,21 +1,24 @@
-CRIAR_TABELA = """
+CRIAR_TABELA_CLIENTE = """
 CREATE TABLE IF NOT EXISTS cliente (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-id_usuario INTEGER NOT NULL,
-genero TEXT NOT NULL,
-data_nascimento TEXT NOT NULL,
-FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INTEGER NOT NULL,
+    genero TEXT NOT NULL,
+    data_nascimento TEXT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 """
 
-INSERIR = """
+
+INSERIR_CLIENTE = """
 INSERT INTO cliente (id_usuario, genero, data_nascimento)
 VALUES (?, ?, ?);
 """
 
-OBTER_TODOS = """
+
+OBTER_CLIENTE = """
 SELECT 
     c.id,
+    c.id_usuario
     u.nome,
     u.email,
     u.senha,
@@ -23,7 +26,6 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    u.cpf,
     c.genero,
     c.data_nascimento
 FROM cliente c
@@ -31,9 +33,11 @@ JOIN usuario u ON c.id_usuario = u.id
 ORDER BY u.nome;
 """
 
-OBTER_POR_ID = """
+
+OBTER_CLIENTE_POR_ID = """
 SELECT 
     c.id,
+    c.id_usuario,
     u.nome,
     u.email,
     u.senha,
@@ -41,20 +45,20 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    u.cpf,
     c.genero,
     c.data_nascimento
 FROM cliente c
 JOIN usuario u ON c.id_usuario = u.id
 WHERE c.id = ?;
 """
-UPDATE = """
+
+ATUALIZAR_CLIENTE = """
 UPDATE cliente
 SET id_usuario = ?, genero = ?, data_nascimento = ?
 WHERE id = ?;
 """
 
-DELETE= """
+DELETAR_CLIENTE = """
 DELETE FROM cliente
 WHERE id = ?;
 """

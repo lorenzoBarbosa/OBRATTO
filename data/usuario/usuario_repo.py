@@ -1,38 +1,37 @@
 from typing import Optional, List
 from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
+from data.usuario.usuario_sql import CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO
 from utils.db import open_connection
 
 
-def criar_tabela() -> bool:
+def criar_tabela_usuario() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
+        cursor.execute(CRIAR_TABELA_USUARIO)
         conn.commit()
         return True
 
 
-def inserir(usuario: Usuario) -> Optional[int]:
+def inserir_usuario(usuario: Usuario) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (
+        cursor.execute(INSERIR_USUARIO, (
             usuario.nome,
             usuario.email,
             usuario.senha,
             usuario.cpf_cnpj,
             usuario.telefone,
             usuario.data_cadastro,
-            usuario.endereco,
-            usuario.cpf
+            usuario.endereco
         ))
         conn.commit()
         return cursor.lastrowid
 
 
-def obter_todos() -> List[Usuario]:
+def obter_usuario() -> List[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_USUARIO)
         rows = cursor.fetchall()
         usuarios = []
         for row in rows:
@@ -44,16 +43,15 @@ def obter_todos() -> List[Usuario]:
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
                 data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"],
-                cpf=row["cpf"]
+                endereco=row["endereco"]
             ))
         return usuarios
 
 
-def obter_por_id(usuario_id: int) -> Optional[Usuario]:
+def obter_usuario_por_id(usuario_id: int) -> Optional[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (usuario_id,))
+        cursor.execute(OBTER_USUARIO_POR_ID, (usuario_id,))
         row = cursor.fetchone()
         if row:
             return Usuario(
@@ -64,16 +62,15 @@ def obter_por_id(usuario_id: int) -> Optional[Usuario]:
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
                 data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"],
-                cpf=row["cpf"]
+                endereco=row["endereco"]
             )
         return None
 
 
-def atualizar(usuario: Usuario) -> bool:
+def atualizar_usuario(usuario: Usuario) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE, (
+        cursor.execute(ATUALIZAR_USUARIO, (
             usuario.nome,
             usuario.email,
             usuario.senha,
@@ -81,16 +78,15 @@ def atualizar(usuario: Usuario) -> bool:
             usuario.telefone,
             usuario.data_cadastro,
             usuario.endereco,
-            usuario.cpf,
-            usuario.id
+            usuario.id,
         ))
         conn.commit()
         return cursor.rowcount > 0
 
 
-def deletar(usuario_id: int) -> bool:
+def deletar_usuario(usuario_id: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETE, (usuario_id,))
+        cursor.execute(DELETAR_USUARIO, (usuario_id,))
         conn.commit()
         return cursor.rowcount > 0

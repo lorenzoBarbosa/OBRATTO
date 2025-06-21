@@ -1,25 +1,25 @@
 from typing import Optional, List
 from data.fornecedor.fornecedor_model import Fornecedor
-from data.fornecedor.fornecedor_sql import CRIAR_TABELA, INSERIR, OBTER_TODOS, OBTER_POR_ID, UPDATE, DELETE
+from data.fornecedor.fornecedor_sql import CRIAR_TABELA_FORNECEDOR, INSERIR_FORNECEDOR, OBTER_FORNECEDOR, OBTER_FORNECEDOR_POR_ID, ATUALIZAR_FORNECEDOR, DELETAR_FORNECEDOR
 from utils.db import open_connection
 
 
-def criar_tabela() -> bool:
+def criar_tabela_fornecedor() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
+        cursor.execute(CRIAR_TABELA_FORNECEDOR)
         conn.commit()
         return True
 
 
-def inserir(fornecedor: Fornecedor) -> Optional[int]:
+def inserir_fornecedor(fornecedor: Fornecedor) -> Optional[int]:
     """
     Insere dados específicos do fornecedor.
     O id_usuario deve existir na tabela usuario.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (
+        cursor.execute(INSERIR_FORNECEDOR, (
             fornecedor.id_usuario,
             fornecedor.razao_social,
             fornecedor.cnpj,
@@ -30,10 +30,10 @@ def inserir(fornecedor: Fornecedor) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_todos() -> List[Fornecedor]:
+def obter_fornecedor() -> List[Fornecedor]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_FORNECEDOR)
         rows = cursor.fetchall()
         fornecedores = []
         for row in rows:
@@ -54,10 +54,10 @@ def obter_todos() -> List[Fornecedor]:
         return fornecedores
 
 
-def obter_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
+def obter_fornecedor_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (fornecedor_id,))
+        cursor.execute(OBTER_FORNECEDOR_POR_ID, (fornecedor_id,))
         row = cursor.fetchone()
         if row:
             return Fornecedor(
@@ -77,13 +77,13 @@ def obter_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
         return None
 
 
-def atualizar(fornecedor: Fornecedor) -> bool:
+def atualizar_fornecedor(fornecedor: Fornecedor) -> bool:
     """
     Atualiza dados da tabela fornecedor.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE, (
+        cursor.execute(ATUALIZAR_FORNECEDOR, (
             fornecedor.id_usuario,
             fornecedor.razao_social,
             fornecedor.cnpj,
@@ -95,9 +95,9 @@ def atualizar(fornecedor: Fornecedor) -> bool:
         return cursor.rowcount > 0
 
 
-def deletar(fornecedor_id: int) -> bool:
+def deletar_fornecedor(fornecedor_id: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETE, (fornecedor_id,))
+        cursor.execute(DELETAR_FORNECEDOR, (fornecedor_id,))
         conn.commit()
         return cursor.rowcount > 0

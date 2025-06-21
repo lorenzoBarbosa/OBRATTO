@@ -1,39 +1,45 @@
-CRIAR_TABELA = """
-CREATE TABLE IF NOT EXISTS usuario (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-nome TEXT NOT NULL,
-email TEXT NOT NULL,
-senha TEXT NOT NULL,
-cpf_cnpj TEXT NOT NULL,
-telefone TEXT NOT NULL,
-data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-endereco TEXT NOT NULL,
-cpf TEXT NOT NULL)
+CRIAR_TABELA_USUARIO = """
+    CREATE TABLE IF NOT EXISTS usuario (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL,
+    senha TEXT NOT NULL,
+    cpf_cnpj TEXT NOT NULL,
+    telefone TEXT NOT NULL,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    endereco TEXT NOT NULL
+);
 """
 
-INSERIR = """
-INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, cpf) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+INSERIR_USUARIO = """
+INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco) 
+VALUES (?, ?, ?, ?, ?, ?, ?);
 """
 
-OBTER_TODOS = """
+OBTER_USUARIO = """
 SELECT 
-id, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, cpf
+id, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco
 FROM usuario
 ORDER BY nome
 """ 
 
-UPDATE = """
-UPDATE usuario
-SET nome = ?, email = ?, senha = ?, cpf_cnpj = ?, telefone = ?, data_cadastro = ?, endereco = ?, cpf = ?
-WHERE id = ?;
-
-"""
-OBTER_POR_ID = """
+OBTER_USUARIO_POR_ID = """
 SELECT * FROM usuario WHERE id = ?;
 """
 
-DELETE= """
+ATUALIZAR_USUARIO = """
+UPDATE usuario
+SET nome = ?,
+    email = ?,
+    senha = ?,
+    cpf_cnpj = ?,
+    telefone = ?,
+    data_cadastro = ?,
+    endereco = ?
+WHERE id = ?
+"""
+
+DELETAR_USUARIO = """
 DELETE FROM usuario
 WHERE id = ?
 """
