@@ -1,6 +1,6 @@
 from typing import Optional, List
 from data.prestador.prestador_model import Prestador
-from data.prestador.prestador_sql import CRIAR_TABELA_PRESTADOR, INSERIR_PRESTADOR, OBTER_PRESTADOR, OBTER_PRESTADOR_POR_ID, ATUALIZAR_PRESTADOR, DELETAR_PRESTADOR
+from data.prestador.prestador_sql import (CRIAR_TABELA_PRESTADOR, INSERIR_PRESTADOR, OBTER_PRESTADOR, OBTER_PRESTADOR_POR_ID, ATUALIZAR_PRESTADOR, DELETAR_PRESTADOR)
 from utils.db import open_connection
 
 
@@ -15,12 +15,12 @@ def criar_tabela_prestador() -> bool:
 def inserir_prestador(prestador: Prestador) -> Optional[int]:
     """
     Insere dados específicos do prestador.
-    O id_usuario deve existir na tabela usuario.
+    O id deve existir na tabela usuario.
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR_PRESTADOR, (
-            prestador.id_usuario,
+        cursor.execute(INSERIR_PRESTADOR,(
+            prestador.id, 
             prestador.area_atuacao,
             prestador.tipo_pessoa,
             prestador.razao_social,
@@ -39,14 +39,13 @@ def obter_prestador() -> List[Prestador]:
         for row in rows:
             prestadores.append(Prestador(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
-                nome=row.get("nome"),            
-                senha=None,
-                cpf_cnpj=None,
-                telefone=None,
-                data_cadastro=None,
-                endereco=None,
-                cpf=None,
+                nome=row["nome"],
+                email=row["email"],
+                senha=row["senha"],
+                cpf_cnpj=row["cpf_cnpj"],
+                telefone=row["telefone"],
+                data_cadastro=row["data_cadastro"],
+                endereco=row["endereco"],
                 area_atuacao=row["area_atuacao"],
                 tipo_pessoa=row["tipo_pessoa"],
                 razao_social=row["razao_social"],
@@ -63,15 +62,13 @@ def obter_prestador_por_id(prestador_id: int) -> Optional[Prestador]:
         if row:
             return Prestador(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
-                nome=row.get("nome"),
-                email=row.get("email"),
-                senha=None,
-                cpf_cnpj=None,
-                telefone=None,
-                data_cadastro=None,
-                endereco=None,
-                cpf=None,
+                nome=row["nome"],
+                email=row["email"],
+                senha=row["senha"],
+                cpf_cnpj=row["cpf_cnpj"],
+                telefone=row["telefone"],
+                data_cadastro=row["data_cadastro"],
+                endereco=row["endereco"],
                 area_atuacao=row["area_atuacao"],
                 tipo_pessoa=row["tipo_pessoa"],
                 razao_social=row["razao_social"],
@@ -87,8 +84,7 @@ def atualizar_prestador(prestador: Prestador) -> bool:
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR_PRESTADOR, (
-            prestador.id_usuario,
+        cursor.execute(ATUALIZAR_PRESTADOR,(
             prestador.area_atuacao,
             prestador.tipo_pessoa,
             prestador.razao_social,

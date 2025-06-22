@@ -1,6 +1,6 @@
 from typing import List, Optional
 from data.orcamentoservico.orcamento_servico_model import OrcamentoServico
-from data.orcamentoservico.orcamento_servico_sql import CRIAR_TABELA_ORCAMENTO_SERVICO, INSERIR_ORCAMENTO_SERVICO, OBTER_ORCAMENTO_SERVICO, OBTER_ORCAMENTO_SERVICO_POR_ID, ATUALIZAR_ORCAMENTO_SERVICO, DELETAR_ORCAMENTO_SERVICO
+from data.orcamentoservico.orcamento_servico_sql import *
 from utils.db import open_connection
 import sqlite3
 

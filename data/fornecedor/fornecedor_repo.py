@@ -1,6 +1,6 @@
 from typing import Optional, List
 from data.fornecedor.fornecedor_model import Fornecedor
-from data.fornecedor.fornecedor_sql import CRIAR_TABELA_FORNECEDOR, INSERIR_FORNECEDOR, OBTER_FORNECEDOR, OBTER_FORNECEDOR_POR_ID, ATUALIZAR_FORNECEDOR, DELETAR_FORNECEDOR
+from data.fornecedor.fornecedor_sql import * 
 from utils.db import open_connection
 
 
@@ -40,16 +40,16 @@ def obter_fornecedor() -> List[Fornecedor]:
             fornecedores.append(Fornecedor(
                 id=row["id"],
                 id_usuario=row["id_usuario"],
-                nome=row.get("nome"),
-                email=row.get("email"),
+                nome=row("nome"),
+                email=row("email"),
                 senha=None,
                 cpf_cnpj=None,
                 telefone=None,
                 data_cadastro=None,
-                endereco=row.get("endereco"),
-                cnpj=row.get("cnpj"),
-                razao_social=row.get("razao_social"),
-                telefone_contato=row.get("telefone_contato")
+                endereco=row("endereco"),
+                cnpj=row("cnpj"),
+                razao_social=row("razao_social"),
+                telefone_contato=row("telefone_contato")
             ))
         return fornecedores
 
@@ -63,16 +63,16 @@ def obter_fornecedor_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
             return Fornecedor(
                 id=row["id"],
                 id_usuario=row["id_usuario"],
-                nome=row.get("nome"),
-                email=row.get("email"),
+                nome=row("nome"),
+                email=row("email"),
                 senha=None,
                 cpf_cnpj=None,
                 telefone=None,
                 data_cadastro=None,
-                endereco=row.get("endereco"),
-                cnpj=row.get("cnpj"),
-                razao_social=row.get("razao_social"),
-                telefone_contato=row.get("telefone_contato")
+                endereco=row("endereco"),
+                cnpj=row("cnpj"),
+                razao_social=row("razao_social"),
+                telefone_contato=row("telefone_contato")
             )
         return None
 

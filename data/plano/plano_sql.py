@@ -20,7 +20,7 @@ SELECT * FROM plano
 ORDER BY id_plano
 """
 
-OBTER_PLANO_POR_NOME = """        #Aqui eu não preciso fazer JOIN porque não preciso acessar outra tabela. Correto? 
+OBTER_PLANO_POR_NOME = """         
 SELECT
     p.id_plano,
     p.nome_plano,
@@ -33,7 +33,7 @@ WHERE p.nome_plano = ?
 ORDER BY p.nome_plano
 """
 
-OBTER_PLANO_POR_ID = """               #Aqui eu não preciso fazer JOIN porque não preciso acessar outra tabela. Correto? 
+OBTER_PLANO_POR_ID = """               
 SELECT
     p.id_plano,
     p.nome_plano,
@@ -46,33 +46,7 @@ WHERE p.id_plano = ?
 ORDER BY p.id_plano
 """
 
-OBTER_PLANO_PAGINADO = """
-SELECT
-    p.id_plano,
-    p.nome_plano,
-    p.valor_mensal,
-    p.limite_servico,
-    p.tipo_plano,
-    p.descricao
-FROM plano p
-ORDER BY p.id_plano
-LIMIT ? OFFSET ?
-"""
 
-
-OBTER_PLANO_POR_TERMO_PAGINADO = """
-SELECT
-    p.id_plano,
-    p.nome_plano,
-    p.valor_mensal,
-    p.limite_servico,
-    p.tipo_plano,
-    p.descricao
-FROM plano p
-WHERE p.nome_plano LIKE ?
-ORDER BY p.id_plano
-LIMIT ? OFFSET ?
-"""
 
 ATUALIZAR_PLANO_POR_NOME = """
 UPDATE plano

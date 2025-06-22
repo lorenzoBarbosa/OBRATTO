@@ -1,6 +1,6 @@
 from typing import Optional, List
 from data.avaliacao.avaliacao_model import Avaliacao
-from data.avaliacao.avaliacao_sql import CRIAR_TABELA_AVALIACAO, INSERIR_AVALIACAO, OBTER_TODOS, OBTER_AVALIACAO_POR_ID, ATUALIZAR_AVALIACAO, DELETAR_AVALIACAO
+from data.avaliacao.avaliacao_sql import *
 from utils.db import open_connection
 
 

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS avaliacao(
     nota  REAL NOT NULL,
     data_avaliacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     descricao TEXT NOT NULL,
-    FOREIGN KEY (id_avaliador) REFERENCES cliente(id),      ??
+    FOREIGN KEY (id_avaliador) REFERENCES cliente(id),      
     FOREIGN KEY (id_avaliado) REFERENCES prestador(id)
 );
 """

@@ -1,6 +1,6 @@
 from typing import Optional, List
 from data.mensagem.mensagem_model import Mensagem
-from data.mensagem.mensagem_sql import CRIAR_TABELA_MENSAGEM, INSERIR_MENSAGEM, OBTER_MENSAGEM, OBTER_MENSAGEM_POR_ID, ATUALIZAR_MENSAGEM, DELETAR_MENSAGEM
+from data.mensagem.mensagem_sql import *
 from utils.db import open_connection
 
 

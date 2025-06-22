@@ -1,6 +1,6 @@
 from typing import Optional, List
 from data.notificacao.notificacao_model import Notificacao
-from data.notificacao.notificacao_sql import CRIAR_TABELA_NOTIFICACAO, INSERIR_NOTIFICACAO, OBTER_NOTIFICACAO, OBTER_NOTIFICACAO_POR_ID, ATUALIZAR_NOTIFICACAO, DELETAR_NOTIFICACAO
+from data.notificacao.notificacao_sql import *
 from utils.db import open_connection
 
 

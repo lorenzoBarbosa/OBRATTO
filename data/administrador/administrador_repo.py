@@ -1,6 +1,6 @@
 from typing import Optional, List
 from data.administrador.administrador_model import Administrador
-from data.administrador.administrador_sql import CRIAR_TABELA_ADMINISTRADOR, INSERIR_ADMINISTRADOR, OBTER_TODOS_ADMINISTRADORES, OBTER_ADMINISTRADOR_POR_ID, ATUALIZAR_ADMINISTRADOR, DELETAR_ADMINISTRADOR
+from data.administrador.administrador_sql import *
 from utils.db import open_connection
 
 
@@ -33,8 +33,8 @@ def obter_todos_administradores() -> List[Administrador]:
             administradores.append(Administrador(
                 id=row["id"],
                 id_usuario=row["id_usuario"],
-                nome=row.get("nome"),          
-                email=row.get("email"),
+                nome=row("nome"),          
+                email=row("email"),
                 senha=None,
                 cpf_cnpj=None,
                 telefone=None,
@@ -54,8 +54,8 @@ def obter_administrador_por_id(administrador_id: int) -> Optional[Administrador]
             return Administrador(
                 id=row["id"],
                 id_usuario=row["id_usuario"],
-                nome=row.get("nome"),
-                email=row.get("email"),
+                nome=row("nome"),
+                email=row("email"),
                 senha=None,
                 cpf_cnpj=None,
                 telefone=None,

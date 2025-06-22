@@ -1,6 +1,6 @@
 from typing import List, Optional
 from data.inscricaoplano.inscricao_plano_model import InscricaoPlano
-from data.inscricaoplano.inscricao_plano_sql import (CRIAR_TABELA_INSCRICAO_PLANO, INSERIR_INSCRICAO_PLANO, OBTER_INSCRICAO_PLANO,  OBTER_INSCRICAO_PLANO_POR_ID, ATUALIZAR_INSCRICAO_PLANO,  DELETAR_INSCRICAO_PLANO,)
+from data.inscricaoplano.inscricao_plano_sql import * 
 from utils.db import open_connection
 
 

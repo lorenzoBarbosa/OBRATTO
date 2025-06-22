@@ -1,7 +1,7 @@
 CRIAR_TABELA_PRESTADOR = """
 CREATE TABLE IF NOT EXISTS prestador (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    id INTEGER NOT NULL,
+    id_usuario INTEGER NOT NULL,
     area_atuacao TEXT NOT NULL,
     tipo_pessoa TEXT NOT NULL, 
     razao_social TEXT,
@@ -27,7 +27,6 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    u.cpf,
     p.area_atuacao,
     p.tipo_pessoa,
     p.razao_social,
@@ -61,8 +60,7 @@ WHERE p.id = ?;
 
 ATUALIZAR_PRESTADOR = """
 UPDATE prestador
-SET id = ?,
-    area_atuacao = ?,
+SET area_atuacao = ?,
     tipo_pessoa = ?,
     razao_social = ?,
     descricao_servicos = ?

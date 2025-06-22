@@ -80,40 +80,7 @@ def obter_plano_por_id(plano_id: str) -> Optional[Plano]:
         return plano_id
     
 
-def obter_plano_paginado(plano_paginado: str) -> Optional[Plano]:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(OBTER_PLANO_PAGINADO, (plano_paginado,))
-        row = cursor.fetchone()
-        if row:
-            return Plano(
-                id_plano=row["id_plano"],
-                nome_plano=row["nome_plano"],
-                valor_mensal=row["valor_mensal"],
-                limite_servico=row["limite_servico"],
-                tipo_plano=row["tipo_plano"],
-                descricao=row["descricao"],
-            )
-        return plano_paginado
     
-
-def obter_plano_por_termo_paginado(plano_por_termo: str) -> Optional[Plano]:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(OBTER_PLANO_POR_TERMO_PAGINADO, (plano_por_termo,))
-        row = cursor.fetchone()
-        if row:
-            return Plano(
-                id_plano=row["id_plano"],
-                nome_plano=row["nome_plano"],
-                valor_mensal=row["valor_mensal"],
-                limite_servico=row["limite_servico"],
-                tipo_plano=row["tipo_plano"],
-                descricao=row["descricao"],
-            )
-        return plano_por_termo
-
-
 def atualizar_plano_por_nome(plano: Plano):
     with open_connection() as conn:
         cursor = conn.cursor()
