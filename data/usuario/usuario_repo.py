@@ -1,6 +1,6 @@
 from typing import Optional, List
 from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_sql import CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO
+from data.usuario.usuario_sql import ATUALIZAR_SENHA_USUARIO, CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO
 from utils.db import open_connection
 
 
@@ -82,6 +82,15 @@ def atualizar_usuario(usuario: Usuario) -> bool:
         ))
         conn.commit()
         return cursor.rowcount > 0
+
+
+def atualizar_senha_usuario(usuario_id: int, nova_senha: str) -> bool:
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(ATUALIZAR_SENHA_USUARIO, (nova_senha, usuario_id))
+        conn.commit()
+        return cursor.rowcount > 0
+
 
 
 def deletar_usuario(usuario_id: int) -> bool:

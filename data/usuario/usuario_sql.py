@@ -44,6 +44,12 @@ WHERE id = ?
 """
 
 
+ATUALIZAR_SENHA_USUARIO = """
+UPDATE usuario
+SET senha = ?
+WHERE id = ?
+"""
+
 DELETAR_USUARIO = """
 DELETE FROM usuario
 WHERE id = ?
