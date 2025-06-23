@@ -1,0 +1,290 @@
+.navbar {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.container-fluid {
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+nav {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+header {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+#botao_pesquisar{
+    background-color: white;
+    color: black;
+    border-radius: 70px;
+    transition: 1s;
+}
+
+#botao_pesquisar:hover{
+    opacity: 0.8;
+}
+
+#lupa{
+    color: black;
+    position: relative;
+    right: 40px;
+    font-size: 20px;
+    top: 13px;
+}
+
+.hero{
+    height: 1012px;
+    background-color: #EEEEEE;
+    background-image: url(/img/tela_fundo.png);
+    background-repeat: repeat;
+    background-size: cover;
+}
+
+#titulo{
+    font-size: 70px;
+    color: white;
+    text-align: center;
+    padding-top: 450px;
+    font-family: 'Inter', sans-serif;
+}
+
+#frase{
+    color: white;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    font-size: 35px;
+}
+
+#login{
+    color: white;
+    font-size: 40px;
+    position: relative;
+    top: 3px;
+    right: 5px;
+}
+
+#barra_pesquisa{
+    border-radius: 70px; 
+    width: 300px; 
+    height: 40px;
+    margin-top: 10px;
+}
+
+#categorias{
+    width: 230px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    border-radius: 20px;
+}
+
+#categorias_txt{
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+#planos_title{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+}
+
+#legenda_planos{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+    position: relative;
+    left: 30px;
+    bottom: -10px;
+}
+
+#fundo_saibamais{
+    position: relative;
+    left: -200px;
+    bottom: 270px;
+    opacity: 0.5;
+}
+
+#legenda_saibamais{
+    color: white;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    position: relative;
+    left: 80px;
+    bottom: 480px;
+    transition: 1s;
+}
+
+#legenda_saibamais:hover{
+    color: #E85F4B;
+    opacity: 0.5;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+  overflow-x: hidden;
+}
+
+.texto-centralizado {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  color: black;
+  font-family: "Inter", sans-serif;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#categorias_title{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    margin-top: -300px;
+}
+
+#rol_carusel_right{
+    color: black;
+    position: absolute;
+    top: 20%;
+    font-size: 50px;
+    left: -100px;
+}
+
+#rol_carusel_left{
+    color: black;
+    position: absolute;
+    top: 20%;
+    font-size: 50px;
+    right: -100px;
+}
+
+#legenda_p_categorias{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+    position: relative;
+    left: 5px;
+    bottom: 160px;
+}
+
+#fundo_saibamais_categorias{
+    position: relative;
+    left: 5px;
+    bottom: 320px;
+    opacity: 0.5;
+}
+
+#legenda_saibamais_categorias{
+    color: white;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    position: relative;
+    left: 5px;
+    bottom: 525px;
+    transition: 1s;
+}
+
+#legenda_saibamais_categorias:hover{
+    color: #E85F4B;
+    opacity: 0.5;
+}
+
+#sobre_nos{
+    font-size: 25px;
+    text-align: justify;
+    font-family: "Inter", sans-serif;
+}
+
+footer {
+    background-color: #171370;;
+    color: white;
+    padding: 60px 0 20px;
+}
+        
+#footer_1 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+#footer_titulo {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+#footer_titulo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: #E85F4B;
+}
+
+#footer_titulo ul li {
+    margin-bottom: 10px;
+}
+
+#footer_titulo ul li a {
+    transition: all 0.3s ease;
+}
+
+#footer_titulo ul li a:hover {
+    color: #E85F4B;
+    padding-left: 5px;
+}
+
+.newsletter-form {
+    display: flex;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.newsletter-form button {
+    background-color: #E85F4B;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    opacity: 0.6;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
