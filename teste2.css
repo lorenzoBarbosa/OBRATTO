@@ -1,0 +1,634 @@
+/* General Body and Container Styles */
+body {
+    font-family: 'Inter Tight', sans-serif;
+    background-color: #EEEEEE;
+    color: #333; /* Default text color */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Section Containers for Background "Scaling" Effect */
+.section-container {
+    padding: 60px 0;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.section-container.dark-bg-lighten {
+    background-color: #3F398B; /* Lighter shade of navbar blue */
+    color: white;
+}
+
+.section-title {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: #171370;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.section-title.text-white {
+    color: white; /* For titles within dark sections */
+}
+
+/* Header and Navbar */
+#header .navbar {
+    padding: 10px 0;
+}
+
+#header .navbar .container-fluid {
+    background-color: #171370;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#header .navbar img {
+    padding-bottom: 0;
+}
+
+#barra_pesquisa {
+    border-radius: 20px;
+    padding-left: 20px;
+    width: 300px;
+}
+
+#lupa, #login {
+    color: white;
+    font-size: 1.5em;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#lupa:hover, #login:hover {
+    color: #66FCF1; /* A light blue for hover effect */
+}
+
+/* Main Hero Section */
+#titulo {
+    font-size: 3.5em;
+    font-weight: 800;
+    color: #171370;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+#frase {
+    font-size: 1.3em;
+    color: #555;
+    margin-bottom: 50px;
+}
+
+/* NOSSOS SERVIÇOS (Categorias Principais) */
+#servicos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Space between cards */
+    margin-top: 0;
+}
+
+.category-card {
+    background-color: white;
+    color: #171370;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    height: 100%; /* Ensure cards in a row have similar height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push image to top, text to bottom */
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.category-card .card-img-top {
+    width: 100%;
+    height: 120px;
+    object-fit: contain;
+    padding: 15px;
+}
+
+.category-card .card-text {
+    font-size: 1.1em;
+    margin-bottom: 0;
+    color: #171370;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+/* NOSSOS PLANOS */
+#planos_title {
+    margin-top: 80px;
+}
+
+.plan-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    padding: 0 10px; /* Add some padding to prevent images from touching edges on small screens */
+}
+
+.plan-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.plan-item .plan-name {
+    font-size: 1.2em;
+    margin-top: 15px;
+    color: #171370;
+    font-weight: bold;
+    margin-bottom: 15px; /* Space above the button */
+}
+
+.btn-saibamais {
+    background-color: #171370;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none; /* Ensure no underline */
+}
+
+.btn-saibamais:hover {
+    background-color: #66FCF1;
+    color: #171370;
+    transform: translateY(-2px);
+}
+
+/* Specific styling for 'Plano Fornecedor' text positioning */
+.plan-item .texto-centralizado {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2em;
+    line-height: 1.1;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    z-index: 2;
+    text-align: center;
+    width: 80%; /* To ensure text wraps */
+}
+
+
+/* CATEGORIAS MAIS SOLICITADAS (Carousel) */
+#categorias_title {
+    margin-top: 80px;
+}
+
+#popularCategoriesCarousel {
+    margin-bottom: 80px;
+}
+
+#popularCategoriesCarousel .carousel-inner {
+    padding: 20px 0; /* Add vertical padding for cards */
+}
+
+#popularCategoriesCarousel .carousel-item .row {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Make sure all cards in a slide have similar height */
+}
+
+.popular-category-card {
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden; /* Important for hover effect */
+    position: relative;
+    transition: all 0.3s ease;
+    height: 100%; /* Ensure cards in a row have similar height */
+    display: flex;
+    flex-direction: column;
+}
+
+.popular-category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.popular-category-card .card-img-top {
+    width: 100%;
+    height: 180px; /* Adjust height as needed */
+    object-fit: cover; /* Cover the area, may crop */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.popular-category-card .card-body {
+    padding: 20px;
+    flex-grow: 1; /* Allow body to grow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.popular-category-card .card-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #171370;
+    margin-bottom: 10px;
+}
+
+.popular-category-card .card-text-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(23, 19, 112, 0.9); /* Dark blue overlay */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    font-size: 0.95em;
+    line-height: 1.5;
+    text-align: center;
+    border-radius: 10px; /* Match card border radius */
+    z-index: 5; /* Above other card content */
+}
+
+.popular-category-card:hover .card-text-hover {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popular-category-card .btn-saibamais-cat {
+    color: #171370; /* Default button color */
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-top: 15px; /* Space between title and button */
+    display: inline-block; /* To allow padding/margin */
+}
+
+.popular-category-card .btn-saibamais-cat:hover {
+    color: #66FCF1;
+}
+
+.popular-category-card .btn-saibamais-cat i {
+    margin-left: 5px;
+    transition: margin-left 0.3s ease;
+}
+
+.popular-category-card .btn-saibamais-cat:hover i {
+    margin-left: 10px;
+}
+
+
+/* Carousel controls */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%; /* Make controls a bit wider for easier click */
+    background: none;
+    opacity: 1; /* Always visible */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-image: none; /* Remove default Bootstrap icon */
+}
+
+.carousel-control-prev::before,
+.carousel-control-next::before {
+    font-family: "bootstrap-icons" !important; /* Use Bootstrap Icons font */
+    font-size: 2.5em; /* Large icon size */
+    color: #171370; /* Dark blue color */
+    transition: color 0.3s ease;
+}
+
+.carousel-control-prev::before {
+    content: "\F2E2"; /* bi-arrow-left */
+}
+
+.carousel-control-next::before {
+    content: "\F2E3"; /* bi-arrow-right */
+}
+
+.carousel-control-prev:hover::before,
+.carousel-control-next:hover::before {
+    color: #66FCF1; /* Highlight on hover */
+}
+
+
+/* VANTAGENS DA OBRATTO */
+.advantages-section {
+    background-color: #3F398B; /* Lighter shade of navbar blue */
+    color: white;
+    padding: 60px 0;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    margin-top: 80px; /* Space after carousel */
+}
+
+.advantages-section h2 {
+    color: white;
+}
+
+.advantages-section .advantage-item {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.advantages-section .icon-highlight {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #66FCF1; /* Highlight color for icons */
+}
+
+.advantages-section .advantage-item h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.advantages-section .advantage-item p {
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+/* QUEM SOMOS */
+#quem_somos_title {
+    margin-top: 80px;
+}
+
+#sobre_nos {
+    font-size: 1.1em;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 50px;
+    text-align: justify;
+    padding: 0 20px;
+}
+
+#sobre_nos + center img {
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 80px;
+}
+
+
+/* Footer */
+#rodapé {
+    background-color: #171370;
+    color: white;
+    padding: 60px 0 20px;
+    margin-top: 50px;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 30px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+}
+
+.footer-col h3 {
+    font-size: 1.6em;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #66FCF1;
+}
+
+.footer-col p {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.footer-col img {
+    margin-top: 15px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+    color: #66FCF1;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.newsletter-form input[type="email"] {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.9em;
+}
+
+.newsletter-form input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-form button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #66FCF1;
+    color: #171370;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: #4BD0C6;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    #titulo {
+        font-size: 2.8em;
+    }
+
+    #frase {
+        font-size: 1.1em;
+    }
+
+    #header .navbar .container-fluid {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    #header .navbar img {
+        margin-bottom: 10px;
+    }
+
+    #barra_pesquisa {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-bottom: 10px;
+    }
+
+    form.d-flex {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    form.d-flex a {
+        margin: 5px 0;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-col {
+        min-width: unset;
+        max-width: 90%;
+    }
+
+    .category-card {
+        width: 180px;
+    }
+
+    .popular-category-card {
+        width: 90%; /* Allow cards to take more width on smaller screens */
+    }
+
+    .carousel-item .row .col-md-4 {
+        flex: 0 0 100%; /* Make each card take full width on smaller screens */
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    #titulo {
+        font-size: 2.2em;
+    }
+
+    #frase {
+        font-size: 1em;
+    }
+
+    .section-title {
+        font-size: 2em;
+    }
+
+    .advantages-section .advantage-item h3 {
+        font-size: 1.3em;
+    }
+
+    .advantages-section .icon-highlight {
+        font-size: 2.5em;
+    }
+
+    .plan-item img {
+        max-width: 80%; /* Adjust size of plan images */
+    }
+
+    .plan-item .plan-name {
+        font-size: 1.1em;
+    }
+
+    .btn-saibamais {
+        padding: 8px 20px;
+        font-size: 0.9em;
+    }
+
+    #sobre_nos {
+        font-size: 0.9em;
+        padding: 0 10px;
+    }
+
+    /* Carousel controls adjust for smaller screens */
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+    }
+}
+
+@media (max-width: 576px) {
+    #titulo {
+        font-size: 1.8em;
+    }
+
+    #frase {
+        font-size: 0.9em;
+    }
+
+    #barra_pesquisa {
+        width: 90%;
+    }
+
+    .category-card {
+        width: 150px;
+    }
+
+    .advantages-section .advantage-item {
+        padding: 10px;
+    }
+
+    .advantages-section .advantage-item h3 {
+        font-size: 1.1em;
+    }
+
+    .advantages-section .icon-highlight {
+        font-size: 2em;
+    }
+}

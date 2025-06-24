@@ -1,0 +1,577 @@
+/* General Body and Container Styles */
+body {
+    font-family: 'Inter Tight', sans-serif;
+    background-color: #EEEEEE; /* Already set inline, but good to have here too */
+}
+
+.container {
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header and Navbar */
+#header .navbar {
+    padding: 10px 0;
+}
+
+#header .navbar .container-fluid {
+    background-color: #171370;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#header .navbar img {
+    padding-bottom: 0; /* Adjusted from 20px to prevent extra space */
+}
+
+#barra_pesquisa {
+    border-radius: 20px;
+    padding-left: 20px;
+    width: 300px; /* Adjust search bar width */
+}
+
+#lupa, #login {
+    color: white;
+    font-size: 1.5em;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#lupa:hover, #login:hover {
+    color: #66FCF1; /* A light blue for hover effect, matches icon color in advantages */
+}
+
+/* Main Hero Section */
+#titulo {
+    font-size: 3.5em; /* Larger, more prominent */
+    font-weight: 800; /* Extra bold */
+    color: #171370;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+#frase {
+    font-size: 1.3em;
+    color: #555;
+    margin-bottom: 50px;
+}
+
+/* NEW Advantages Section */
+.advantages-section {
+    background-color: #3F398B; /* Lighter shade of navbar blue */
+    color: white;
+    padding: 60px 0;
+    border-radius: 20px;
+    margin-bottom: 50px;
+}
+
+.advantages-section h2 {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 50px;
+}
+
+.advantages-section .advantage-item {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.advantages-section .advantage-item i {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #66FCF1; /* Highlight color for icons */
+}
+
+.advantages-section .advantage-item h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.advantages-section .advantage-item p {
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+/* Moved and Styled Services (Categorias) Section */
+.servicos-section {
+    background-color: #3F398B; /* Lighter shade of navbar blue */
+    padding: 60px 0;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: white; /* Ensure text is visible on dark background */
+}
+
+.servicos-section h2 {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 50px;
+}
+
+#servicos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the cards within the row */
+    gap: 20px; /* Space between cards */
+    margin-top: 0; /* Override any previous margin-top */
+}
+
+.servicos-section .card {
+    background-color: white; /* Keep cards white for contrast */
+    color: #171370; /* Text color for the cards */
+    border: none; /* Remove any borders that might look odd */
+    border-radius: 10px;
+    width: 200px; /* Fixed width for cards, adjust as needed */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.servicos-section .card:hover {
+    transform: translateY(-5px);
+}
+
+.servicos-section .card-img-top {
+    width: 100%;
+    height: 120px; /* Fixed height for images */
+    object-fit: contain; /* Ensure image fits without cropping */
+    padding: 15px;
+}
+
+.servicos-section #categorias_txt {
+    font-size: 1.1em;
+    margin-bottom: 0; /* Remove default paragraph margin */
+    color: #171370; /* Ensure text is dark on white card */
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+/* Benefits Image Section (Already styled inline) */
+.row img[src*="imagem_beneficios"],
+.row img[src*="texto_beneficios"] {
+    max-width: 100%; /* Ensure images are responsive */
+    height: auto;
+}
+
+/* Plans Section */
+#planos_title {
+    font-size: 2.5em;
+    color: #171370;
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+#planos_title strong {
+    font-weight: 800;
+}
+
+.row .col-md-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative; /* For positioning "Saiba mais" links */
+}
+
+.row .col-md-3 img[src*="plano"] {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#legenda_planos {
+    font-size: 1.2em;
+    margin-top: 15px;
+    color: #171370;
+    font-weight: bold;
+}
+
+.img-saibamais {
+    position: absolute;
+    top: 65%; /* Adjust vertically to align */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px; /* Size of the "Saiba mais" background */
+    height: auto;
+    z-index: 1; /* Bring to front */
+}
+
+#legenda_saibamais {
+    position: absolute;
+    top: calc(65% - 5px); /* Adjust to center text on the background image */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 0.9em;
+    z-index: 2; /* Ensure text is above image */
+}
+
+/* Specific styling for 'Plano Fornecedor' to adjust its text positioning */
+.col-md-3 .texto-centralizado {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2em; /* Adjust font size */
+    line-height: 1.1;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    z-index: 2; /* Above the image */
+}
+
+/* Categories Most Requested Section (Carousel) */
+#categorias_title {
+    font-size: 2.5em;
+    color: #171370;
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+#categorias_title strong {
+    font-weight: 800;
+}
+
+#carouselExampleIndicators {
+    margin-bottom: 80px;
+}
+
+#carouselExampleIndicators .carousel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+#carouselExampleIndicators .carousel-item img {
+    max-width: 400px; /* Max width for carousel images */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#legenda_p_categorias {
+    font-size: 1.8em;
+    margin-top: 20px;
+    color: #171370;
+    font-weight: bold;
+}
+
+#fundo_saibamais_categorias {
+    position: relative; /* Keep it relative to its parent for positioning text */
+    margin-top: 15px; /* Space from category name */
+    width: 150px; /* Larger button for carousel */
+}
+
+#legenda_saibamais_categorias {
+    position: absolute;
+    top: calc(100% - 30px); /* Adjust based on #fundo_saibamais_categorias position */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+    z-index: 2;
+}
+
+
+/* Carousel controls */
+#rol_carusel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    height: auto;
+    opacity: 1; /* Always visible */
+    background: none;
+    border: none;
+    color: #171370;
+    font-size: 2.5em;
+    z-index: 10;
+}
+
+#rol_carusel_left {
+    position: absolute;
+    left: -50px; /* Adjust as needed */
+}
+
+#rol_carusel_right {
+    position: absolute;
+    right: -50px; /* Adjust as needed */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: auto;
+    height: auto;
+    opacity: 1;
+}
+
+.carousel-control-prev i,
+.carousel-control-next i {
+    color: #171370;
+    font-size: 2.5em;
+}
+
+/* About Us Section */
+#sobre_nos {
+    font-size: 1.1em;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 50px;
+    text-align: justify; /* Justify text for a cleaner block */
+    padding: 0 20px; /* Add some padding to prevent text from touching edges */
+}
+
+#sobre_nos + center img { /* Targeting the logo after #sobre_nos */
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 80px;
+}
+
+
+/* Footer */
+#rodapé {
+    background-color: #171370;
+    color: white;
+    padding: 60px 0 20px;
+    margin-top: 50px;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 30px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+}
+
+.footer-col h3 {
+    font-size: 1.6em;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #66FCF1;
+}
+
+.footer-col p {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.footer-col img {
+    margin-top: 15px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+    color: #66FCF1;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.newsletter-form input[type="email"] {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.9em;
+}
+
+.newsletter-form input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-form button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #66FCF1;
+    color: #171370;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: #4BD0C6;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    #titulo {
+        font-size: 2.8em;
+    }
+
+    #frase {
+        font-size: 1.1em;
+    }
+
+    #header .navbar .container-fluid {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    #header .navbar img {
+        margin-bottom: 10px;
+    }
+
+    #barra_pesquisa {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-bottom: 10px;
+    }
+
+    form.d-flex {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    form.d-flex a {
+        margin: 5px 0;
+    }
+
+    .row img[src*="imagem_beneficios"],
+    .row img[src*="texto_beneficios"] {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-col {
+        min-width: unset;
+        max-width: 90%;
+    }
+
+    .servicos-section .card {
+        width: 180px; /* Adjust card width for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    #titulo {
+        font-size: 2.2em;
+    }
+
+    #frase {
+        font-size: 1em;
+    }
+
+    .advantages-section .advantage-item h3 {
+        font-size: 1.3em;
+    }
+
+    .advantages-section .advantage-item i {
+        font-size: 2.5em;
+    }
+
+    #planos_title, #categorias_title {
+        font-size: 2em;
+    }
+
+    #legenda_planos {
+        font-size: 1.1em;
+    }
+
+    #carouselExampleIndicators .carousel-item img {
+        max-width: 300px;
+    }
+
+    #legenda_p_categorias {
+        font-size: 1.5em;
+    }
+
+    #rol_carusel_left {
+        left: 0px;
+    }
+
+    #rol_carusel_right {
+        right: 0px;
+    }
+}
+
+@media (max-width: 576px) {
+    #titulo {
+        font-size: 1.8em;
+    }
+
+    #frase {
+        font-size: 0.9em;
+    }
+
+    #barra_pesquisa {
+        width: 90%;
+    }
+
+    .servicos-section .card {
+        width: 150px; /* Further adjust card width */
+    }
+
+    .advantages-section .advantage-item {
+        padding: 10px;
+    }
+
+    .advantages-section .advantage-item h3 {
+        font-size: 1.1em;
+    }
+
+    .advantages-section .advantage-item i {
+        font-size: 2em;
+    }
+
+    #sobre_nos {
+        font-size: 0.9em;
+        padding: 0 10px;
+    }
+}
