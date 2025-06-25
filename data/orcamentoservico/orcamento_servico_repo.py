@@ -17,14 +17,14 @@ def inserir_orcamento_servico(orcamento: OrcamentoServico) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_ORCAMENTO_SERVICO, (
-            orcamento.id_servico,
-            orcamento.id_prestador,
-            orcamento.id_cliente,
-            orcamento.valor_estimado,
-            orcamento.data_solicitacao,
-            orcamento.prazo_entrega,
-            orcamento.status,
-            orcamento.descricao
+            orcamento["id_servico"],
+            orcamento["id_prestador"],
+            orcamento["id_cliente"],
+            orcamento["valor_estimado"],
+            orcamento["data_solicitacao"],
+            orcamento["prazo_entrega"],
+            orcamento["status"],
+            orcamento["descricao"]
         ))
         conn.commit()
         return cursor.lastrowid
@@ -86,15 +86,14 @@ def atualizar_orcamento_servico(orcamento: OrcamentoServico) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_ORCAMENTO_SERVICO, (
-            orcamento.id_servico,
-            orcamento.id_prestador,
-            orcamento.id_cliente,
-            orcamento.valor_estimado,
-            orcamento.data_solicitacao,
-            orcamento.prazo_entrega,
-            orcamento.status,
-            orcamento.descricao,
-            orcamento.id_orcamento
+            orcamento["id_servico"],
+            orcamento["id_prestador"],
+            orcamento["id_cliente"],
+            orcamento["valor_estimado"],
+            orcamento["data_solicitacao"],
+            orcamento["prazo_entrega"],
+            orcamento["status"],
+            orcamento["descricao"]
         ))
         conn.commit()
         return cursor.rowcount > 0

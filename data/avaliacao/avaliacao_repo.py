@@ -12,24 +12,24 @@ def criar_tabela_avaliacao() -> bool:
         return True
 
 
-def inserir(avaliacao: Avaliacao) -> Optional[int]:
+def inserir_avaliacao(avaliacao: Avaliacao) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_AVALIACAO, (
-            avaliacao.id_avaliador,
-            avaliacao.id_avaliado,
-            avaliacao.nota,
-            avaliacao.data_avaliacao,
-            avaliacao.descricao
+            avaliacao["id_avaliador"],
+            avaliacao["id_avaliado"],
+            avaliacao["nota"],
+            avaliacao["data_avaliacao"],
+            avaliacao["descricao"]
         ))
         conn.commit()
         return cursor.lastrowid
 
 
-def obter_todos() -> List[Avaliacao]:
+def obter_avaliacao() -> List[Avaliacao]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_AVALIACAO)
         rows = cursor.fetchall()
         avaliacoes = []
         for row in rows:
@@ -72,12 +72,12 @@ def atualizar_avaliacao(avaliacao:Avaliacao) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_AVALIACAO, (
-            avaliacao.id_avaliador,
-            avaliacao.id_avaliado,
-            avaliacao.nota,
-            avaliacao.data_avaliacao,
-            avaliacao.descricao,
-            avaliacao.id_avaliacao
+            avaliacao["id_avaliador"],
+            avaliacao["id_avaliado"],
+            avaliacao["nota"],
+            avaliacao["data_avaliacao"],
+            avaliacao["descricao"],
+            avaliacao["id_avaliacao"]
         ))
         conn.commit()
         return cursor.rowcount > 0

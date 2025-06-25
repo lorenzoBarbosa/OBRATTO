@@ -19,14 +19,14 @@ def criar_tabela_usuario() -> bool:
 def inserir_usuario(usuario: Usuario) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR_USUARIO, (
-            usuario.nome,
-            usuario.email,
-            usuario.senha,
-            usuario.cpf_cnpj,
-            usuario.telefone,
-            usuario.data_cadastro,
-            usuario.endereco
+        cursor.execute(INSERIR_USUARIO,(
+            usuario["nome"],
+            usuario["email"],
+            usuario["senha"],
+            usuario["cpf_cnpj"],
+            usuario["telefone"],
+            usuario["data_cadastro"],
+            usuario["endereco"]
         ))
         conn.commit()
         return cursor.lastrowid
@@ -75,14 +75,13 @@ def atualizar_usuario(usuario: Usuario) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_USUARIO, (
-            usuario.nome,
-            usuario.email,
-            usuario.senha,
-            usuario.cpf_cnpj,
-            usuario.telefone,
-            usuario.data_cadastro,
-            usuario.endereco,
-            usuario.id,
+            usuario["nome"],
+            usuario["email"],
+            usuario["senha"],
+            usuario["cpf_cnpj"],
+            usuario["telefone"],
+            usuario["data_cadastro"],
+            usuario["endereco"]
         ))
         conn.commit()
         return cursor.rowcount > 0

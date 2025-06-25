@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS orcamento (
 
 INSERIR_ORCAMENTO = """
 INSERT INTO orcamento (id_fornecedor, id_cliente, valor_estimado, data_solicitacao, prazo_entrega, status, descricao)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?, ?)
 """
 
 
@@ -61,38 +61,6 @@ JOIN fornecedor f ON o.id_fornecedor = f.id
 JOIN cliente c ON o.id_cliente = c.id
 WHERE o.id = ?
 ORDER BY o.id
-"""
-
-
-OBTER_ANUNCIO_PAGINADO = """
-SELECT
-    a.id_anuncio,
-    a.nome_anuncio,
-    a.id_fornecedor,
-    a.data_criacao,
-    a.descricao,
-    a.preco,
-    f.nome AS nome_fornecedor
-FROM anuncio a
-JOIN fornecedor f ON a.id_fornecedor = f.id
-ORDER BY a.id_anuncio
-LIMIT ? OFFSET ?
-"""
-
-OBTER_ANUNCIO_POR_TERMO_PAGINADO = """
-SELECT
-    a.id_anuncio,
-    a.nome_anuncio,
-    a.id_fornecedor,
-    a.data_criacao,
-    a.descricao,
-    a.preco,
-    f.nome AS nome_fornecedor
-FROM anuncio a
-JOIN fornecedor f ON a.id_fornecedor = f.id
-WHERE a.nome_anuncio LIKE ? or a.id_anuncio LIKE ? or f.nome LIKE ?
-ORDER BY a.id_anuncio
-LIMIT ? OFFSET ?
 """
 
 
