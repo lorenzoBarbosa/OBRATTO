@@ -5,9 +5,13 @@ from utils.db import open_connection
 
 
 def criar_tabela_usuario() -> bool:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_USUARIO)
+    try:
+        with open_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA_USUARIO)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de usuário: {e}")
         conn.commit()
         return True
 

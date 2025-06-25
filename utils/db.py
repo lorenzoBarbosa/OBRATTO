@@ -1,6 +1,8 @@
 import sqlite3
+import os
 
 def open_connection():
-    conn = sqlite3.connect('banco_de_dados.db') 
-    conn.row_factory = sqlite3.Row
-    return conn
+    database_path = os.environ.get('TEST_DATABASE_PATH', 'dados.db')
+    conexao = sqlite3.connect(database_path)
+    conexao.row_factory = sqlite3.Row
+    return conexao
