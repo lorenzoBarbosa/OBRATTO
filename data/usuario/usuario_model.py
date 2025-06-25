@@ -3,8 +3,12 @@ from typing import Optional
 
 @dataclass
 class Usuario:
+    id: Optional[int]
     nome: str
     email: str
     senha: str
-    id: Optional[int] = field(default=None)
+    cpf_cnpj: str
+    telefone: str
+    data_cadastro: str
+    endereco: str
 
