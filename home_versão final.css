@@ -1,24 +1,15 @@
-.navbar {
-    margin: 0 !important;
-    padding: 0 !important;
-}
+
 
 .container-fluid {
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    margin: 0!important;
+    padding-left: 100!important;
+    padding-right: 100!important;
 }
 
 nav {
     margin: 0 !important;
     padding: 0 !important;
 }
-
-header {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
 
 #botao_pesquisar{
     background-color: white;
@@ -27,30 +18,27 @@ header {
     transition: 1s;
 }
 
-#botao_pesquisar:hover{
-    opacity: 0.8;
-}
 
 #lupa{
-    color: black;
+    color: #171370;
     position: relative;
     right: 40px;
     font-size: 20px;
-    top: 13px;
+    top: 9px;
 }
 
 #login{
     color: white;
-    font-size: 40px;
+    font-size: 35px;
     position: relative;
-    top: 3px;
+    top: 1px;
     right: 5px;
 }
 #barra_pesquisa{
     border-radius: 70px; 
     width: 300px; 
     height: 40px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 .hero{
     height: 1012px;
@@ -64,7 +52,7 @@ header {
     font-size: 70px;
     color: white;
     text-align: center;
-    padding-top: 450px;
+    padding-top: 300px;
     font-family: 'Inter', sans-serif;
 }
 
@@ -77,20 +65,21 @@ header {
 
 #categorias{
     width: 220px;
-    margin-top: 30px;
+    margin-top: 40px;
     margin-bottom: 40px;
     border-radius: 20px;
 }
 
 #categorias_txt{
     font-family: "Inter", sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     text-align: center;
+   color: #171370;
 }
 
 #servicos{
     position: relative;
-    left: 10px;
+    left: 5px;
 }
 
 .section-title{
@@ -104,17 +93,18 @@ header {
 #servicos_container{
     background-color: #171370;
     color: white; 
-    margin-top: 20%;
+    margin-top: 10%;
     border-radius: 30px;
     padding: 40px;
 }
 
 #planos_title{
-    color: black;
+    color: #171370;
     font-family: "Inter", sans-serif;
     font-size: 50px;
     text-align: center;
     text-shadow: 1px 1px 2px black;
+    padding-top: 100px;
 }
 
 #legenda_planos{
@@ -149,31 +139,26 @@ header {
 }
 
 #categorias_title{
-    color: black;
+    color: #171370;
     font-family: "Inter", sans-serif;
     font-size: 50px;
     text-align: center;
     text-shadow: 1px 1px 2px black;
-    margin-top: 100px;
+    margin-top: 400px;
 }
 
 #rol_carusel_right{
-    color: black;
+    color: #171370;
     position: relative;
     font-size: 50px;
     left: 150px;
 }
 
 #rol_carusel_left{
-    color: black;
+    color: #171370;
     position: relative;
     font-size: 50px;
     right: 150px;
-}
-
-.carousel-indicators{
-    color: black;
-    padding: 0;
 }
 
 #popularCategoriesCarousel .carousel-item .row {
@@ -219,7 +204,7 @@ header {
     font-size: 30px;
     font-family: "Inter", sans-serif;
     font-weight: bold;
-    color: black;
+    color: #E85F4B;
     margin-bottom: 10px;
 }
 
@@ -248,7 +233,7 @@ header {
 }
 
 #card:hover #texto_card {
-    opacity: 0.6;
+    opacity: 0.8;
     visibility: visible;
 }
 
@@ -260,12 +245,6 @@ header {
     margin-top: 15px;
     display: inline-block; 
 }
-
-.popular-category-card .btn-saibamais-cat:hover {
-    color:  #E85F4B; 
-}
-
-
 #sobre_nos{
     font-size: 25px;
     text-align: justify;
@@ -273,67 +252,12 @@ header {
 }
 
 #sobrenos_title{
-    color: black;
+    color: #171370;
     font-family: "Inter", sans-serif;
     font-size: 50px;
     text-align: center;
     text-shadow: 1px 1px 2px black;
     margin-top: 150px;    
-}
-
-footer {
-    background-color: #171370;;
-    color: white;
-    padding: 60px 0 20px;
-}
-        
-#footer_1 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    margin-bottom: 40px;
-}
-
-#footer_titulo {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    position: relative;
-    padding-bottom: 10px;
-}
-
-#footer_titulo::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 50px;
-    height: 2px;
-    background-color: #E85F4B;
-}
-
-#footer_titulo ul li {
-    margin-bottom: 10px;
-}
-
-#footer_titulo ul li a {
-    transition: all 0.3s ease;
-}
-
-#footer_titulo ul li a:hover {
-    color: #E85F4B;
-    padding-left: 5px;
-}
-
-.newsletter-form {
-    display: flex;
-    margin-top: 20px;
-    border-radius: 20px;
-}
-
-.newsletter-form input {
-    flex: 1;
-    padding: 10px 15px;
-    border-radius: 10px;
 }
 
 .newsletter-form button {
@@ -349,19 +273,14 @@ footer {
     opacity: 0.6;
 }
 
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
 
 .advantages-section {
-    background-color: #3F398B; /* Lighter shade of navbar blue */
+    background-color: #171370; 
     color: white;
     padding: 60px 0;
     border-radius: 20px;
     margin-bottom: 50px;
-    margin-top: 80px; /* Space after carousel */
+    margin-top: 80px;
 }
 
 .advantages-section h2 {
@@ -376,7 +295,7 @@ footer {
 .advantages-section .icon-highlight {
     font-size: 3em;
     margin-bottom: 15px;
-    color: #66FCF1; /* Highlight color for icons */
+    color: #E85F4B;
 }
 
 .advantages-section .advantage-item h3 {
@@ -390,3 +309,61 @@ footer {
     line-height: 1.6;
 }
 
+
+#rodapé {
+    background-color: #171370 !important;
+    color: #f8f9fa;
+    padding: 60px 0 30px 0;
+}
+
+#rodapé h3 {
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+#rodapé p {
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+#rodapé ul {
+    padding-left: 0;
+}
+
+#rodapé ul li {
+    margin-bottom: 10px;
+}
+
+#rodapé ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#rodapé ul li a:hover {
+    color: #fff;
+}
+
+.newsletter-form input {
+    border-radius: 5px;
+    border: none;
+    padding: 10px 15px;
+}
+
+.newsletter-form button {
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: #E85F4B !important; 
+    border-color: #E85F4B !important;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: #E85F4B !important;
+}
+
+.footer-bottom {
+    border-top: 1px solid #171370;
+    padding-top: 20px;
+    margin-top: 30px;
+}
