@@ -1,0 +1,392 @@
+.navbar {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.container-fluid {
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+nav {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+header {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+#botao_pesquisar{
+    background-color: white;
+    color: black;
+    border-radius: 70px;
+    transition: 1s;
+}
+
+#botao_pesquisar:hover{
+    opacity: 0.8;
+}
+
+#lupa{
+    color: black;
+    position: relative;
+    right: 40px;
+    font-size: 20px;
+    top: 13px;
+}
+
+#login{
+    color: white;
+    font-size: 40px;
+    position: relative;
+    top: 3px;
+    right: 5px;
+}
+#barra_pesquisa{
+    border-radius: 70px; 
+    width: 300px; 
+    height: 40px;
+    margin-top: 10px;
+}
+.hero{
+    height: 1012px;
+    background-color: #EEEEEE;
+    background-image: url(/img/tela_fundo.png);
+    background-repeat: repeat;
+    background-size: cover;
+}
+
+#titulo{
+    font-size: 70px;
+    color: white;
+    text-align: center;
+    padding-top: 450px;
+    font-family: 'Inter', sans-serif;
+}
+
+#frase{
+    color: white;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    font-size: 35px;
+}
+
+#categorias{
+    width: 220px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    border-radius: 20px;
+}
+
+#categorias_txt{
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+#servicos{
+    position: relative;
+    left: 10px;
+}
+
+.section-title{
+    color: white;
+    font-family: "Inter", sans-serif;
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+#servicos_container{
+    background-color: #171370;
+    color: white; 
+    margin-top: 20%;
+    border-radius: 30px;
+    padding: 40px;
+}
+
+#planos_title{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+}
+
+#legenda_planos{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+    position: relative;
+    left: 5px;
+    bottom: -10px;
+}
+
+#legenda_plano_fornecedor{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 28px;
+    position: relative;
+    left: 5px;
+    bottom: -10px;
+}
+
+#botao_saibamais{
+    background-color: #E85F4B;
+    color: white;
+    border-radius: 70px;
+    transition: 1s;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+}
+
+#botao_saibamais:hover{
+    opacity: 0.8;
+}
+
+#categorias_title{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    margin-top: 100px;
+}
+
+#rol_carusel_right{
+    color: black;
+    position: relative;
+    font-size: 50px;
+    left: 150px;
+}
+
+#rol_carusel_left{
+    color: black;
+    position: relative;
+    font-size: 50px;
+    right: 150px;
+}
+
+.carousel-indicators{
+    color: black;
+    padding: 0;
+}
+
+#popularCategoriesCarousel .carousel-item .row {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+#card{
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+#img_card{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#card_body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#titulo_card {
+    font-size: 30px;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+}
+
+#texto_card{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #171370;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    font-size: 0.95em;
+    line-height: 1.5;
+    text-align: center;
+    border-radius: 10px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+#card:hover #texto_card {
+    opacity: 0.6;
+    visibility: visible;
+}
+
+.popular-category-card .btn-saibamais-cat {
+    color: #171370; 
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-top: 15px;
+    display: inline-block; 
+}
+
+.popular-category-card .btn-saibamais-cat:hover {
+    color:  #E85F4B; 
+}
+
+
+#sobre_nos{
+    font-size: 25px;
+    text-align: justify;
+    font-family: "Inter", sans-serif;
+}
+
+#sobrenos_title{
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    margin-top: 150px;    
+}
+
+footer {
+    background-color: #171370;;
+    color: white;
+    padding: 60px 0 20px;
+}
+        
+#footer_1 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+#footer_titulo {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+#footer_titulo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: #E85F4B;
+}
+
+#footer_titulo ul li {
+    margin-bottom: 10px;
+}
+
+#footer_titulo ul li a {
+    transition: all 0.3s ease;
+}
+
+#footer_titulo ul li a:hover {
+    color: #E85F4B;
+    padding-left: 5px;
+}
+
+.newsletter-form {
+    display: flex;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.newsletter-form button {
+    background-color: #E85F4B;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    opacity: 0.6;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.advantages-section {
+    background-color: #3F398B; /* Lighter shade of navbar blue */
+    color: white;
+    padding: 60px 0;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    margin-top: 80px; /* Space after carousel */
+}
+
+.advantages-section h2 {
+    color: white;
+}
+
+.advantages-section .advantage-item {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.advantages-section .icon-highlight {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #66FCF1; /* Highlight color for icons */
+}
+
+.advantages-section .advantage-item h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.advantages-section .advantage-item p {
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
