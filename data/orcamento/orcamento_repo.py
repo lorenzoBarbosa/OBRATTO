@@ -16,13 +16,13 @@ def inserir_orcamento(orcamento: Orcamento) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_ORCAMENTO, (
-            orcamento.id_fornecedor,
-            orcamento.id_cliente,
-            orcamento.valor_estimado,
-            orcamento.data_solicitacao,
-            orcamento.prazo_entrega,
-            orcamento.status,
-            orcamento.descricao,
+            orcamento["id_fornecedor"],
+            orcamento["id_cliente"],
+            orcamento["valor_estimado"],
+            orcamento["data_solicitacao"],
+            orcamento["prazo_entrega"],
+            orcamento["status"],
+            orcamento["descricao"]
         ))
         conn.commit()
         return cursor.lastrowid
@@ -90,14 +90,13 @@ def atualizar_orcamento_por_id(orcamento: Orcamento) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_ORCAMENTO_POR_ID, (
-            orcamento.id_fornecedor,
-            orcamento.id_cliente,
-            orcamento.valor_estimado,
-            orcamento.data_solicitacao,
-            orcamento.prazo_entrega,
-            orcamento.status,
-            orcamento.descricao,
-            orcamento.id  
+            orcamento["id_fornecedor"],
+            orcamento["id_cliente"],
+            orcamento["valor_estimado"],
+            orcamento["data_solicitacao"],
+            orcamento["prazo_entrega"],
+            orcamento["status"],
+            orcamento["descricao"]
         ))
         conn.commit()
         return cursor.rowcount > 0
