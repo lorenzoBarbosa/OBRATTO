@@ -8,6 +8,3 @@ class Usuario:
     senha: str
     id: Optional[int] = field(default=None)
 
-@dataclass
-class Fornecedor(Usuario):
-    razao_social: Optional[str] = field(default=None) 

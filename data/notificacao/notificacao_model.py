@@ -8,6 +8,6 @@ class Notificacao:
     mensagem: str
     data_hora: datetime
     tipo_notificacao: str
-    vizualizar: bool
+    visualizar: bool
 
 
