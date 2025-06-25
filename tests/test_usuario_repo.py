@@ -42,10 +42,10 @@ class TestUsuarioRepo:
         criar_tabela_usuario()
         usuario_teste = Usuario(0, "Usuario Teste", "email@example.com", "senha_antiga", "12345678901", "99999999999", "2023-10-01 12:00:00", "Endereco Teste")
         id_usuario_inserido = inserir_usuario(usuario_teste)
-        nova_senha = "nova_senha_secreta"
         # Act
-        resultado = atualizar_senha_usuario(id_usuario_inserido, nova_senha)
+        resultado = atualizar_senha_usuario(id_usuario_inserido, "141516")
         # Assert
+        usuario_inserido = obter_usuario_por_id(id_usuario_inserido)
         assert resultado == True, "A atualização da senha deveria retornar True"
         usuario_db = obter_usuario_por_id(id_usuario_inserido)
         assert usuario_db.senha == nova_senha, "A senha do usuário não foi atualizada corretamente"
