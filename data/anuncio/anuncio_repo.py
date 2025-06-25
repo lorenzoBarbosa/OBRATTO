@@ -78,40 +78,6 @@ def obter_anuncio_por_id(anuncio_id: str) -> Optional[Anuncio]:
                 preco=row["preco"]
             )
         return anuncio_id
-    
-
-def obter_anuncio_paginado(anuncio_paginado: str) -> Optional[Anuncio]:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(OBTER_ANUNCIO_PAGINADO, (anuncio_paginado,))
-        row = cursor.fetchone()
-        if row:
-            return Anuncio(
-                 id_anuncio=row["id_anuncio"],
-                nome_anuncio=row["nome_anuncio"],
-                id_fornecedor=row["id_fornecedor"],
-                data_criacao=row["data_criacao"],
-                descricao=row["descricao"],
-                preco=row["preco"]
-            )
-        return anuncio_paginado
-    
-
-def obter_anuncio_por_termo_paginado(anuncio_por_termo: str) -> Optional[Anuncio]:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(OBTER_ANUNCIO_POR_TERMO_PAGINADO, (anuncio_por_termo,))
-        row = cursor.fetchone()
-        if row:
-            return Anuncio(
-                 id_anuncio=row["id_anuncio"],
-                nome_anuncio=row["nome_anuncio"],
-                id_fornecedor=row["id_fornecedor"],
-                data_criacao=row["data_criacao"],
-                descricao=row["descricao"],
-                preco=row["preco"]
-            )
-        return anuncio_por_termo
 
 
 def atualizar_anuncio_por_nome(anuncio: Anuncio):

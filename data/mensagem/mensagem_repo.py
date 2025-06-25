@@ -41,9 +41,7 @@ def obter_mensagem() -> List[Mensagem]:
                 nome_remetente=row["nome_remetente"],
                 nome_destinatario=row["nome_destinatario"],
                 conteudo=row["conteudo"],
-                data_hora= row["data_hora"],
-                nome_remetente=row["nome_remetente"],
-                nome_destinatario=row["nome_destinatario"]
+                data_hora= row["data_hora"]
             ))
         return mensagens
 

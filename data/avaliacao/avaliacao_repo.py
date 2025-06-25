@@ -12,7 +12,7 @@ def criar_tabela_avaliacao() -> bool:
         return True
 
 
-def inserir(avaliacao: Avaliacao) -> Optional[int]:
+def inserir_avaliacao(avaliacao: Avaliacao) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_AVALIACAO, (
@@ -26,10 +26,10 @@ def inserir(avaliacao: Avaliacao) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_todos() -> List[Avaliacao]:
+def obter_avaliacao() -> List[Avaliacao]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_AVALIACAO)
         rows = cursor.fetchall()
         avaliacoes = []
         for row in rows:
