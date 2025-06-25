@@ -20,7 +20,7 @@ def inserir_cliente(cliente: Cliente) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_CLIENTE, (
-            cliente["id"],          
+            cliente["id_usuario"],          
             cliente["genero"],
             cliente["data_nascimento"]
         ))
@@ -36,7 +36,7 @@ def obter_cliente() -> List[Cliente]:
         clientes = []
         for row in rows:
             clientes.append(Cliente(
-                id=row["id"],
+                id_usuario=row["id_usuario"],
                 nome=row["nome"],
                 email=row["email"],
                 senha=row["senha"],
@@ -57,7 +57,7 @@ def obter_cliente_por_id(cliente_id: int) -> Optional[Cliente]:
         row = cursor.fetchone()
         if row:
             return Cliente (
-                id=row["id"],
+                id_usuario=row["id_usuario"],
                 nome=row["nome"],
                 email=row["email"],
                 senha=row["senha"],
@@ -81,7 +81,7 @@ def atualizar_cliente(cliente: Cliente) -> bool:
         cursor.execute(ATUALIZAR_CLIENTE,(
             cliente["genero"],
             cliente["data_nascimento"],
-            cliente["id"]
+            cliente["id_usuario"]
         ))
         conn.commit()
         return cursor.rowcount > 0

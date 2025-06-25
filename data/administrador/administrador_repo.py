@@ -18,7 +18,7 @@ def inserir_administrador(administrador: Administrador) -> Optional[int]:
     """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR_ADMINISTRADOR, (administrador.id_usuario,))
+        cursor.execute(INSERIR_ADMINISTRADOR, (administrador["id_usuario"],))
         conn.commit()
         return cursor.lastrowid
 
@@ -73,8 +73,8 @@ def atualizar_administrador(administrador: Administrador) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_ADMINISTRADOR, (
-            administrador.id_usuario,
-            administrador.id
+            administrador["id_usuario"],
+            administrador["id"]
         ))
         conn.commit()
         return cursor.rowcount > 0

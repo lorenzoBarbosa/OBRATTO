@@ -11,7 +11,9 @@ from data.administrador import administrador_repo
 from data.anuncio import anuncio_repo
 from data.avaliacao import avaliacao_repo
 from data.cliente import cliente_repo
+from data.cliente.cliente_model import Cliente
 from data.fornecedor import fornecedor_repo
+from data.fornecedor.fornecedor_model import Fornecedor
 from data.inscricaoplano import inscricao_plano_repo
 from data.mensagem import mensagem_repo
 from data.notificacao import notificacao_repo
@@ -19,12 +21,10 @@ from data.orcamento import orcamento_repo
 from data.orcamentoservico import orcamento_servico_repo
 from data.plano import plano_repo
 from data.prestador import prestador_repo
+from data.prestador.prestador_model import Prestador
 from data.servico import servico_repo
 from data.usuario import usuario_repo
-
-app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+from data.usuario.usuario_model import Usuario
 
 
 fake = Faker()
@@ -63,46 +63,48 @@ fake = Faker('pt_BR')
 
 # Usuários:
 for _ in range(30):
-    inserir_usuario({
-        "nome": fake.name(),
-        "email": fake.email(),
-        "senha": fake.password(),
-        "cpf_cnpj": fake.cpf(),
-        "telefone": fake.phone_number(),
-        "data_cadastro": fake.date_time_this_decade(),
-        "endereco": fake.address()
-    })
+    usuario = Usuario(
+        nome = fake.name(),
+        email = fake.email(),
+        senha = fake.password(),
+        cpf_cnpj = fake.cpf(),
+        telefone = fake.phone_number(),
+        data_cadastro =  fake.date_time_this_decade(),
+        endereco = fake.address()
+    )
+
+# Clientes:
+for i in range(15):
+    cliente = Cliente(
+        id_usuario =  i + 1,
+        genero = fake.random_element(elements=["Masculino", "Feminino", "Outro"]),
+        data_nascimento =  fake.date_of_birth(minimum_age=18, maximum_age=90)
+    )
+    inserir_cliente(cliente)
+
+# Prestadores:
+for i in range(10):
+    prestador = Prestador(
+        id_usuario =  i + 26,
+        razao_social =  fake.company(),
+        area_atuacao = fake.job(),
+        descricao_servicos = fake.text(max_nb_chars=100),
+        tipo_pessoa = fake.random_element(elements=["Física", "Jurídica"]),
+    )
+    inserir_prestador(prestador)
+
+# Fornecedores:
+for i in range(10):
+    fornecedor = Fornecedor(
+        id_usuario = i + 16,
+        razao_social = fake.company(),
+    )
+    inserir_fornecedor(fornecedor)
 
 # Administradores:
 for _ in range(5):
     administrador_repo.inserir_administrador({
         "id_usuario": fake.random_int(min=1, max=30),
-    })
-
-
-# Clientes:
-for i in range(15):
-    inserir_cliente({
-        "id_usuario": i + 1,
-        "genero": fake.random_element(elements=["Masculino", "Feminino", "Outro"]),
-        "data_nascimento": fake.date_of_birth(minimum_age=18, maximum_age=90)
-    })
-
-# Fornecedores:
-for i in range(10):
-    inserir_fornecedor({
-        "id_usuario": i + 16,
-        "razao_social": fake.company(),
-    })
-
-# Prestadores:
-for i in range(10):
-    inserir_prestador({
-        "id_usuario": i + 26,
-        "razao_social": fake.company(),
-        "area_atuacao": fake.job(),
-        "descricao_servicos": fake.text(max_nb_chars=100),
-        "tipo_pessoa": fake.random_element(elements=["Física", "Jurídica"]),
     })
 
 # Inscrição Plano:
@@ -112,7 +114,6 @@ for _ in range(3):
         "id_fornecedor": fake.random_int(min=1, max=10),
         "id_prestador": fake.random_int(min=1, max=10)
     })
-
 
 # Serviço:
 for _ in range(20):
@@ -125,7 +126,7 @@ for _ in range(20):
         "categoria": fake.random_element(elements=["Elétrica", "Hidráulica", "Pintura", "Construção"])
     })   
     
-
+    
 # Orçamento:
 for _ in range(15):
     inserir_orcamento({

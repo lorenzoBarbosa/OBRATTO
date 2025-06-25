@@ -22,7 +22,6 @@ def inserir_fornecedor(fornecedor: Fornecedor) -> Optional[int]:
         cursor.execute(INSERIR_FORNECEDOR, (
             fornecedor["id_usuario"],
             fornecedor["razao_social"],
-            fornecedor["cnpj"],
             fornecedor["telefone_contato"],
             fornecedor["endereco"]
         ))
@@ -47,9 +46,7 @@ def obter_fornecedor() -> List[Fornecedor]:
                 telefone=None,
                 data_cadastro=None,
                 endereco=row("endereco"),
-                cnpj=row("cnpj"),
-                razao_social=row("razao_social"),
-                telefone_contato=row("telefone_contato")
+                razao_social=row("razao_social")
             ))
         return fornecedores
 
@@ -70,7 +67,6 @@ def obter_fornecedor_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
                 telefone=None,
                 data_cadastro=None,
                 endereco=row("endereco"),
-                cnpj=row("cnpj"),
                 razao_social=row("razao_social"),
                 telefone_contato=row("telefone_contato")
             )
@@ -86,7 +82,6 @@ def atualizar_fornecedor(fornecedor: Fornecedor) -> bool:
         cursor.execute(ATUALIZAR_FORNECEDOR, (
             fornecedor["id_usuario"],
             fornecedor["razao_social"],
-            fornecedor["cnpj"],
             fornecedor["telefone_contato"],
             fornecedor["endereco"],
             fornecedor["id"]
