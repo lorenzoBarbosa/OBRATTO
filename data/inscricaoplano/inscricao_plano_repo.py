@@ -16,9 +16,9 @@ def inserir_inscricao_plano(inscricao_plano: InscricaoPlano) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_INSCRICAO_PLANO,(
-                inscricao_plano.id_fornecedor,
-                inscricao_plano.id_prestador,
-                inscricao_plano.id_plano,
+                inscricao_plano["id_fornecedor"],
+                inscricao_plano["id_prestador"],
+                inscricao_plano["id_plano"]
         )),
         conn.commit()
         return cursor.lastrowid
@@ -60,10 +60,10 @@ def atualizar_inscricao_plano(inscricao_plano: InscricaoPlano) -> bool:
         cursor = conn.cursor()
         cursor.execute(
             ATUALIZAR_INSCRICAO_PLANO,(
-                inscricao_plano.id_fornecedor,
-                inscricao_plano.id_prestador,
-                inscricao_plano.id_plano,
-                inscricao_plano.id_inscricao_plano,
+                inscricao_plano["id_fornecedor"],
+                inscricao_plano["id_prestador"],
+                inscricao_plano["id_plano"],
+                inscricao_plano["id_inscricao_plano"],
         )),
         conn.commit()
         return cursor.rowcount > 0

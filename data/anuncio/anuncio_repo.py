@@ -17,12 +17,12 @@ def inserir_anuncio(anuncio: Anuncio) -> Optional[int]:                # Insere 
     with open_connection() as conn:                                    # O id_usuario deve existir na tabela usuario.
         cursor = conn.cursor()
         cursor.execute(INSERIR_ANUNCIO, (
-            anuncio.id_anuncio,
-            anuncio.nome_anuncio,
-            anuncio.id_fornecedor,
-            anuncio.data_criacao,
-            anuncio.descricao,
-            anuncio.preco
+            anuncio["id_anuncio"],
+            anuncio["nome_anuncio"],
+            anuncio["id_fornecedor"],
+            anuncio["data_criacao"],
+            anuncio["descricao"],
+            anuncio["preco"]
         ))
         conn.commit()
         return cursor.lastrowid
@@ -118,12 +118,12 @@ def atualizar_anuncio_por_nome(anuncio: Anuncio):
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_ANUNCIO_POR_NOME, (
-            anuncio.id_anuncio,
-            anuncio.nome_anuncio,
-            anuncio.id_fornecedor,
-            anuncio.data_criacao,
-            anuncio.descricao,
-            anuncio.preco
+            anuncio["id_anuncio"],
+            anuncio["nome_anuncio"],
+            anuncio["id_fornecedor"],
+            anuncio["data_criacao"],
+            anuncio["descricao"],
+            anuncio["preco"]
         ))
         conn.commit()
         return cursor.rowcount > 0

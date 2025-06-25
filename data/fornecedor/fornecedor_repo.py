@@ -20,11 +20,11 @@ def inserir_fornecedor(fornecedor: Fornecedor) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_FORNECEDOR, (
-            fornecedor.id_usuario,
-            fornecedor.razao_social,
-            fornecedor.cnpj,
-            fornecedor.telefone_contato,
-            fornecedor.endereco,
+            fornecedor["id_usuario"],
+            fornecedor["razao_social"],
+            fornecedor["cnpj"],
+            fornecedor["telefone_contato"],
+            fornecedor["endereco"]
         ))
         conn.commit()
         return cursor.lastrowid
@@ -84,12 +84,12 @@ def atualizar_fornecedor(fornecedor: Fornecedor) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_FORNECEDOR, (
-            fornecedor.id_usuario,
-            fornecedor.razao_social,
-            fornecedor.cnpj,
-            fornecedor.telefone_contato,
-            fornecedor.endereco,
-            fornecedor.id
+            fornecedor["id_usuario"],
+            fornecedor["razao_social"],
+            fornecedor["cnpj"],
+            fornecedor["telefone_contato"],
+            fornecedor["endereco"],
+            fornecedor["id"]
         ))
         conn.commit()
         return cursor.rowcount > 0

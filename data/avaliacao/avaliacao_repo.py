@@ -16,11 +16,11 @@ def inserir(avaliacao: Avaliacao) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_AVALIACAO, (
-            avaliacao.id_avaliador,
-            avaliacao.id_avaliado,
-            avaliacao.nota,
-            avaliacao.data_avaliacao,
-            avaliacao.descricao
+            avaliacao["id_avaliador"],
+            avaliacao["id_avaliado"],
+            avaliacao["nota"],
+            avaliacao["data_avaliacao"],
+            avaliacao["descricao"]
         ))
         conn.commit()
         return cursor.lastrowid
@@ -72,12 +72,12 @@ def atualizar_avaliacao(avaliacao:Avaliacao) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_AVALIACAO, (
-            avaliacao.id_avaliador,
-            avaliacao.id_avaliado,
-            avaliacao.nota,
-            avaliacao.data_avaliacao,
-            avaliacao.descricao,
-            avaliacao.id_avaliacao
+            avaliacao["id_avaliador"],
+            avaliacao["id_avaliado"],
+            avaliacao["nota"],
+            avaliacao["data_avaliacao"],
+            avaliacao["descricao"],
+            avaliacao["id_avaliacao"]
         ))
         conn.commit()
         return cursor.rowcount > 0

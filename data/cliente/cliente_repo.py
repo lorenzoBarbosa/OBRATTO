@@ -20,9 +20,9 @@ def inserir_cliente(cliente: Cliente) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_CLIENTE, (
-            cliente.id,          
-            cliente.genero,
-            cliente.data_nascimento
+            cliente["id"],          
+            cliente["genero"],
+            cliente["data_nascimento"]
         ))
         conn.commit()
         return cursor.lastrowid
@@ -79,9 +79,9 @@ def atualizar_cliente(cliente: Cliente) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_CLIENTE,(
-            cliente.genero,
-            cliente.data_nascimento,
-            cliente.id
+            cliente["genero"],
+            cliente["data_nascimento"],
+            cliente["id"]
         ))
         conn.commit()
         return cursor.rowcount > 0
