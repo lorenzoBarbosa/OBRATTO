@@ -20,10 +20,10 @@ def inserir_notificacao(notificacao: Notificacao) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_NOTIFICACAO, (
-            notificacao["id_usuario"],
-            notificacao["mensagem"],
-            notificacao["data_hora"],
-            notificacao["tipo_notificacao"],
+            notificacao.id_usuario,
+            notificacao.mensagem,
+            notificacao.data_hora,
+            notificacao.tipo_notificacao,
             int(notificacao.vizualizar)
         ))
         conn.commit()
@@ -72,12 +72,12 @@ def atualizar_notificacao(notificacao: Notificacao) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_NOTIFICACAO, (
-            notificacao["id_usuario"],
-            notificacao["mensagem"],
-            notificacao["data_hora"],
-            notificacao["tipo_notificacao"],
+            notificacao.id_usuario,
+            notificacao.mensagem,
+            notificacao.data_hora,
+            notificacao.tipo_notificacao,
             int(notificacao.vizualizar),
-            notificacao["id_notificacao"]
+            notificacao.id_notificacao
         ))
         conn.commit()
         return cursor.rowcount > 0

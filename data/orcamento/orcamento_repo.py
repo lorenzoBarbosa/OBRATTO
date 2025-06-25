@@ -1,110 +1,137 @@
 from typing import Optional, List
-from data.orcamento.orcamento_model import Orcamento  
-from data.orcamento.orcamento_sql import *
+from data.plano.plano_model import Plano
+from data.plano.plano_model import Plano
+from data.plano.plano_sql import *
 from utils.db import open_connection
 
-
-def criar_tabela_orcamento() -> bool:
+                        
+def criar_tabela_plano() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_ORCAMENTO)
+        cursor.execute(CRIAR_TABELA_PLANO)
         conn.commit()
         return True
 
 
-def inserir_orcamento(orcamento: Orcamento) -> Optional[int]:
-    with open_connection() as conn:
+def inserir_plano(plano: Plano) -> Optional[int]:                    
+    with open_connection() as conn:                                
         cursor = conn.cursor()
-        cursor.execute(INSERIR_ORCAMENTO, (
-            orcamento["id_fornecedor"],
-            orcamento["id_cliente"],
-            orcamento["valor_estimado"],
-            orcamento["data_solicitacao"],
-            orcamento["prazo_entrega"],
-            orcamento["status"],
-            orcamento["descricao"]
+        cursor.execute(INSERIR_PLANO, (
+            plano.id_plano,
+            plano.nome_plano,
+            plano.valor_mensal,
+            plano.limite_servico,
+            plano.tipo_plano,
+            plano.descricao
         ))
         conn.commit()
         return cursor.lastrowid
 
 
-def obter_todos_os_orcamento() -> List[Orcamento]:  
+def obter_todos_os_planos() -> List[Plano]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS_OS_ORCAMENTOS)
+        cursor.execute(OBTER_TODOS_OS_PLANOS)
         rows = cursor.fetchall()
-        orcamentos = []
+        anuncio = []
         for row in rows:
-            orcamentos.append(Orcamento(
-                id=row["id"],
-                id_fornecedor=row["id_fornecedor"],
-                id_cliente=row["id_cliente"],
-                valor_estimado=row["valor_estimado"],
-                data_solicitacao=row["data_solicitacao"],
-                prazo_entrega=row["prazo_entrega"],
-                status=row["status"],
+            anuncio.append(Plano(
+                id_plano=row["id_plano"],
+                nome_plano=row["nome_plano"],
+                valor_mensal=row["valor_mensal"],
+                limite_servico=row["limite_servico"],
+                tipo_plano=row["tipo_plano"],
                 descricao=row["descricao"],
             ))
-        return orcamentos
+        return anuncio
 
 
-def obter_orcamento_por_valor_estimado(valor: float) -> Optional[List[Orcamento]]:
+def obter_plano_por_nome(plano_nome: str) -> Optional[Plano]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_ORCAMENTO_POR_VALOR_ESTIMADO, (valor,))
-        rows = cursor.fetchall()
-        if rows:
-            return [Orcamento(
-                id=row["id"],
-                id_fornecedor=row["id_fornecedor"],
-                id_cliente=row["id_cliente"],
-                valor_estimado=row["valor_estimado"],
-                data_solicitacao=row["data_solicitacao"],
-                prazo_entrega=row["prazo_entrega"],
-                status=row["status"],
-                descricao=row["descricao"],
-            ) for row in rows]
-        return None
-
-
-def obter_orcamento_por_id(orcamento_id: int) -> Optional[Orcamento]:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(OBTER_ORCAMENTO_POR_ID, (orcamento_id,))
+        cursor.execute(OBTER_PLANO_POR_NOME, (plano_nome,))
         row = cursor.fetchone()
         if row:
-            return Orcamento(
-                id=row["id"],
-                id_fornecedor=row["id_fornecedor"],
-                id_cliente=row["id_cliente"],
-                valor_estimado=row["valor_estimado"],
-                data_solicitacao=row["data_solicitacao"],
-                prazo_entrega=row["prazo_entrega"],
-                status=row["status"],
+            return Plano(
+               id_plano=row["id_plano"],
+                nome_plano=row["nome_plano"],
+                valor_mensal=row["valor_mensal"],
+                limite_servico=row["limite_servico"],
+                tipo_plano=row["tipo_plano"],
                 descricao=row["descricao"],
             )
-        return None
+        return plano_nome
+    
 
-
-def atualizar_orcamento_por_id(orcamento: Orcamento) -> bool:
+def obter_plano_por_id(plano_id: str) -> Optional[Plano]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR_ORCAMENTO_POR_ID, (
-            orcamento["id_fornecedor"],
-            orcamento["id_cliente"],
-            orcamento["valor_estimado"],
-            orcamento["data_solicitacao"],
-            orcamento["prazo_entrega"],
-            orcamento["status"],
-            orcamento["descricao"]
+        cursor.execute(OBTER_PLANO_POR_ID, (plano_id,))
+        row = cursor.fetchone()
+        if row:
+            return Plano(
+                id_plano=row["id_plano"],
+                nome_plano=row["nome_plano"],
+                valor_mensal=row["valor_mensal"],
+                limite_servico=row["limite_servico"],
+                tipo_plano=row["tipo_plano"],
+                descricao=row["descricao"],
+            )
+        return plano_id
+    
+
+def obter_plano_paginado(plano_paginado: str) -> Optional[Plano]:
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_PLANO_PAGINADO, (plano_paginado,))
+        row = cursor.fetchone()
+        if row:
+            return Plano(
+                id_plano=row["id_plano"],
+                nome_plano=row["nome_plano"],
+                valor_mensal=row["valor_mensal"],
+                limite_servico=row["limite_servico"],
+                tipo_plano=row["tipo_plano"],
+                descricao=row["descricao"],
+            )
+        return plano_paginado
+    
+
+def obter_plano_por_termo_paginado(plano_por_termo: str) -> Optional[Plano]:
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_PLANO_POR_TERMO_PAGINADO, (plano_por_termo,))
+        row = cursor.fetchone()
+        if row:
+            return Plano(
+                id_plano=row["id_plano"],
+                nome_plano=row["nome_plano"],
+                valor_mensal=row["valor_mensal"],
+                limite_servico=row["limite_servico"],
+                tipo_plano=row["tipo_plano"],
+                descricao=row["descricao"],
+            )
+        return plano_por_termo
+
+
+def atualizar_plano_por_nome(plano: Plano):
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(ATUALIZAR_PLANO_POR_NOME, (
+            plano.id_plano,
+            plano.nome_plano,
+            plano.valor_mensal,
+            plano.limite_servico,
+            plano.tipo_plano,
+            plano.descricao
         ))
         conn.commit()
         return cursor.rowcount > 0
 
 
-def deletar_orcamento(id_orcamento: int) -> bool:
+def deletar_plano(id_plano: int) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETAR_ORCAMENTO, (id_orcamento,))
+        cursor.execute(DELETAR_PLANO, (id_plano,))
         conn.commit()
         return cursor.rowcount > 0

@@ -1,20 +1,20 @@
 CRIAR_TABELA_CLIENTE = """
 CREATE TABLE IF NOT EXISTS cliente (
-    id_usuario INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     genero TEXT NOT NULL,
     data_nascimento TEXT NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+    FOREIGN KEY (id) REFERENCES usuario(id)
 );
 """
 
 INSERIR_CLIENTE = """
-INSERT INTO cliente (id_usuario, genero, data_nascimento)
+INSERT INTO cliente (id, genero, data_nascimento)
 VALUES (?, ?, ?);
 """
 
 OBTER_CLIENTE = """
 SELECT 
-    c.id_usuario,
+    c.id,
     u.nome,
     u.email,
     u.senha,
@@ -32,7 +32,7 @@ ORDER BY u.nome;
 
 OBTER_CLIENTE_POR_ID = """
 SELECT 
-    c.id_usuario,
+    c.id,
     u.nome,
     u.email,
     u.senha,

@@ -1,17 +1,13 @@
 from typing import Optional, List
 from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_sql import ATUALIZAR_SENHA_USUARIO, CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO
+from data.usuario.usuario_sql import CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO
 from utils.db import open_connection
 
 
 def criar_tabela_usuario() -> bool:
-    try:
-        with open_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(CRIAR_TABELA_USUARIO)
-            return True
-    except Exception as e:
-        print(f"Erro ao criar tabela de usuário: {e}")
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(CRIAR_TABELA_USUARIO)
         conn.commit()
         return True
 
@@ -19,14 +15,14 @@ def criar_tabela_usuario() -> bool:
 def inserir_usuario(usuario: Usuario) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR_USUARIO,(
-            usuario["nome"],
-            usuario["email"],
-            usuario["senha"],
-            usuario["cpf_cnpj"],
-            usuario["telefone"],
-            usuario["data_cadastro"],
-            usuario["endereco"]
+        cursor.execute(INSERIR_USUARIO, (
+            usuario.nome,
+            usuario.email,
+            usuario.senha,
+            usuario.cpf_cnpj,
+            usuario.telefone,
+            usuario.data_cadastro,
+            usuario.endereco
         ))
         conn.commit()
         return cursor.lastrowid
@@ -75,25 +71,17 @@ def atualizar_usuario(usuario: Usuario) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_USUARIO, (
-            usuario["nome"],
-            usuario["email"],
-            usuario["senha"],
-            usuario["cpf_cnpj"],
-            usuario["telefone"],
-            usuario["data_cadastro"],
-            usuario["endereco"]
+            usuario.nome,
+            usuario.email,
+            usuario.senha,
+            usuario.cpf_cnpj,
+            usuario.telefone,
+            usuario.data_cadastro,
+            usuario.endereco,
+            usuario.id,
         ))
         conn.commit()
         return cursor.rowcount > 0
-
-
-def atualizar_senha_usuario(usuario_id: int, nova_senha: str) -> bool:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(ATUALIZAR_SENHA_USUARIO, (nova_senha, usuario_id))
-        conn.commit()
-        return cursor.rowcount > 0
-
 
 
 def deletar_usuario(usuario_id: int) -> bool:

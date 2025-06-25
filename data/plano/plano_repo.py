@@ -17,12 +17,12 @@ def inserir_plano(plano: Plano) -> Optional[int]:
     with open_connection() as conn:                                
         cursor = conn.cursor()
         cursor.execute(INSERIR_PLANO, (
-            plano["id_plano"],
-            plano["nome_plano"],
-            plano["valor_mensal"],
-            plano["limite_servico"],
-            plano["tipo_plano"],
-            plano["descricao"]
+            plano.id_plano,
+            plano.nome_plano,
+            plano.valor_mensal,
+            plano.limite_servico,
+            plano.tipo_plano,
+            plano.descricao
         ))
         conn.commit()
         return cursor.lastrowid
@@ -85,12 +85,12 @@ def atualizar_plano_por_nome(plano: Plano):
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_PLANO_POR_NOME, (
-             plano["id_plano"],
-            plano["nome_plano"],
-            plano["valor_mensal"],
-            plano["limite_servico"],
-            plano["tipo_plano"],
-            plano["descricao"]
+            plano.id_plano,
+            plano.nome_plano,
+            plano.valor_mensal,
+            plano.limite_servico,
+            plano.tipo_plano,
+            plano.descricao
         ))
         conn.commit()
         return cursor.rowcount > 0

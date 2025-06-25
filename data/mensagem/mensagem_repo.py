@@ -20,10 +20,10 @@ def inserir_mensagem(mensagem: Mensagem) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_MENSAGEM, (
-            mensagem["id_remetente"],
-            mensagem["id_destinatario"],
-            mensagem["conteudo"],
-            mensagem["data_hora"]
+            mensagem.id_remetente,
+            mensagem.id_destinatario,
+            mensagem.conteudo,
+            mensagem.data_hora
         ))
         conn.commit()
         return cursor.lastrowid
@@ -41,7 +41,9 @@ def obter_mensagem() -> List[Mensagem]:
                 nome_remetente=row["nome_remetente"],
                 nome_destinatario=row["nome_destinatario"],
                 conteudo=row["conteudo"],
-                data_hora= row["data_hora"]
+                data_hora= row["data_hora"],
+                nome_remetente=row["nome_remetente"],
+                nome_destinatario=row["nome_destinatario"]
             ))
         return mensagens
 
@@ -71,11 +73,11 @@ def atualizar_mensagem(mensagem: Mensagem) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_MENSAGEM, (
-            mensagem["id_remetente"],
-            mensagem["id_destinatario"],
-            mensagem["conteudo"],
-            mensagem["data_hora"],
-            mensagem["id_mensagem"]
+            mensagem.id_remetente,
+            mensagem.id_destinatario,
+            mensagem.conteudo,
+            mensagem.data_hora,
+            mensagem.id_mensagem
         ))
         conn.commit()
         return cursor.rowcount > 0

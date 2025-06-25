@@ -16,7 +16,7 @@ INSERT INTO avaliacao (id_avaliador, id_avaliado, nota, data_avaliacao, descrica
 VALUES  (?, ?, ?, ?, ?);
 """
 
-OBTER_AVALIACAO = """
+OBTER_TODOS = """
 SELECT 
     avv.id_avaliacao,
     u_avaliador.nome AS nome_avaliador,

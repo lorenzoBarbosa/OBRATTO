@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from data.servico.servico_model import Servico
 from typing import Optional
 
 @dataclass
@@ -9,4 +10,5 @@ class Servico:
     descricao: str
     categoria: str
     valor_base: float
-    nome_prestador: Optional[str] = field(default=None)
+    nome_prestador: Optional[str] = None
+    

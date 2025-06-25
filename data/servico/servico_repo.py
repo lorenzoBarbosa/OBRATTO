@@ -16,11 +16,11 @@ def inserir_servico(servico: Servico) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_SERVICO, (
-            servico["id_prestador"],
-            servico["titulo"],
-            servico["descricao"],
-            servico["categoria"],
-            servico["valor_base"]
+            servico.id_prestador,
+            servico.titulo,
+            servico.descricao,
+            servico.categoria,
+            servico.valor_base
         ))
         conn.commit()
         return cursor.lastrowid
@@ -70,11 +70,12 @@ def atualizar_servico(servico:Servico) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_SERVICO, (
-            servico["id_prestador"],
-            servico["titulo"],
-            servico["descricao"],
-            servico["categoria"],
-            servico["valor_base"]
+            servico.id_prestador,
+            servico.titulo,
+            servico.descricao,
+            servico.categoria,
+            servico.valor_base,
+            servico.id_servico
         ))
         conn.commit()
         return cursor.rowcount > 0
