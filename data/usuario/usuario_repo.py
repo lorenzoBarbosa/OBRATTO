@@ -1,15 +1,19 @@
+from datetime import datetime
 from typing import Optional, List
 from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_sql import CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO
+from data.usuario.usuario_sql import ATUALIZAR_SENHA_USUARIO, ATUALIZAR_TIPO_USUARIO, CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO, OBTER_USUARIO_POR_EMAIL, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO, OBTER_USUARIO_POR_PAGINA
 from utils.db import open_connection
 
 
 def criar_tabela_usuario() -> bool:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_USUARIO)
-        conn.commit()
-        return True
+    try:
+        with open_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA_USUARIO)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de usuário: {e}")
+        return False
 
 
 def inserir_usuario(usuario: Usuario) -> Optional[int]:
@@ -28,24 +32,22 @@ def inserir_usuario(usuario: Usuario) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_usuario() -> List[Usuario]:
+def obter_usuario_por_email(email:str) -> Optional[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_USUARIO)
-        rows = cursor.fetchall()
-        usuarios = []
-        for row in rows:
-            usuarios.append(Usuario(
-                id=row["id"],
-                nome=row["nome"],
-                email=row["email"],
-                senha=row["senha"],
-                cpf_cnpj=row["cpf_cnpj"],
-                telefone=row["telefone"],
-                data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"]
-            ))
-        return usuarios
+        cursor.execute(OBTER_USUARIO_POR_EMAIL, (email,))
+        rows = cursor.fetchone()
+        if rows:
+            return Usuario (
+                id=rows["id"],
+                nome=rows["nome"],
+                email=rows["email"],
+                senha=rows["senha"],
+                cpf_cnpj=rows["cpf_cnpj"],
+                telefone=rows["telefone"],
+                data_cadastro=datetime.strptime(rows["data_cadastro"], "%Y-%m-%d").date(),
+                endereco=rows["endereco"])
+    return None
 
 
 def obter_usuario_por_id(usuario_id: int) -> Optional[Usuario]:
@@ -61,10 +63,28 @@ def obter_usuario_por_id(usuario_id: int) -> Optional[Usuario]:
                 senha=row["senha"],
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
-                data_cadastro=row["data_cadastro"],
+                data_cadastro=datetime.strptime(row["data_cadastro"], "%Y-%m-%d").date(),
                 endereco=row["endereco"]
             )
-        return None
+    return None
+    
+def obter_usuarios_por_pagina(pagina: int, limite: int) -> List[Usuario]:
+    with open_connection() as conn:
+        offset = (pagina - 1) * limite
+        cursor = conn.cursor()
+        cursor.execute(OBTER_USUARIO_POR_PAGINA, (limite, offset))
+        rows = cursor.fetchall()
+        return [
+            Usuario(
+                id=row["id"],
+                nome=row["nome"],
+                email=row["email"],
+                cpf_cnpj=row["cpf_cnpj"],
+                telefone=row["telefone"],
+                data_cadastro=datetime.strptime(row["data_cadastro"], "%Y-%m-%d").date(),
+                endereco=row["endereco"]
+            ) for row in rows]
+        
 
 
 def atualizar_usuario(usuario: Usuario) -> bool:
@@ -80,8 +100,19 @@ def atualizar_usuario(usuario: Usuario) -> bool:
             usuario.endereco,
             usuario.id,
         ))
-        conn.commit()
-        return cursor.rowcount > 0
+        return (cursor.rowcount > 0)
+
+def atualizar_tipo_usuario(usuario_id: int, tipo_usuario: str) -> bool:
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(ATUALIZAR_TIPO_USUARIO,(tipo_usuario, usuario_id))
+        return (cursor.rowcount > 0)
+    
+def atualizar_senha_usuario(usuario_id: int, nova_senha: str) -> bool:
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(ATUALIZAR_SENHA_USUARIO, (nova_senha, usuario_id))
+        return (cursor.rowcount > 0)
 
 
 def deletar_usuario(usuario_id: int) -> bool:

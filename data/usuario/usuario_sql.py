@@ -17,19 +17,22 @@ INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, ende
 VALUES (?, ?, ?, ?, ?, ?, ?);
 """
 
-
-OBTER_USUARIO = """
-SELECT 
-id, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco
+OBTER_USUARIO_POR_EMAIL = """
+SELECT ID, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
 FROM usuario
-ORDER BY nome
-""" 
-
+WHERE email = ?;
+"""
 
 OBTER_USUARIO_POR_ID = """
 SELECT * FROM usuario WHERE id = ?;
 """
 
+OBTER_USUARIO_POR_PAGINA = """
+SELECT id, nome, email, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
+FROM usuario
+ORDER BY nome ASC
+LIMIT ? OFFSET ?;
+"""
 
 ATUALIZAR_USUARIO = """
 UPDATE usuario
@@ -42,7 +45,17 @@ SET nome = ?,
     endereco = ?
 WHERE id = ?
 """
+ATUALIZAR_TIPO_USUARIO = """
+UPDATE usuario
+SET tipo_usuario = ?
+WHERE id = ?
+"""
 
+ATUALIZAR_SENHA_USUARIO = """
+UPDATE usuario
+SET senha = ?
+WHERE id = ?
+"""
 
 DELETAR_USUARIO = """
 DELETE FROM usuario
