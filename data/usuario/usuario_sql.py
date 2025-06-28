@@ -6,7 +6,7 @@ CRIAR_TABELA_USUARIO = """
     senha TEXT NOT NULL,
     cpf_cnpj TEXT NOT NULL,
     telefone TEXT NOT NULL,
-    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_cadastro TIMESTAMP NOT NULL,
     endereco TEXT NOT NULL
 );
 """
@@ -18,7 +18,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?);
 """
 
 OBTER_USUARIO_POR_EMAIL = """
-SELECT ID, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
+SELECT ID, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco
 FROM usuario
 WHERE email = ?;
 """
@@ -28,7 +28,7 @@ SELECT * FROM usuario WHERE id = ?;
 """
 
 OBTER_USUARIO_POR_PAGINA = """
-SELECT id, nome, email, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
+SELECT id, nome, email, cpf_cnpj, telefone, data_cadastro, endereco
 FROM usuario
 ORDER BY nome ASC
 LIMIT ? OFFSET ?;

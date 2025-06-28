@@ -32,28 +32,11 @@ def inserir_usuario(usuario: Usuario) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_usuario_por_email(email:str) -> Optional[Usuario]:
+def obter_usuario_por_email(email: str) -> Optional[Usuario]:
+    """Busca um usuário no banco de dados pelo seu email."""
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_USUARIO_POR_EMAIL, (email,))
-        rows = cursor.fetchone()
-        if rows:
-            return Usuario (
-                id=rows["id"],
-                nome=rows["nome"],
-                email=rows["email"],
-                senha=rows["senha"],
-                cpf_cnpj=rows["cpf_cnpj"],
-                telefone=rows["telefone"],
-                data_cadastro=datetime.strptime(rows["data_cadastro"], "%Y-%m-%d").date(),
-                endereco=rows["endereco"])
-    return None
-
-
-def obter_usuario_por_id(usuario_id: int) -> Optional[Usuario]:
-    with open_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(OBTER_USUARIO_POR_ID, (usuario_id,))
         row = cursor.fetchone()
         if row:
             return Usuario(
@@ -63,12 +46,33 @@ def obter_usuario_por_id(usuario_id: int) -> Optional[Usuario]:
                 senha=row["senha"],
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
-                data_cadastro=datetime.strptime(row["data_cadastro"], "%Y-%m-%d").date(),
+                data_cadastro=row["data_cadastro"],
                 endereco=row["endereco"]
             )
     return None
-    
+
+def obter_usuario_por_id(id: int) -> Optional[Usuario]:
+    """Busca um usuário no banco de dados pelo seu ID."""
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_USUARIO_POR_ID, (id,))
+        row = cursor.fetchone()
+        if row:
+            return Usuario(
+                id=row["id"],
+                nome=row["nome"],
+                email=row["email"],
+                senha=row["senha"],
+                cpf_cnpj=row["cpf_cnpj"],
+                telefone=row["telefone"],
+                data_cadastro=row["data_cadastro"],
+                endereco=row["endereco"]
+            )
+    return None
+
+
 def obter_usuarios_por_pagina(pagina: int, limite: int) -> List[Usuario]:
+    """Busca usuários no banco de dados com paginação."""
     with open_connection() as conn:
         offset = (pagina - 1) * limite
         cursor = conn.cursor()
@@ -79,12 +83,13 @@ def obter_usuarios_por_pagina(pagina: int, limite: int) -> List[Usuario]:
                 id=row["id"],
                 nome=row["nome"],
                 email=row["email"],
+                senha=row["senha"],
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
-                data_cadastro=datetime.strptime(row["data_cadastro"], "%Y-%m-%d").date(),
+                data_cadastro=row["data_cadastro"],
                 endereco=row["endereco"]
-            ) for row in rows]
-        
+            ) for row in rows
+        ]
 
 
 def atualizar_usuario(usuario: Usuario) -> bool:
