@@ -9,7 +9,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
 # Fixture para criar um banco de dados temporário para testes
-@pytest.fixture
+@pytest.fixture()
 def test_db():
     # Cria um arquivo temporário para o banco de dados
     db_fd, db_path = tempfile.mkstemp(suffix='.db')

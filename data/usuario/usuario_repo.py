@@ -26,14 +26,14 @@ def inserir_usuario(usuario: Usuario) -> Optional[int]:
             usuario.cpf_cnpj,
             usuario.telefone,
             usuario.data_cadastro,
-            usuario.endereco
+            usuario.endereco,
+            usuario.tipo_usuario
         ))
         conn.commit()
         return cursor.lastrowid
 
 
 def obter_usuario_por_email(email: str) -> Optional[Usuario]:
-    """Busca um usuário no banco de dados pelo seu email."""
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_USUARIO_POR_EMAIL, (email,))
@@ -47,12 +47,12 @@ def obter_usuario_por_email(email: str) -> Optional[Usuario]:
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
                 data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"]
+                endereco=row["endereco"],
+                tipo_usuario=row["tipo_usuario"]
             )
     return None
 
 def obter_usuario_por_id(id: int) -> Optional[Usuario]:
-    """Busca um usuário no banco de dados pelo seu ID."""
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_USUARIO_POR_ID, (id,))
@@ -66,13 +66,13 @@ def obter_usuario_por_id(id: int) -> Optional[Usuario]:
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
                 data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"]
+                endereco=row["endereco"],
+                tipo_usuario=row["tipo_usuario"]
             )
     return None
 
 
 def obter_usuarios_por_pagina(pagina: int, limite: int) -> List[Usuario]:
-    """Busca usuários no banco de dados com paginação."""
     with open_connection() as conn:
         offset = (pagina - 1) * limite
         cursor = conn.cursor()
@@ -87,7 +87,8 @@ def obter_usuarios_por_pagina(pagina: int, limite: int) -> List[Usuario]:
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
                 data_cadastro=row["data_cadastro"],
-                endereco=row["endereco"]
+                endereco=row["endereco"],
+                tipo_usuario=row["tipo_usuario"]
             ) for row in rows
         ]
 
@@ -103,20 +104,24 @@ def atualizar_usuario(usuario: Usuario) -> bool:
             usuario.telefone,
             usuario.data_cadastro,
             usuario.endereco,
-            usuario.id,
+            usuario.tipo_usuario,
+            usuario.id
         ))
+        conn.commit()
         return (cursor.rowcount > 0)
 
 def atualizar_tipo_usuario(usuario_id: int, tipo_usuario: str) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_TIPO_USUARIO,(tipo_usuario, usuario_id))
+        conn.commit()
         return (cursor.rowcount > 0)
     
 def atualizar_senha_usuario(usuario_id: int, nova_senha: str) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_SENHA_USUARIO, (nova_senha, usuario_id))
+        conn.commit()
         return (cursor.rowcount > 0)
 
 

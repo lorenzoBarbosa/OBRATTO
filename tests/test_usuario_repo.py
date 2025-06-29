@@ -1,3 +1,5 @@
+from contextlib import contextmanager
+import sqlite3
 import sys
 import os
 from data.usuario.usuario_repo import*
@@ -14,19 +16,19 @@ class TestUsuarioRepo:
     def test_inserir_usuario(self, test_db):
         #Arrange
         criar_tabela_usuario()
-        usuario_teste = Usuario(0,"Usuario Teste", "email", "senha", "12345678901", "99999999999", "2023-10-01 12:00:00", "Endereco Teste")
+        usuario_teste = Usuario(0,"Usuario Teste", "email", "senha", "12345678901", "99999999999", "2023-10-01 12:00:00", "Endereco Teste", "cliente")
         #Act
         id_usuario_inserido = inserir_usuario(usuario_teste)
         #Assert
         usuario_db = obter_usuario_por_id(id_usuario_inserido)
         assert usuario_db is not None, "A categoria inserida não deveria ser None"
-        assert usuario_db.id == 1, "O ID do usuário inserido deveria ser 1"
+        assert usuario_db.id == id_usuario_inserido, "O ID do usuário inserido não confere com o ID retornado"
         assert usuario_db.nome == "Usuario Teste", "O nome do usuário inserido não confere"
 
     def test_atualizar_usuario(self, test_db):
         #Arrange
         criar_tabela_usuario()
-        usuario_teste = Usuario(0,"Usuario Teste", "email", "senha", "12345678901", "99999999999", "2023-10-01 12:00:00", "Endereco Teste")
+        usuario_teste = Usuario(0,"Usuario Teste", "email", "senha", "12345678901", "99999999999", "2023-10-01 12:00:00", "Endereco Teste", "cliente")
         id_usuario_inserido = inserir_usuario(usuario_teste)
         usuario_inserido = obter_usuario_por_id(id_usuario_inserido)
         #Act
@@ -41,7 +43,7 @@ class TestUsuarioRepo:
             # Arrange
             criar_tabela_usuario()
             email_unico = "email_unico_para_teste@email.com"
-            usuario_teste = Usuario(0, "Usuario Unico", email_unico, "senha", "11122233344", "77777777777", datetime.now(), "Endereco Unico")
+            usuario_teste = Usuario(0, "Usuario Unico", email_unico, "senha", "11122233344", "77777777777", datetime.now(), "Endereco Unico", "cliente")
             inserir_usuario(usuario_teste)
             # Act
             usuario_db = obter_usuario_por_email(email_unico)
@@ -61,7 +63,9 @@ class TestUsuarioRepo:
             cpf_cnpj="55544433322",
             telefone="11222334455",
             data_cadastro=datetime.now(),
-            endereco="Endereco Teste ID"
+            endereco="Endereco Teste ID",
+            tipo_usuario="cliente"
+            
         )
         id_inserido = inserir_usuario(usuario_original)
         # Act
@@ -74,7 +78,6 @@ class TestUsuarioRepo:
 
     def test_obter_usuarios_por_pagina(self, test_db):
         # Arrange
-        criar_tabela_usuario()
         for i in range(15):
             usuario = Usuario(
                 id=0,
@@ -98,3 +101,83 @@ class TestUsuarioRepo:
         ids_pagina_1 = {u.id for u in usuarios_pagina_1}
         ids_pagina_2 = {u.id for u in usuarios_pagina_2}
         assert ids_pagina_1.isdisjoint(ids_pagina_2), "Os usuários da página 1 não devem se repetir na página 2"
+
+    def test_atualizar_tipo_usuario(self, test_db):
+        criar_tabela_usuario()
+        usuario_original = Usuario(
+            id=0,
+            nome="Usuario de Teste de Tipo",
+            email="tipo@teste.com",
+            senha="123",
+            cpf_cnpj="987654321",
+            telefone="555444333",
+            data_cadastro=datetime.now(),
+            endereco="Rua dos Testes",
+            tipo_usuario="Cliente"  
+        )
+        id_inserido = inserir_usuario(usuario_original)
+        assert id_inserido is not None and id_inserido > 0, "Falha ao inserir usuário para o teste."
+        novo_tipo = "Administrador"
+        #ACT
+        resultado_da_atualizacao = atualizar_tipo_usuario(
+            usuario_id=id_inserido,
+            tipo_usuario=novo_tipo
+        )
+        # ASSERT 
+        assert resultado_da_atualizacao is True, "A função deveria retornar True para uma atualização bem-sucedida."
+        usuario_do_banco = obter_usuario_por_id(id_inserido)
+        assert usuario_do_banco is not None
+        assert usuario_do_banco.tipo_usuario == novo_tipo, \
+            f"O tipo do usuário deveria ser '{novo_tipo}', mas foi encontrado '{usuario_do_banco.tipo_usuario}'."
+
+    def test_atualizar_senha_usuario(self, test_db):
+            criar_tabela_usuario()
+            senha_antiga = "senha123"
+            usuario_original = Usuario(
+                id=0,
+                nome="Usuario Senha Teste",
+                email="senha@teste.com",
+                senha=senha_antiga,
+                cpf_cnpj="192837465",
+                telefone="11223344",
+                data_cadastro=datetime.now(),
+                endereco="Rua da Senha",
+                tipo_usuario="Cliente"
+            )
+            id_inserido = inserir_usuario(usuario_original)
+            assert id_inserido is not None, "Falha ao inserir usuário de teste."
+            #ARRANGE
+            nova_senha = "senhaSuperSegura456"
+            #ACT 
+            resultado = atualizar_senha_usuario(
+                usuario_id=id_inserido,
+                nova_senha=nova_senha
+            )
+            #ASSERT 
+            assert resultado is True, "A função de atualizar senha deveria retornar True."
+            usuario_do_banco = obter_usuario_por_id(id_inserido)
+            assert usuario_do_banco is not None
+            assert usuario_do_banco.senha == nova_senha, "A senha no banco de dados não foi atualizada corretamente."
+            assert usuario_do_banco.senha != senha_antiga, "A senha no banco ainda é a senha antiga."
+
+    def test_deletar_um_usuario(self, test_db):
+            criar_tabela_usuario()
+            usuario_para_deletar = Usuario(
+                id=0,
+                nome="Usuario a Ser Deletado",
+                email="deletar@teste.com",
+                senha="senha_temp",
+                cpf_cnpj="000000000",
+                telefone="00000000",
+                data_cadastro=datetime.now(),
+                endereco="Endereco a ser deletado",
+                tipo_usuario="Excluido"
+            )
+            id_inserido = inserir_usuario(usuario_para_deletar)
+            assert id_inserido is not None, "Falha ao inserir o usuário que seria deletado."
+            usuario_existe = obter_usuario_por_id(id_inserido)
+            assert usuario_existe is not None, "O usuário não foi encontrado no banco antes de tentar deletar."
+            resultado = deletar_usuario(usuario_id=id_inserido)
+            assert resultado is True, "A função de deletar deveria retornar True."
+            usuario_nao_deve_existir = obter_usuario_por_id(id_inserido)
+            assert usuario_nao_deve_existir is None, "O usuário ainda foi encontrado no banco de dados após a deleção."

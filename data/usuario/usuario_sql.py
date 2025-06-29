@@ -7,18 +7,19 @@ CRIAR_TABELA_USUARIO = """
     cpf_cnpj TEXT NOT NULL,
     telefone TEXT NOT NULL,
     data_cadastro TIMESTAMP NOT NULL,
-    endereco TEXT NOT NULL
-);
+    endereco TEXT NOT NULL,
+    tipo_usuario TEXT NOT NULL DEFAULT 'Cliente');
+
 """
 
 
 INSERIR_USUARIO = """
-INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco) 
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 """
 
 OBTER_USUARIO_POR_EMAIL = """
-SELECT ID, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco
+SELECT ID, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
 FROM usuario
 WHERE email = ?;
 """
@@ -28,7 +29,7 @@ SELECT * FROM usuario WHERE id = ?;
 """
 
 OBTER_USUARIO_POR_PAGINA = """
-SELECT id, nome, email, cpf_cnpj, telefone, data_cadastro, endereco
+SELECT id, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
 FROM usuario
 ORDER BY nome ASC
 LIMIT ? OFFSET ?;
@@ -42,7 +43,8 @@ SET nome = ?,
     cpf_cnpj = ?,
     telefone = ?,
     data_cadastro = ?,
-    endereco = ?
+    endereco = ?,
+    tipo_usuario = ?
 WHERE id = ?
 """
 ATUALIZAR_TIPO_USUARIO = """

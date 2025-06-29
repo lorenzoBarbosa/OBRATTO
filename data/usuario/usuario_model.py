@@ -13,6 +13,7 @@ class Usuario:
     telefone: str
     data_cadastro:Timestamp
     endereco: str
+    tipo_usuario: str
 
 
     
