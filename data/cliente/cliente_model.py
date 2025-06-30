@@ -4,7 +4,9 @@ from data.usuario.usuario_model import Usuario
 
 
 @dataclass
-class Cliente(Usuario):
+class Cliente:
+    id: int
+    id_usuario: int
     genero: str
     data_nascimento: datetime.date
 

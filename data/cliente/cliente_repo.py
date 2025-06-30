@@ -1,6 +1,7 @@
 from typing import Optional, List
 from data.cliente.cliente_model import Cliente
 from data.cliente.cliente_sql import *
+from data.usuario.usuario_model import Usuario
 from utils.db import open_connection
 
 
@@ -13,29 +14,23 @@ def criar_tabela_cliente() -> bool:
 
 
 def inserir_cliente(cliente: Cliente) -> Optional[int]:
-    """
-    Insere os dados específicos do cliente na tabela cliente.
-    O id deve já existir na tabela usuario.
-    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_CLIENTE, (
-            cliente.id,          
+            cliente.id_usuario,
             cliente.genero,
             cliente.data_nascimento
         ))
         conn.commit()
         return cursor.lastrowid
 
-
-def obter_cliente() -> List[Cliente]:
+def obter_cliente() -> List[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_CLIENTE)
         rows = cursor.fetchall()
-        clientes = []
-        for row in rows:
-            clientes.append(Cliente(
+        return [
+            Usuario(
                 id=row["id"],
                 nome=row["nome"],
                 email=row["email"],
@@ -44,19 +39,17 @@ def obter_cliente() -> List[Cliente]:
                 telefone=row["telefone"],
                 data_cadastro=row["data_cadastro"],
                 endereco=row["endereco"],
-                genero=row["genero"],
-                data_nascimento=row["data_nascimento"]
-            ))
-        return clientes
+                tipo_usuario=row["tipo_usuario"]
+            ) for row in rows
+        ]
 
-
-def obter_cliente_por_id(cliente_id: int) -> Optional[Cliente]:
+def obter_cliente_por_id(cliente_id: int) -> Optional[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_CLIENTE_POR_ID, (cliente_id,))
         row = cursor.fetchone()
         if row:
-            return Cliente (
+            return Usuario(
                 id=row["id"],
                 nome=row["nome"],
                 email=row["email"],
@@ -65,17 +58,12 @@ def obter_cliente_por_id(cliente_id: int) -> Optional[Cliente]:
                 telefone=row["telefone"],
                 data_cadastro=row["data_cadastro"],
                 endereco=row["endereco"],
-                genero=row["genero"],
-                data_nascimento=row["data_nascimento"],
+                tipo_usuario=row["tipo_usuario"]
             )
-        return None
+    return None
 
 
 def atualizar_cliente(cliente: Cliente) -> bool:
-    """
-    Atualiza apenas os dados específicos do cliente.
-    Para dados do usuário, use o repositório usuario.
-    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_CLIENTE,(

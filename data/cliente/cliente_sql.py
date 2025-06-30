@@ -1,20 +1,21 @@
 CRIAR_TABELA_CLIENTE = """
 CREATE TABLE IF NOT EXISTS cliente (
-    id INTEGER PRIMARY KEY,
-    genero TEXT NOT NULL,
-    data_nascimento TEXT NOT NULL,
-    FOREIGN KEY (id) REFERENCES usuario(id)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INTEGER NOT NULL UNIQUE,
+    genero TEXT,
+    data_nascimento DATE,
+    FOREIGN KEY(id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 """
 
 INSERIR_CLIENTE = """
-INSERT INTO cliente (id, genero, data_nascimento)
+INSERT INTO cliente (id_usuario, genero, data_nascimento)
 VALUES (?, ?, ?);
 """
 
 OBTER_CLIENTE = """
-SELECT 
-    c.id,
+SELECT
+    u.id,
     u.nome,
     u.email,
     u.senha,
@@ -22,17 +23,16 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    c.genero,
-    c.data_nascimento
+    u.tipo_usuario
 FROM cliente c
-JOIN usuario u ON c.id = u.id
+JOIN usuario u ON c.id_usuario = u.id
 ORDER BY u.nome;
 """
 
 
 OBTER_CLIENTE_POR_ID = """
-SELECT 
-    c.id,
+SELECT
+    u.id,
     u.nome,
     u.email,
     u.senha,
@@ -40,11 +40,10 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    c.genero,
-    c.data_nascimento
+    u.tipo_usuario
 FROM cliente c
-JOIN usuario u ON c.id = u.id
-WHERE c.id = ?;
+JOIN usuario u ON c.id_usuario = u.id -- CONDIÇÃO DE JOIN CORRIGIDA
+WHERE c.id = ?; -- Busca pelo ID da tabela 'cliente'
 """
 
 ATUALIZAR_CLIENTE = """
