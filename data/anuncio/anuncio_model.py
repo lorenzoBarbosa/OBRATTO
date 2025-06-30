@@ -5,7 +5,7 @@ from data.fornecedor.fornecedor_model import Fornecedor
 class Anuncio:
     id_anuncio: int
     nome_anuncio: str
-    id_fornecedor: Fornecedor
+    id_fornecedor: int   
     data_criacao: str
     descricao: str
     preco: float

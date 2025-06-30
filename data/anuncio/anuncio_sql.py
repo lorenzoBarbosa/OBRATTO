@@ -21,23 +21,13 @@ ORDER BY id_anuncio
 """
 
 OBTER_ANUNCIO_POR_NOME = """
-SELECT
-    a.id_anuncio,
-    a.nome_anuncio,
-    a.id_fornecedor,
-    a.data_criacao,
-    a.descricao,
-    a.preco,
-    f.nome AS nome_fornecedor
-FROM anuncio a                           
-JOIN fornecedor f ON a.id_fornecedor = f.id 
+SELECT a.id_anuncio, a.nome_anuncio, a.id_fornecedor, a.data_criacao, a.descricao, a.preco,
+       u.nome AS nome_fornecedor
+FROM anuncio a
+JOIN fornecedor f ON a.id_fornecedor = f.id
+JOIN usuario u ON f.id = u.id
 WHERE a.nome_anuncio = ?
-ORDER BY a.id_anuncio
 """
-
-# FROM anuncio = representa que todas as características vem da tabela anuncio 
-# JoIN fornecedor = representa que as características da tabela fornecedor serão unidas com a tabela anuncio
-# JOIN apenas se relaciona por ID
 
 OBTER_ANUNCIO_POR_ID = """
 SELECT
@@ -47,13 +37,12 @@ SELECT
     a.data_criacao,
     a.descricao,
     a.preco,
-    f.nome AS nome_fornecedor
+    f.razao_social AS nome_fornecedor
 FROM anuncio a                           
 JOIN fornecedor f ON a.id_fornecedor = f.id 
 WHERE a.id_anuncio = ?
 ORDER BY a.id_anuncio
 """
-
 
 OBTER_ANUNCIO_PAGINADO = """
 SELECT
@@ -63,7 +52,7 @@ SELECT
     a.data_criacao,
     a.descricao,
     a.preco,
-    f.nome AS nome_fornecedor
+    f.razao_social AS nome_fornecedor
 FROM anuncio a
 JOIN fornecedor f ON a.id_fornecedor = f.id
 ORDER BY a.id_anuncio
@@ -78,19 +67,18 @@ SELECT
     a.data_criacao,
     a.descricao,
     a.preco,
-    f.nome AS nome_fornecedor
+    f.razao_social AS nome_fornecedor
 FROM anuncio a
 JOIN fornecedor f ON a.id_fornecedor = f.id
-WHERE a.nome_anuncio LIKE ? or a.id_anuncio LIKE ? or f.nome LIKE ?
+WHERE a.nome_anuncio LIKE ? OR CAST(a.id_anuncio AS TEXT) LIKE ? OR f.razao_social LIKE ?
 ORDER BY a.id_anuncio
 LIMIT ? OFFSET ?
 """
 
-
 ATUALIZAR_ANUNCIO_POR_NOME = """
 UPDATE anuncio
 SET nome_anuncio = ?,
-    id_forncedor = ?,
+    id_fornecedor = ?,
     data_criacao = ?,
     descricao = ?,
     preco = ? 
@@ -101,6 +89,3 @@ DELETAR_ANUNCIO = """
 DELETE FROM anuncio
 WHERE id_anuncio = ?
 """
-
-
-
