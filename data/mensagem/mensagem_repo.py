@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, List
 from data.mensagem.mensagem_model import Mensagem
 from data.mensagem.mensagem_sql import *
@@ -12,18 +13,16 @@ def criar_tabela_mensagem() -> bool:
         return True
 
 
-def inserir_mensagem(mensagem: Mensagem) -> Optional[int]:
-    """
-    Insere uma nova mensagem no banco.
-    O id_remetente e id_destinatario devem existir na tabela usuario.
-    """
+def inserir_mensagem(mensagem):
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_MENSAGEM, (
             mensagem.id_remetente,
             mensagem.id_destinatario,
             mensagem.conteudo,
-            mensagem.data_hora
+            mensagem.data_hora.isoformat(),  # use string ISO para evitar warnings
+            mensagem.nome_remetente,
+            mensagem.nome_destinatario
         ))
         conn.commit()
         return cursor.lastrowid
@@ -38,32 +37,33 @@ def obter_mensagem() -> List[Mensagem]:
         for row in rows:
             mensagens.append(Mensagem(
                 id_mensagem=row["id_mensagem"],
-                nome_remetente=row["nome_remetente"],
                 nome_destinatario=row["nome_destinatario"],
                 conteudo=row["conteudo"],
                 data_hora= row["data_hora"],
-                nome_remetente=row["nome_remetente"],
-                nome_destinatario=row["nome_destinatario"]
+                nome_remetente=row["nome_remetente"]
             ))
         return mensagens
 
 
-def obter_mensagem_por_id(id_mensagem: int) -> Optional[Mensagem]:
+def obter_mensagem_por_id(id_mensagem):
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_MENSAGEM_POR_ID, (id_mensagem,))
+        cursor.execute("SELECT * FROM mensagem WHERE id_mensagem = ?", (id_mensagem,))
         row = cursor.fetchone()
+        print("Linha obtida do DB:", row)  # DEBUG
         if row:
+            # Converter row para Mensagem (exemplo)
             return Mensagem(
-                id_mensagem=row["id_mensagem"],
-                id_remetente=row["id_remetente"],
-                id_destinatario=row["id_destinatario"],
-                conteudo=row["conteudo"],
-                data_hora= row["data_hora"],
-                nome_remetente=row["nome_remetente"],
-                nome_destinatario=row["nome_destinatario"]
+                id_mensagem=row[0],
+                id_remetente=row[1],
+                id_destinatario=row[2],
+                conteudo=row[3],
+                data_hora=datetime.fromisoformat(row[4]),
+                nome_remetente=row[5],
+                nome_destinatario=row[6]
             )
         return None
+
 
 
 def atualizar_mensagem(mensagem: Mensagem) -> bool:

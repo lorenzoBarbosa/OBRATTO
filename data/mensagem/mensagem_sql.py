@@ -1,19 +1,26 @@
 CRIAR_TABELA_MENSAGEM = """
 CREATE TABLE IF NOT EXISTS mensagem (
     id_mensagem INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_remetente INTEGER NOT NULL,
-    id_destinatario INTEGER NOT NULL,
-    conteudo TEXT NOT NULL,
-    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_remetente) REFERENCES usuario(id),
-    FOREIGN KEY (id_destinatario) REFERENCES usuario(id)
+    id_remetente INTEGER,
+    id_destinatario INTEGER,
+    conteudo TEXT,
+    data_hora TEXT,
+    nome_remetente TEXT,
+    nome_destinatario TEXT     
 );
 """
 
 INSERIR_MENSAGEM = """
-INSERT INTO mensagem (id_remetente, id_destinatario, conteudo, data_hora)
-VALUES  (?, ?, ?, ?);
+INSERT INTO mensagem (
+    id_remetente,
+    id_destinatario,
+    conteudo,
+    data_hora,
+    nome_remetente,
+    nome_destinatario
+) VALUES (?, ?, ?, ?, ?, ?)
 """
+
 
 OBTER_MENSAGEM = """
 SELECT 
