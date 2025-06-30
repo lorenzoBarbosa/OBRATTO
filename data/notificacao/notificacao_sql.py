@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS notificacao (
 
 
 INSERIR_NOTIFICACAO = """
-INSERT INTO notificacao (id_usuario, mensagem, data_hora, tipo_noficacao, vizualizar)
+INSERT INTO notificacao (id_usuario, mensagem, data_hora, tipo_notificacao, vizualizar)
 VALUES (?, ?, ?, ?, ?);
 """
 

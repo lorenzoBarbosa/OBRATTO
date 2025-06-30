@@ -24,7 +24,7 @@ def inserir_notificacao(notificacao: Notificacao) -> Optional[int]:
             notificacao.mensagem,
             notificacao.data_hora,
             notificacao.tipo_notificacao,
-            int(notificacao.vizualizar)
+            int(notificacao.visualizar)
         ))
         conn.commit()
         return cursor.lastrowid
@@ -76,7 +76,7 @@ def atualizar_notificacao(notificacao: Notificacao) -> bool:
             notificacao.mensagem,
             notificacao.data_hora,
             notificacao.tipo_notificacao,
-            int(notificacao.vizualizar),
+            int(notificacao.visualizar),
             notificacao.id_notificacao
         ))
         conn.commit()

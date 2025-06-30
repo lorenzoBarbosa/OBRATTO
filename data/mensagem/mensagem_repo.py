@@ -50,9 +50,8 @@ def obter_mensagem_por_id(id_mensagem):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM mensagem WHERE id_mensagem = ?", (id_mensagem,))
         row = cursor.fetchone()
-        print("Linha obtida do DB:", row)  # DEBUG
+        print("Linha obtida do DB:", row) 
         if row:
-            # Converter row para Mensagem (exemplo)
             return Mensagem(
                 id_mensagem=row[0],
                 id_remetente=row[1],
