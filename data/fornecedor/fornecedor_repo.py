@@ -1,34 +1,32 @@
+from datetime import datetime
+import sqlite3
 from typing import Optional, List
 from data.fornecedor.fornecedor_model import Fornecedor
 from data.fornecedor.fornecedor_sql import * 
+from data.usuario.usuario_repo import inserir_usuario
 from utils.db import open_connection
-
 
 def criar_tabela_fornecedor() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
+        cursor.execute("DROP TABLE IF EXISTS fornecedor")
         cursor.execute(CRIAR_TABELA_FORNECEDOR)
         conn.commit()
         return True
 
-
 def inserir_fornecedor(fornecedor: Fornecedor) -> Optional[int]:
-    """
-    Insere dados específicos do fornecedor.
-    O id_usuario deve existir na tabela usuario.
-    """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR_FORNECEDOR, (
-            fornecedor.id_usuario,
-            fornecedor.razao_social,
-            fornecedor.cnpj,
-            fornecedor.telefone_contato,
-            fornecedor.endereco,
-        ))
-        conn.commit()
-        return cursor.lastrowid
+        id_usuario_gerado = inserir_usuario(fornecedor)
 
+        if id_usuario_gerado:
+            cursor.execute(INSERIR_FORNECEDOR, (
+                id_usuario_gerado,
+                fornecedor.razao_social
+            ))
+            conn.commit()
+            return id_usuario_gerado
+        return None
 
 def obter_fornecedor() -> List[Fornecedor]:
     with open_connection() as conn:
@@ -39,20 +37,16 @@ def obter_fornecedor() -> List[Fornecedor]:
         for row in rows:
             fornecedores.append(Fornecedor(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
-                nome=row("nome"),
-                email=row("email"),
+                nome=row["nome"],
+                email=row["email"],
                 senha=None,
                 cpf_cnpj=None,
                 telefone=None,
                 data_cadastro=None,
-                endereco=row("endereco"),
-                cnpj=row("cnpj"),
-                razao_social=row("razao_social"),
-                telefone_contato=row("telefone_contato")
+                endereco=row["endereco"],
+                razao_social=row["razao_social"]
             ))
         return fornecedores
-
 
 def obter_fornecedor_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
     with open_connection() as conn:
@@ -60,39 +54,57 @@ def obter_fornecedor_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
         cursor.execute(OBTER_FORNECEDOR_POR_ID, (fornecedor_id,))
         row = cursor.fetchone()
         if row:
+            data_cadastro = row["data_cadastro"]
+            if isinstance(data_cadastro, str):
+                data_cadastro=row["data_cadastro"] if isinstance(row["data_cadastro"], datetime) else datetime.fromisoformat(row["data_cadastro"])
+
             return Fornecedor(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
-                nome=row("nome"),
-                email=row("email"),
-                senha=None,
-                cpf_cnpj=None,
-                telefone=None,
-                data_cadastro=None,
-                endereco=row("endereco"),
-                cnpj=row("cnpj"),
-                razao_social=row("razao_social"),
-                telefone_contato=row("telefone_contato")
+                nome=row["nome"],
+                email=row["email"],
+                senha=row["senha"],
+                cpf_cnpj=row["cpf_cnpj"],
+                telefone=row["telefone"],
+                data_cadastro=data_cadastro,
+                endereco=row["endereco"],
+                razao_social=row["razao_social"]
             )
         return None
 
-
 def atualizar_fornecedor(fornecedor: Fornecedor) -> bool:
-    """
-    Atualiza dados da tabela fornecedor.
-    """
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR_FORNECEDOR, (
-            fornecedor.id_usuario,
-            fornecedor.razao_social,
-            fornecedor.cnpj,
-            fornecedor.telefone_contato,
+
+        # Atualiza os dados do usuário (herança)
+        cursor.execute("""
+            UPDATE usuario
+            SET nome = ?, email = ?, senha = ?, cpf_cnpj = ?, telefone = ?,
+                data_cadastro = ?, endereco = ?
+            WHERE id = ?
+        """, (
+            fornecedor.nome,
+            fornecedor.email,
+            fornecedor.senha,
+            fornecedor.cpf_cnpj,
+            fornecedor.telefone,
+            fornecedor.data_cadastro.isoformat() if isinstance(fornecedor.data_cadastro, datetime) else fornecedor.data_cadastro,
             fornecedor.endereco,
             fornecedor.id
         ))
+
+        # Atualiza os dados específicos do fornecedor
+        cursor.execute("""
+            UPDATE fornecedor
+            SET razao_social = ?
+            WHERE id = ?
+        """, (
+            fornecedor.razao_social,
+            fornecedor.id
+        ))
+
         conn.commit()
-        return cursor.rowcount > 0
+        return cursor.rowcount > 0  # Pode melhorar para checar as duas queries se quiser
+
 
 
 def deletar_fornecedor(fornecedor_id: int) -> bool:
@@ -101,3 +113,4 @@ def deletar_fornecedor(fornecedor_id: int) -> bool:
         cursor.execute(DELETAR_FORNECEDOR, (fornecedor_id,))
         conn.commit()
         return cursor.rowcount > 0
+
