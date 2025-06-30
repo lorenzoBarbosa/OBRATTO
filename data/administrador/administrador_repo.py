@@ -1,6 +1,7 @@
 from typing import Optional, List
 from data.administrador.administrador_model import Administrador
 from data.administrador.administrador_sql import *
+from data.usuario.usuario_model import Usuario
 from utils.db import open_connection
 
 
@@ -13,9 +14,6 @@ def criar_tabela_administrador() -> bool:
 
 
 def inserir_administrador(administrador: Administrador) -> Optional[int]:
-    """
-    Insere um administrador com o id_usuario já existente.
-    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_ADMINISTRADOR, (administrador.id_usuario,))
@@ -23,53 +21,46 @@ def inserir_administrador(administrador: Administrador) -> Optional[int]:
         return cursor.lastrowid
 
 
-def obter_todos_administradores() -> List[Administrador]:
+def obter_todos_administradores() -> List[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS_ADMINISTRADORES)
         rows = cursor.fetchall()
-        administradores = []
-        for row in rows:
-            administradores.append(Administrador(
+        return [
+            Usuario(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
-                nome=row("nome"),          
-                email=row("email"),
-                senha=None,
-                cpf_cnpj=None,
-                telefone=None,
-                data_cadastro=None,
-                endereco=None,
-                cpf=None
-            ))
-        return administradores
+                nome=row["nome"],
+                email=row["email"],
+                senha=row["senha"],
+                cpf_cnpj=row["cpf_cnpj"],
+                telefone=row["telefone"],
+                data_cadastro=row["data_cadastro"],
+                endereco=row["endereco"],
+                tipo_usuario=row["tipo_usuario"]
+            ) for row in rows
+        ]
 
-
-def obter_administrador_por_id(administrador_id: int) -> Optional[Administrador]:                 # TA CERTO? 
+def obter_administrador_por_id(administrador_id: int) -> Optional[Usuario]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_ADMINISTRADOR_POR_ID, (administrador_id,))
         row = cursor.fetchone()
         if row:
-            return Administrador(
+            return Usuario(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
-                nome=row("nome"),
-                email=row("email"),
-                senha=None,
-                cpf_cnpj=None,
-                telefone=None,
-                data_cadastro=None,
-                endereco=None,
-                cpf=None
+                nome=row["nome"],
+                email=row["email"],
+                senha=row["senha"],
+                cpf_cnpj=row["cpf_cnpj"],
+                telefone=row["telefone"],
+                data_cadastro=row["data_cadastro"],
+                endereco=row["endereco"],
+                tipo_usuario=row["tipo_usuario"]
             )
-        return None
+    return None
 
 
 def atualizar_administrador(administrador: Administrador) -> bool:
-    """
-    Atualiza apenas o id_usuario do administrador.
-    """
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR_ADMINISTRADOR, (
