@@ -20,7 +20,7 @@ def inserir_orcamento(orcamento: Orcamento) -> Optional[int]:
             orcamento.id_fornecedor,
             orcamento.id_cliente,
             orcamento.valor_estimado,
-            orcamento.data_solicitação.isoformat(),
+            orcamento.data_solicitacao.isoformat(),
             orcamento.prazo_entrega.isoformat(),
             orcamento.status,
             orcamento.descricao
@@ -36,10 +36,11 @@ def obter_orcamento_por_id(orcamento_id: int) -> Optional[Orcamento]:
         row = cursor.fetchone()
         if row:
             return Orcamento(
+                id_orcamento=row["id_orcamento"],
                 id_fornecedor=row["id_fornecedor"],
                 id_cliente=row["id_cliente"],
                 valor_estimado=row["valor_estimado"],
-                data_solicitação=datetime.datetime.fromisoformat(row["data_solicitacao"]),
+                data_solicitacao=datetime.datetime.fromisoformat(row["data_solicitacao"]),
                 prazo_entrega=datetime.datetime.fromisoformat(row["prazo_entrega"]),
                 status=row["status"],
                 descricao=row["descricao"]
@@ -54,10 +55,11 @@ def obter_todos_orcamentos() -> List[Orcamento]:
         rows = cursor.fetchall()
         return [
             Orcamento(
+                id_orcamento=row["id_orcamento"],
                 id_fornecedor=row["id_fornecedor"],
                 id_cliente=row["id_cliente"],
                 valor_estimado=row["valor_estimado"],
-                data_solicitação=datetime.datetime.fromisoformat(row["data_solicitacao"]),
+                data_solicitacao=datetime.datetime.fromisoformat(row["data_solicitacao"]),
                 prazo_entrega=datetime.datetime.fromisoformat(row["prazo_entrega"]),
                 status=row["status"],
                 descricao=row["descricao"]
@@ -72,7 +74,7 @@ def atualizar_orcamento_por_id(id: int, orcamento: Orcamento) -> bool:
             orcamento.id_fornecedor,
             orcamento.id_cliente,
             orcamento.valor_estimado,
-            orcamento.data_solicitação.isoformat(),
+            orcamento.data_solicitacao.isoformat(),
             orcamento.prazo_entrega.isoformat(),
             orcamento.status,
             orcamento.descricao,
