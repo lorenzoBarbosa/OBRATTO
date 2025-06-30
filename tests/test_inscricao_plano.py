@@ -11,23 +11,22 @@ from data.prestador.prestador_repo import *
 from data.usuario.usuario_repo import *
 
 class Test_InscricaoPlanoRepo:
+    
     def test_criar_tabela_inscricao_plano(self, test_db):
-        #Arrange
         criar_tabela_plano()
         criar_tabela_prestador()
         criar_tabela_fornecedor()
         #Act
         resultado = criar_tabela_inscricao_plano()
-        #Assert
         assert resultado == True,"A criação da tabela deveria retornar True"
 
+
     def test_inserir_inscricao_plano(self, test_db):
-        # Arrange
         criar_tabela_plano()
         criar_tabela_prestador()
         criar_tabela_fornecedor()
 
-        # Suponha que esses IDs foram inseridos antes
+
         id_fornecedor = 1
         id_prestador = 2
         id_plano = 3
