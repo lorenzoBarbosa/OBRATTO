@@ -44,7 +44,8 @@ def obter_fornecedor() -> List[Fornecedor]:
                 telefone=None,
                 data_cadastro=None,
                 endereco=row["endereco"],
-                razao_social=row["razao_social"]
+                razao_social=row["razao_social"],
+                tipo_usuario=row["tipo_usuario"]
             ))
         return fornecedores
 
@@ -67,7 +68,8 @@ def obter_fornecedor_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
                 telefone=row["telefone"],
                 data_cadastro=data_cadastro,
                 endereco=row["endereco"],
-                razao_social=row["razao_social"]
+                razao_social=row["razao_social"],
+                tipo_usuario=row["tipo_usuario"]
             )
         return None
 

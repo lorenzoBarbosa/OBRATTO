@@ -35,7 +35,8 @@ class TestFornecedorRepo:
             telefone="27999999999",
             data_cadastro=datetime.now().isoformat(),
             endereco="Rua dos Fornecedores, 123",
-            razao_social="Fornecedor Ltda"
+            razao_social="Fornecedor Ltda",
+            tipo_usuario="fornecedor" 
         )
         # Act
         id_inserido = inserir_fornecedor(fornecedor)
@@ -46,21 +47,59 @@ class TestFornecedorRepo:
         assert fornecedor_db.email == "fornecedor@email.com"
 
     def test_obter_fornecedor(self, test_db):
-        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_fornecedor()
+        
+        # Inserir um fornecedor para o teste
+        fornecedor = Fornecedor(
+            id=0,
+            nome="Fornecedor Teste",
+            email="fornecedor@email.com",
+            senha="senha123",
+            cpf_cnpj="12345678900",
+            telefone="27999999999",
+            data_cadastro=datetime.now().isoformat(),
+            endereco="Rua dos Fornecedores, 123",
+            razao_social="Fornecedor Ltda",
+            tipo_usuario="fornecedor"
+        )
+        inserir_fornecedor(fornecedor)
+
         fornecedores = obter_fornecedor()
-        # Act & Assert
+
         assert len(fornecedores) > 0, "Deveria haver pelo menos um fornecedor"
-        assert isinstance(fornecedores[0], Fornecedor), "Os itens retornados devem ser instâncias de Fornecedor"
+
 
     def test_obter_fornecedor_por_id(self, test_db):
-        # Arrange
-        fornecedor = obter_fornecedor()[0]
-        # Act
-        resultado = obter_fornecedor_por_id(fornecedor.id)
-        # Assert
-        assert resultado is not None, "O fornecedor buscado não deveria ser None"
-        assert resultado.id == fornecedor.id
-        assert resultado.email == fornecedor.email
+        criar_tabela_usuario()      # cria tabela usuário (caso seja FK)
+        criar_tabela_fornecedor()   # cria tabela fornecedor
+        
+        # Inserir algum fornecedor para ter dados
+        fornecedor = Fornecedor(
+            id=0,
+            nome="Fornecedor Teste",
+            email="fornecedor@email.com",
+            senha="senha123",
+            cpf_cnpj="12345678900",
+            telefone="27999999999",
+            data_cadastro=datetime.now().isoformat(),
+            endereco="Rua dos Fornecedores, 123",
+            razao_social="Fornecedor Ltda",
+            tipo_usuario="fornecedor"
+        )
+        id_inserido = inserir_fornecedor(fornecedor)
+        
+        # Agora você pode chamar obter_fornecedor()
+        fornecedor_bd = obter_fornecedor_por_id(id_inserido)
+        
+        # Assert 
+        assert fornecedor_bd is not None, "Deveria retornar um fornecedor"
+        assert fornecedor_bd.id == id_inserido, "ID do fornecedor retornado deve ser igual ao inserido"
+        assert fornecedor_bd.nome == "Fornecedor Teste"
+        assert fornecedor_bd.email == "fornecedor@email.com"
+        assert fornecedor_bd.tipo_usuario == "fornecedor"
+        assert fornecedor_bd.razao_social == "Fornecedor Ltda"
+
 
     def test_atualizar_fornecedor(self, test_db):
         # Arrange
@@ -76,7 +115,8 @@ class TestFornecedorRepo:
             telefone="27999999999",
             data_cadastro=datetime.now().isoformat(),
             endereco="Rua dos Fornecedores, 123",
-            razao_social="Fornecedor Ltda"
+            razao_social="Fornecedor Ltda",
+            tipo_usuario="fornecedor"
         )
 
         id_inserido = inserir_fornecedor(fornecedor)
@@ -97,11 +137,29 @@ class TestFornecedorRepo:
 
 
     def test_deletar_fornecedor(self, test_db):
-        # Arrange
-        fornecedor = obter_fornecedor()[0]
-        # Act
-        resultado = deletar_fornecedor(fornecedor.id)
-        # Assert
-        assert resultado is True, "A exclusão do fornecedor deveria retornar True"
-        deletado = obter_fornecedor_por_id(fornecedor.id)
-        assert deletado is None, "O fornecedor deveria ter sido excluído"
+        criar_tabela_usuario()
+        criar_tabela_fornecedor()
+
+        fornecedor = Fornecedor(
+            id=0,
+            nome="Fornecedor Teste",
+            email="fornecedor@email.com",
+            senha="senha123",
+            cpf_cnpj="12345678900",
+            telefone="27999999999",
+            data_cadastro=datetime.now().isoformat(),
+            endereco="Rua dos Fornecedores, 123",
+            razao_social="Fornecedor Ltda",
+            tipo_usuario="fornecedor"
+        )
+        id_inserido = inserir_fornecedor(fornecedor)
+
+        fornecedor_bd = obter_fornecedor_por_id(id_inserido)
+        assert fornecedor_bd is not None
+
+        resultado = deletar_fornecedor(id_inserido)
+        assert resultado is True
+
+        fornecedor_apos = obter_fornecedor_por_id(id_inserido)
+        assert fornecedor_apos is None
+

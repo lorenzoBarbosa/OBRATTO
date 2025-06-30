@@ -1,0 +1,111 @@
+import pytest
+from datetime import datetime
+from data.mensagem.mensagem_model import Mensagem
+from data.mensagem.mensagem_repo import (
+    criar_tabela_mensagem,
+    inserir_mensagem,
+    obter_mensagem,
+    obter_mensagem_por_id,
+    atualizar_mensagem,
+    deletar_mensagem
+)
+from data.usuario.usuario_repo import criar_tabela_usuario, inserir_usuario
+from data.usuario.usuario_model import Usuario
+
+class TestMensagemRepo:
+
+    def test_criar_tabela_mensagem(self, test_db):
+        # Arrange
+        criar_tabela_usuario()
+        # Act
+        resultado = criar_tabela_mensagem()
+        # Assert
+        assert resultado is True, "A criação da tabela fornecedor deveria retornar True"
+
+    def test_inserir_mensagem(self):
+        #Arrange
+        criar_tabela_usuario()
+        criar_tabela_mensagem()
+        mensagem = Mensagem(
+            id_mensagem=0,
+            id_remetente=self.remetente.id,
+            id_destinatario=self.destinatario.id,
+            conteudo="Olá, tudo bem?",
+            data_hora=datetime.now(),
+            nome_remetente="",
+            nome_destinatario=""
+        )
+        #Act
+        id_mensagem = inserir_mensagem(mensagem)
+        #Assert
+        assert id_mensagem is not None
+
+    def test_obter_mensagem(self):
+        criar_tabela_usuario()
+        criar_tabela_mensagem()
+        #Arrange
+        self.test_inserir_mensagem()
+        #Act
+        mensagens = obter_mensagem()
+        #Assert
+        assert len(mensagens) >= 1
+
+    def test_obter_mensagem_por_id(self):
+        criar_tabela_usuario()
+        criar_tabela_mensagem()
+        #Arrange
+        mensagem = Mensagem(
+            id_mensagem=0,
+            id_remetente=self.remetente.id,
+            id_destinatario=self.destinatario.id,
+            conteudo="Mensagem específica",
+            data_hora=datetime.now(),
+            nome_remetente="",
+            nome_destinatario=""
+        )
+        #Act
+        id_mensagem = inserir_mensagem(mensagem)
+        mensagem_db = obter_mensagem_por_id(id_mensagem)
+        #Assert
+        assert mensagem_db is not None
+        assert mensagem_db.conteudo == "Mensagem específica"
+
+    def test_atualizar_mensagem(self):
+        criar_tabela_usuario()
+        criar_tabela_mensagem()
+        #Arrange
+        mensagem = Mensagem(
+            id_mensagem=0,
+            id_remetente=self.remetente.id,
+            id_destinatario=self.destinatario.id,
+            conteudo="Mensagem antiga",
+            data_hora=datetime.now(),
+            nome_remetente="",
+            nome_destinatario=""
+        )
+        #Act
+        id_mensagem = inserir_mensagem(mensagem)
+        mensagem_atualizada = obter_mensagem_por_id(id_mensagem)
+        mensagem_atualizada.conteudo = "Mensagem atualizada"
+        resultado = atualizar_mensagem(mensagem_atualizada)
+        #Assert
+        assert resultado is True
+
+    def test_deletar_mensagem(self):
+        criar_tabela_usuario()
+        criar_tabela_mensagem()
+        #Arrange
+        mensagem = Mensagem(
+            id_mensagem=0,
+            id_remetente=self.remetente.id,
+            id_destinatario=self.destinatario.id,
+            conteudo="Mensagem para deletar",
+            data_hora=datetime.now(),
+            nome_remetente="",
+            nome_destinatario=""
+        )
+        #Act
+        id_mensagem = inserir_mensagem(mensagem)
+        resultado = deletar_mensagem(id_mensagem)
+        #Assert
+        assert resultado is True

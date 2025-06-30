@@ -21,7 +21,8 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    f.razao_social
+    f.razao_social,
+    u.tipo_usuario
 FROM fornecedor f
 JOIN usuario u ON f.id = u.id
 ORDER BY u.nome;
@@ -37,7 +38,8 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    f.razao_social
+    f.razao_social,
+    u.tipo_usuario
 FROM fornecedor f
 JOIN usuario u ON f.id = u.id
 WHERE f.id = ?;
