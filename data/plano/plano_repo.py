@@ -13,16 +13,15 @@ def criar_tabela_plano() -> bool:
         return True
 
 
-def inserir_plano(plano: Plano) -> Optional[int]:                    
-    with open_connection() as conn:                                
+def inserir_plano(plano: Plano) -> Optional[int]:
+    with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_PLANO, (
-            plano.id_plano,
             plano.nome_plano,
             plano.valor_mensal,
             plano.limite_servico,
             plano.tipo_plano,
-            plano.descricao
+            plano.descricao,
         ))
         conn.commit()
         return cursor.lastrowid
