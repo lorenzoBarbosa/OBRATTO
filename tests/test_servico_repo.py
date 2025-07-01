@@ -7,7 +7,8 @@ from data.servico.servico_repo import (
     deletar_servico
 )
 from data.servico.servico_model import Servico
-from data.usuario.usuario_repo import criar_tabela_usuario
+from data.usuario.usuario_model import Usuario
+from data.usuario.usuario_repo import criar_tabela_usuario, inserir_usuario
 from data.prestador.prestador_repo import criar_tabela_prestador, inserir_prestador
 from data.prestador.prestador_model import Prestador
 from datetime import datetime
@@ -15,17 +16,34 @@ from datetime import datetime
 
 class TestServicoRepo:
 
+    
     def criar_usuario_prestador(self):
-        # Cria as tabelas necessárias
         criar_tabela_usuario()
         criar_tabela_prestador()
 
-        # Cria e insere um prestador com base no modelo (ajuste conforme seu modelo real)
+        # Inserir usuário primeiro!
+        usuario = Usuario(
+            id=0,
+            nome="Prestador Teste",
+            email="teste@teste.com",
+            senha="123456",
+            cpf_cnpj="12345678900",
+            telefone="999999999",
+            endereco="Rua Exemplo, 123",
+            tipo_usuario="prestador",  # ou o valor correspondente no seu sistema
+            data_cadastro=datetime.now().isoformat()
+        )
+
+        id_usuario = inserir_usuario(usuario)
+
         prestador = Prestador(
             id=0,
-            id_usuario=1  # assume que o usuário com id=1 foi inserido
+            id_usuario=id_usuario,
+            area_atuacao="TI",
+            tipo_pessoa="Física"
         )
         id_prestador = inserir_prestador(prestador)
+
         return id_prestador
 
     def test_criar_tabela_servico(self, test_db):
@@ -51,6 +69,9 @@ class TestServicoRepo:
 
         id_inserido = inserir_servico(servico)
         servico_db = obter_servico_por_id(id_inserido)
+
+        print("ID inserido:", id_inserido)
+        print("ID prestador usado:", id_prestador)
 
         assert servico_db is not None
         assert servico_db.titulo == "Serviço Teste"
