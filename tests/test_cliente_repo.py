@@ -12,9 +12,7 @@ from data.usuario.usuario_repo import criar_tabela_usuario, inserir_usuario
 from data.cliente.cliente_model import Cliente
 from data.cliente.cliente_repo import atualizar_cliente, criar_tabela_cliente, deletar_cliente, inserir_cliente, obter_cliente, obter_cliente_por_id
 
-
-
-class TestAdministradorRepo:
+class TestClienteRepo:
 
     def test_criar_tabela_cliente(self, test_db):
         #Arrange

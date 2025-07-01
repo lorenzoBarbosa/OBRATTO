@@ -37,10 +37,19 @@ class TestServicoRepo:
         id_usuario = inserir_usuario(usuario)
 
         prestador = Prestador(
-            id=0,
-            id_usuario=id_usuario,
+            id=id_usuario,               # id do usuário (FK e PK do prestador)
+            nome=usuario.nome,
+            email=usuario.email,
+            senha=usuario.senha,
+            cpf_cnpj=usuario.cpf_cnpj,
+            telefone=usuario.telefone,
+            data_cadastro=usuario.data_cadastro,
+            endereco=usuario.endereco,
+            tipo_usuario=usuario.tipo_usuario,
             area_atuacao="TI",
-            tipo_pessoa="Física"
+            tipo_pessoa="Física",
+            razao_social=None,
+            descricao_servicos=None
         )
         id_prestador = inserir_prestador(prestador)
 

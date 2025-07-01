@@ -68,8 +68,15 @@ class TestOrcamentoServicoRepo:
         id_usuario_prestador = inserir_usuario(usuario_prestador)
 
         prestador = Prestador(
-            id=0,
-            id_usuario=id_usuario_prestador,
+            id=id_usuario_prestador,  # ✔ O mesmo id do usuário
+            nome="Prestador Teste",
+            email="prestador@teste.com",
+            senha="123",
+            cpf_cnpj="22222222222",
+            telefone="21999999999",
+            data_cadastro=datetime.now().isoformat(),
+            endereco="Rua Prestador, 456",
+            tipo_usuario="prestador",
             area_atuacao="Jardinagem",
             tipo_pessoa="Física",
             razao_social=None,

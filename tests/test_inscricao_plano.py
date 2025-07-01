@@ -93,11 +93,18 @@ class Test_InscricaoPlanoRepo:
 
         # Agora cria o prestador, associando o id_usuario
         prestador = Prestador(
-            id=0,  # será gerado pelo banco
-            id_usuario=id_usuario,  # chave estrangeira para Usuario
+            id=id_usuario,  # usa o mesmo id do usuário
+            nome="Maria Prestadora",
+            email="maria@prestadora.com",
+            senha="senha123",
+            cpf_cnpj="11122233344",
+            telefone="27988887777",
+            endereco="Rua das Prestadoras",
+            tipo_usuario="Prestador",
+            data_cadastro="2023-01-01",
             area_atuacao="Serviços gerais",
             tipo_pessoa="Física",
-            razao_social="",  # se não houver, deixe vazio
+            razao_social="",
             descricao_servicos="Serviços de limpeza"
         )
 
@@ -141,8 +148,15 @@ class Test_InscricaoPlanoRepo:
         assert id_usuario is not None
         
         id_prestador = inserir_prestador(Prestador(
-            id=0,
-            id_usuario=id_usuario,
+            id=id_usuario,  # ✔ o ID do usuário é o mesmo do prestador
+            nome="Prestador Teste",
+            email="prestador@teste.com",
+            senha="senha123",
+            cpf_cnpj="11122233344",
+            telefone="27988887777",
+            endereco="Rua das Prestadoras",
+            tipo_usuario="Prestador",
+            data_cadastro="2023-01-01",
             area_atuacao="Serviços gerais",
             tipo_pessoa="Física",
             razao_social="",
@@ -212,8 +226,15 @@ class Test_InscricaoPlanoRepo:
         ))
 
         id_prestador = inserir_prestador(Prestador(
-            id=0,
-            id_usuario=id_usuario,
+            id=id_usuario,  # o id do prestador é o mesmo do usuário
+            nome="Prestador Teste",
+            email="prestador@teste.com",
+            senha="senha123",
+            cpf_cnpj="11122233344",
+            telefone="27988887777",
+            endereco="Rua das Prestadoras",
+            tipo_usuario="Prestador",
+            data_cadastro="2023-01-01",
             area_atuacao="Serviços gerais",
             tipo_pessoa="Física",
             razao_social="",
@@ -287,8 +308,15 @@ class Test_InscricaoPlanoRepo:
             data_cadastro="2023-01-01"
         ))
         id_prestador = inserir_prestador(Prestador(
-            id=0,
-            id_usuario=id_usuario,
+            id=id_usuario,  # o id do prestador é o mesmo do usuário
+            nome="Prestador Teste",
+            email="prestador@teste.com",
+            senha="senha123",
+            cpf_cnpj="11122233344",
+            telefone="27988887777",
+            endereco="Rua das Prestadoras",
+            tipo_usuario="Prestador",
+            data_cadastro="2023-01-01",
             area_atuacao="Serviços gerais",
             tipo_pessoa="Física",
             razao_social="",
@@ -319,4 +347,5 @@ class Test_InscricaoPlanoRepo:
         # Verifica se deletou mesmo
         inscricao_db = obter_inscricao_plano_por_id(id_inscricao)
         assert inscricao_db is None
+
 

@@ -1,7 +1,9 @@
+import datetime
 from typing import Optional, List
 from data.cliente.cliente_model import Cliente
 from data.cliente.cliente_sql import *
 from data.usuario.usuario_model import Usuario
+import datetime
 from utils.db import open_connection
 
 

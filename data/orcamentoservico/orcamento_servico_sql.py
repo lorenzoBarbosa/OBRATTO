@@ -36,7 +36,7 @@ SELECT
     s.titulo AS titulo_servico
 FROM orcamento_servico o
 JOIN prestador p ON o.id_prestador = p.id
-JOIN usuario u_prestador ON p.id_usuario = u_prestador.id
+JOIN usuario u_prestador ON p.id = u_prestador.id
 JOIN cliente c ON o.id_cliente = c.id_usuario
 JOIN usuario u_cliente ON c.id_usuario = u_cliente.id
 JOIN servico s ON o.id_servico = s.id_servico
@@ -59,7 +59,7 @@ SELECT
     s.titulo AS titulo_servico
 FROM orcamento_servico o
 JOIN prestador p ON o.id_prestador = p.id
-JOIN usuario u_prestador ON p.id_usuario = u_prestador.id
+JOIN usuario u_prestador ON p.id = u_prestador.id
 JOIN cliente c ON o.id_cliente = c.id_usuario
 JOIN usuario u_cliente ON c.id_usuario = u_cliente.id
 JOIN servico s ON o.id_servico = s.id_servico

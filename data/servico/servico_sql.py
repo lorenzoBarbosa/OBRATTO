@@ -29,7 +29,7 @@ SELECT
     s.valor_base
 FROM servico s
 JOIN prestador p ON s.id_prestador = p.id
-JOIN usuario u ON p.id_usuario = u.id   
+JOIN usuario u ON p.id = u.id   
 ORDER BY s.titulo
 """    
 
@@ -45,7 +45,7 @@ SELECT
    s.valor_base
 FROM servico s
 JOIN prestador p ON s.id_prestador = p.id
-JOIN usuario u ON p.id_usuario = u.id
+JOIN usuario u ON p.id = u.id
 WHERE s.id_servico = ?;
 """
 

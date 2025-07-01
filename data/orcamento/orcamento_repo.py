@@ -36,7 +36,7 @@ def obter_orcamento_por_id(orcamento_id: int) -> Optional[Orcamento]:
         row = cursor.fetchone()
         if row:
             return Orcamento(
-                id_orcamento=row["id_orcamento"],
+                id=row["id"],  # CORRIGIDO para "id"
                 id_fornecedor=row["id_fornecedor"],
                 id_cliente=row["id_cliente"],
                 valor_estimado=row["valor_estimado"],
@@ -55,7 +55,7 @@ def obter_todos_orcamentos() -> List[Orcamento]:
         rows = cursor.fetchall()
         return [
             Orcamento(
-                id_orcamento=row["id_orcamento"],
+                id=row["id"],  # CORRIGIDO para "id"
                 id_fornecedor=row["id_fornecedor"],
                 id_cliente=row["id_cliente"],
                 valor_estimado=row["valor_estimado"],
@@ -67,19 +67,23 @@ def obter_todos_orcamentos() -> List[Orcamento]:
         ]
 
 
-def atualizar_orcamento_por_id(id: int, orcamento: Orcamento) -> bool:
+
+def atualizar_orcamento_por_id(orcamento: Orcamento) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR_ORCAMENTO_POR_ID, (
-            orcamento.id_fornecedor,
-            orcamento.id_cliente,
-            orcamento.valor_estimado,
-            orcamento.data_solicitacao.isoformat(),
-            orcamento.prazo_entrega.isoformat(),
-            orcamento.status,
-            orcamento.descricao,
-            id
-        ))
+        cursor.execute(
+            ATUALIZAR_ORCAMENTO_POR_ID,
+            (
+                orcamento.id_fornecedor,
+                orcamento.id_cliente,
+                orcamento.valor_estimado,
+                orcamento.data_solicitacao.isoformat(),
+                orcamento.prazo_entrega.isoformat(),
+                orcamento.status,
+                orcamento.descricao,
+                orcamento.id  # <- muito importante
+            )
+        )
         conn.commit()
         return cursor.rowcount > 0
 

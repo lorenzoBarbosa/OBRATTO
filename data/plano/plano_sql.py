@@ -48,7 +48,7 @@ ORDER BY p.id_plano
 
 
 
-ATUALIZAR_PLANO_POR_NOME = """
+ATUALIZAR_PLANO_POR_ID = """
 UPDATE plano
 SET 
     nome_plano = ?,
@@ -58,6 +58,7 @@ SET
     descricao = ?
 WHERE id_plano = ?
 """
+
 
 DELETAR_PLANO = """
 DELETE FROM plano

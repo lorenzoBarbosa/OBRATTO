@@ -31,7 +31,6 @@ class TestAvaliacaoRepo:
         assert resultado is True
 
     def inserir_avaliacao_para_teste(self) -> int:
-        # Criar e inserir usuário avaliador (cliente)
         usuario_avaliador = Usuario(
             id=0,
             nome="Avaliador",
@@ -45,7 +44,6 @@ class TestAvaliacaoRepo:
         )
         id_usuario_avaliador = inserir_usuario(usuario_avaliador)
 
-        # Criar e inserir cliente vinculado ao usuário avaliador
         cliente = Cliente(
             id=0,
             id_usuario=id_usuario_avaliador,
@@ -55,7 +53,6 @@ class TestAvaliacaoRepo:
         id_cliente = inserir_cliente(cliente)
         cliente.id = id_cliente
 
-        # Criar e inserir usuário prestador (avaliado)
         usuario_prestador = Usuario(
             id=0,
             nome="Avaliado",
@@ -69,19 +66,25 @@ class TestAvaliacaoRepo:
         )
         id_usuario_prestador = inserir_usuario(usuario_prestador)
 
-        # Criar e inserir prestador vinculado ao usuário prestador
         prestador = Prestador(
-            id=0,
-            id_usuario=id_usuario_prestador,
+            id=id_usuario_prestador,  # o ID do usuário vai como `id`
+            nome="Avaliado",  # herdado de Usuario
+            email="avaliado@teste.com",
+            senha="123",
+            cpf_cnpj="22222222222",
+            telefone="11999999999",
+            endereco="Rua B, 456",
+            tipo_usuario="prestador",
+            data_cadastro=datetime.now().isoformat(),
             area_atuacao="Limpeza",
             tipo_pessoa="Física",
             razao_social="Avaliado Prestador",
             descricao_servicos="Serviço de limpeza"
         )
+
         id_prestador = inserir_prestador(prestador)
         prestador.id = id_prestador
 
-        # Criar avaliação vinculando o cliente (avaliador) e o prestador (avaliado)
         avaliacao = Avaliacao(
             id_avaliacao=0,
             id_avaliador=id_cliente,
@@ -232,3 +235,4 @@ class TestAvaliacaoRepo:
         resultado = deletar_avaliacao(id_avaliacao)
         #Assert
         assert resultado is True
+

@@ -52,17 +52,17 @@ def obter_plano_por_nome(plano_nome: str) -> Optional[Plano]:
         row = cursor.fetchone()
         if row:
             return Plano(
-               id_plano=row["id_plano"],
+                id_plano=row["id_plano"],
                 nome_plano=row["nome_plano"],
                 valor_mensal=row["valor_mensal"],
                 limite_servico=row["limite_servico"],
                 tipo_plano=row["tipo_plano"],
                 descricao=row["descricao"],
             )
-        return plano_nome
-    
+        return None  # Corrigido
 
-def obter_plano_por_id(plano_id: str) -> Optional[Plano]:
+
+def obter_plano_por_id(plano_id: int) -> Optional[Plano]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_PLANO_POR_ID, (plano_id,))
@@ -76,20 +76,21 @@ def obter_plano_por_id(plano_id: str) -> Optional[Plano]:
                 tipo_plano=row["tipo_plano"],
                 descricao=row["descricao"],
             )
-        return plano_id
+        return None  # Corrigido
+
     
 
     
-def atualizar_plano_por_nome(plano: Plano):
+def atualizar_plano_por_id(plano: Plano):
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR_PLANO_POR_NOME, (
-            plano.id_plano,
+        cursor.execute(ATUALIZAR_PLANO_POR_ID, (
             plano.nome_plano,
             plano.valor_mensal,
             plano.limite_servico,
             plano.tipo_plano,
-            plano.descricao
+            plano.descricao,
+            plano.id_plano
         ))
         conn.commit()
         return cursor.rowcount > 0
@@ -101,3 +102,5 @@ def deletar_plano(id_plano: int) -> bool:
         cursor.execute(DELETAR_PLANO, (id_plano,))
         conn.commit()
         return cursor.rowcount > 0
+
+
