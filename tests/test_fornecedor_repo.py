@@ -1,6 +1,4 @@
 from datetime import datetime
-
-from fastapi.encoders import isoformat
 from data.fornecedor.fornecedor_repo import (
     criar_tabela_fornecedor,
     inserir_fornecedor,

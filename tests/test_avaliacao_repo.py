@@ -2,11 +2,11 @@ from asyncio import open_connection as async_open_connection
 from utils.db import open_connection
 import pytest
 from datetime import datetime
-from OBRATTO.data.cliente.cliente_model import Cliente
-from OBRATTO.data.cliente.cliente_repo import criar_tabela_cliente, inserir_cliente
-from OBRATTO.data.fornecedor.fornecedor_repo import criar_tabela_fornecedor
-from OBRATTO.data.prestador.prestador_model import Prestador
-from OBRATTO.data.prestador.prestador_repo import criar_tabela_prestador, inserir_prestador
+from data.cliente.cliente_model import Cliente
+from data.cliente.cliente_repo import criar_tabela_cliente, inserir_cliente
+from data.fornecedor.fornecedor_repo import criar_tabela_fornecedor
+from data.prestador.prestador_model import Prestador
+from data.prestador.prestador_repo import criar_tabela_prestador, inserir_prestador
 from data.avaliacao.avaliacao_model import Avaliacao
 from data.avaliacao.avaliacao_repo import (
     criar_tabela_avaliacao,
