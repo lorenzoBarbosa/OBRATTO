@@ -36,7 +36,7 @@ ORDER BY u.nome;
 """
 
 
-OBTER_PRESTADOR = """
+OBTER_PRESTADOR_POR_ID = """
 SELECT
     u.id AS id_usuario,
     u.nome,
