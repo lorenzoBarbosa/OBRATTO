@@ -14,38 +14,34 @@ CREATE TABLE IF NOT EXISTS avaliacao(
 INSERIR_AVALIACAO = """
 INSERT INTO avaliacao (id_avaliador, id_avaliado, nota, data_avaliacao, descricao)
 VALUES  (?, ?, ?, ?, ?);
-"""
+""" 
 
 OBTER_TODOS = """
-SELECT 
-    avv.id_avaliacao,
-    u_avaliador.nome AS nome_avaliador,
-    u_avaliado.nome AS nome_avaliado,
-    av.nota,
-    av.descricao,
-    av.data_avaliacao
-FROM avaliacao av
-JOIN cliente c_avaliador ON a.id_avaliador = c_avaliador.id
-JOIN usuario u_avaliador ON c_avaliador.id_usuario = u_avaliador.id      
-JOIN prestador p_avaliado ON a.id_avaliado = p_avaliado.id
-JOIN usuario u_avaliado ON p_avaliado.id_usuario = u_avaliado.id
-ORDER BY av.data_avaliacao DESC;
-"""    
+SELECT
+    a.id_avaliacao,
+    a.id_avaliador,
+    a.id_avaliado,
+    a.nota,
+    a.data_avaliacao,
+    a.descricao,
+    u1.nome AS nome_avaliador,
+    u2.nome AS nome_avaliado
+FROM avaliacao a
+LEFT JOIN usuario u1 ON a.id_avaliador = u1.id
+LEFT JOIN usuario u2 ON a.id_avaliado = u2.id
+
+"""
 
 OBTER_AVALIACAO_POR_ID = """
 SELECT 
     av.id_avaliacao,
-    u_avaliador.nome AS nome_avaliador,
-    u_avaliado.nome AS nome_avaliado,
+    av.id_avaliador,
+    av.id_avaliado,
     av.nota,
-    av.descricao,
-    av.data_avaliacao
-FROM avaliacao a
-JOIN cliente c_avaliador ON a.id_avaliador = c_avaliador.id
-JOIN usuario u_avaliador ON c_avaliador.id_usuario = u_avaliador.id
-JOIN prestador p_avaliado ON a.id_avaliado = p_avaliado.id
-JOIN usuario u_avaliado ON p_avaliado.id_usuario = u_avaliado.id
-WHERE av.id_avaliacao = ?
+    av.data_avaliacao,
+    av.descricao
+FROM avaliacao av
+WHERE av.id_avaliacao = ?;
 """
 
 ATUALIZAR_AVALIACAO = """

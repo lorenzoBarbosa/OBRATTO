@@ -7,12 +7,13 @@ from utils.db import open_connection
 def criar_tabela_avaliacao() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
+        cursor.execute(f"DROP TABLE IF EXISTS avaliacao")
         cursor.execute(CRIAR_TABELA_AVALIACAO)
         conn.commit()
         return True
 
 
-def inserir(avaliacao: Avaliacao) -> Optional[int]:
+def inserir_avaliacao(avaliacao: Avaliacao) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_AVALIACAO, (
@@ -35,8 +36,8 @@ def obter_todos() -> List[Avaliacao]:
         for row in rows:
             avaliacoes.append(Avaliacao(
                 id_avaliacao=row["id_avaliacao"],
-                id_avaliador=None,
-                id_avaliado=None,
+                id_avaliador=row["id_avaliador"],
+                id_avaliado=row["id_avaliado"],
                 nota=row["nota"],
                 data_avaliacao=row["data_avaliacao"],
                 descricao=row["descricao"],
@@ -44,7 +45,6 @@ def obter_todos() -> List[Avaliacao]:
                 nome_avaliado=row["nome_avaliado"]
             ))
         return avaliacoes
-
 
 def obter_avaliacao_por_id(id_avaliacao: int) -> Optional[Avaliacao]:
     with open_connection() as conn:
@@ -54,16 +54,13 @@ def obter_avaliacao_por_id(id_avaliacao: int) -> Optional[Avaliacao]:
         if row:
             return Avaliacao(
                 id_avaliacao=row["id_avaliacao"],
-                id_avaliador=None,
-                id_avaliado=None,
+                id_avaliador=row["id_avaliador"],
+                id_avaliado=row["id_avaliado"],
                 nota=row["nota"],
                 data_avaliacao=row["data_avaliacao"],
-                descricao=row["descricao"],
-                nome_avaliador=row["nome_avaliador"],
-                nome_avaliado=row["nome_avaliado"]
+                descricao=row["descricao"]
             )
         return None
-
 
 def atualizar_avaliacao(avaliacao:Avaliacao) -> bool:
     """
