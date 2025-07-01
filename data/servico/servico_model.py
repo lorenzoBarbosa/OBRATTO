@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from data.servico.servico_model import Servico
 from typing import Optional
 
 @dataclass

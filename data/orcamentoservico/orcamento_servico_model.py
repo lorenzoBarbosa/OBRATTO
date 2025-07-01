@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from data.orcamentoservico.orcamento_servico_model import OrcamentoServico
 from typing import Optional
 from datetime import date
 
