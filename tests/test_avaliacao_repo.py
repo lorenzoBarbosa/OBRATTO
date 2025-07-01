@@ -31,7 +31,7 @@ class TestAvaliacaoRepo:
         assert resultado is True
 
     def inserir_avaliacao_para_teste(self) -> int:
-        #Arrange
+        # Criar e inserir usuário avaliador (cliente)
         usuario_avaliador = Usuario(
             id=0,
             nome="Avaliador",
@@ -45,23 +45,18 @@ class TestAvaliacaoRepo:
         )
         id_usuario_avaliador = inserir_usuario(usuario_avaliador)
 
+        # Criar e inserir cliente vinculado ao usuário avaliador
         cliente = Cliente(
             id=0,
-            nome=usuario_avaliador.nome,
-            email=usuario_avaliador.email,
-            senha=usuario_avaliador.senha,
-            cpf_cnpj=usuario_avaliador.cpf_cnpj,
-            telefone=usuario_avaliador.telefone,
-            data_cadastro=usuario_avaliador.data_cadastro,
-            endereco=usuario_avaliador.endereco,
-            tipo_usuario=usuario_avaliador.tipo_usuario,
+            id_usuario=id_usuario_avaliador,
             genero="Feminino",
-            data_nascimento="2000-01-01"
+            data_nascimento=datetime.strptime("2000-01-01", "%Y-%m-%d").date()
         )
         id_cliente = inserir_cliente(cliente)
         cliente.id = id_cliente
-        
-        prestador = Prestador(
+
+        # Criar e inserir usuário prestador (avaliado)
+        usuario_prestador = Usuario(
             id=0,
             nome="Avaliado",
             email="avaliado@teste.com",
@@ -70,17 +65,23 @@ class TestAvaliacaoRepo:
             telefone="11999999999",
             data_cadastro=datetime.now().isoformat(),
             endereco="Rua B, 456",
-            tipo_usuario="prestador",
+            tipo_usuario="prestador"
+        )
+        id_usuario_prestador = inserir_usuario(usuario_prestador)
+
+        # Criar e inserir prestador vinculado ao usuário prestador
+        prestador = Prestador(
+            id=0,
+            id_usuario=id_usuario_prestador,
             area_atuacao="Limpeza",
             tipo_pessoa="Física",
             razao_social="Avaliado Prestador",
             descricao_servicos="Serviço de limpeza"
         )
-        #Act
-        id_usuario_prestador = inserir_usuario(prestador)
-        prestador.id = id_usuario_prestador
         id_prestador = inserir_prestador(prestador)
+        prestador.id = id_prestador
 
+        # Criar avaliação vinculando o cliente (avaliador) e o prestador (avaliado)
         avaliacao = Avaliacao(
             id_avaliacao=0,
             id_avaliador=id_cliente,
@@ -90,10 +91,8 @@ class TestAvaliacaoRepo:
             descricao="Excelente trabalho!"
         )
         id_avaliacao = inserir_avaliacao(avaliacao)
-        #Assert
+
         return id_avaliacao
-
-
 
     def test_inserir_avaliacao(self, test_db):
         #Arrange
