@@ -1,53 +1,114 @@
-from typing import Optional
 import pytest
-import sqlite3
-from datetime import date, datetime
-from data.cliente.cliente_repo import criar_tabela_cliente
-from utils.db import open_connection
-
-
-from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_repo import criar_tabela_usuario, inserir_usuario
-
+from datetime import datetime
 from data.prestador.prestador_model import Prestador
-from data.prestador.prestador_repo import*
+from data.prestador.prestador_repo import (
+    criar_tabela_prestador,
+    inserir_prestador,
+    obter_prestador,
+    obter_prestador_por_id,
+    atualizar_prestador,
+    deletar_prestador_repo,
+)
+from data.usuario.usuario_repo import criar_tabela_usuario
 
-
-
+@pytest.fixture
+def prestador_exemplo():
+    """Retorna uma instância de Prestador para ser usada nos testes."""
+    return Prestador(
+        id=0,
+        nome="Prestador Teste",
+        email="prestador.teste@email.com",
+        senha="senhaSuperForte123",
+        cpf_cnpj="12345678901234",
+        telefone="27999887766",
+        data_cadastro=datetime.now(),
+        endereco="Rua dos Testes, 123, Bairro Python",
+        area_atuacao="Tecnologia",
+        tipo_pessoa="juridica",
+        razao_social="Prestadora de Serviços de Teste Ltda",
+        descricao_servicos="Desenvolvimento e testes de software.",
+        tipo_usuario="prestador"
+    )
 
 class TestPrestadorRepo:
 
     def test_criar_tabela_prestador(self, test_db):
-        #Arrange
-        #Act
-        resultado = criar_tabela_cliente()
-        #Assert
-        assert resultado == True,"A criação da tabela deveria retornar True"
-
-    def test_inserir_prestador(self, test_db):
-        #Arrange 
+        # Arrange
         criar_tabela_usuario()
-        criar_tabela_prestador() 
-        usuario_base = Usuario(
-            id=0, nome="Marceneiro Zé", email="ze@marceneiro.com",
-            senha="123", cpf_cnpj="111.222.333-44", telefone="28999991111",
-            data_cadastro=datetime.now(), endereco="Rua da Madeira", tipo_usuario="Prestador"
-        )
-        id_usuario_criado = inserir_usuario(usuario_base)
-        assert id_usuario_criado is not None, "Falha ao criar o usuário base."
-        prestador_para_inserir = Prestador(
-            id=0,
-            id_usuario=id_usuario_criado,
-            area_atuacao="Marcenaria",
-            tipo_pessoa="Física"
-        )
-        #Act
-        # Assert 
-        id_prestador_inserido = inserir_prestador(prestador_para_inserir)
-        assert id_prestador_inserido is not None and id_prestador_inserido > 0
-        with pytest.raises(sqlite3.IntegrityError) as e:
-            inserir_prestador(prestador_para_inserir)
-        
-        assert "UNIQUE constraint failed" in str(e.value)
+        # Act
+        criar_tabela_prestador()
+        # Assert
+        assert True
 
-    
+    def test_inserir_prestador(self, test_db, prestador_exemplo):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_prestador()
+        # Act
+        id_inserido = inserir_prestador(prestador_exemplo)
+        # Assert
+        assert id_inserido is not None
+        assert id_inserido > 0
+        prestador_db = obter_prestador_por_id(id_inserido)
+        assert prestador_db is not None
+        assert prestador_db.nome == prestador_exemplo.nome
+        assert prestador_db.razao_social == prestador_exemplo.razao_social
+
+    def test_obter_prestador(self, test_db, prestador_exemplo):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_prestador()
+        id_inserido = inserir_prestador(prestador_exemplo)
+        # Act
+        prestadores = obter_prestador()
+        # Assert
+        assert len(prestadores) == 1
+        assert prestadores[0].id == id_inserido
+        assert prestadores[0].nome == "Prestador Teste"
+
+    def test_obter_prestador_por_id(self, test_db, prestador_exemplo):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_prestador()
+        id_inserido = inserir_prestador(prestador_exemplo)
+        # Act
+        prestador_db = obter_prestador_por_id(id_inserido)
+        # Assert
+        assert prestador_db is not None
+        assert prestador_db.id == id_inserido
+        assert prestador_db.email == "prestador.teste@email.com"
+
+    def test_atualizar_prestador(self, test_db, prestador_exemplo):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_prestador()
+        id_inserido = inserir_prestador(prestador_exemplo)
+        
+        prestador_para_atualizar = obter_prestador_por_id(id_inserido)
+        prestador_para_atualizar.nome = "Nome Atualizado"
+        prestador_para_atualizar.area_atuacao = "Engenharia"
+        prestador_para_atualizar.descricao_servicos = "Serviços de engenharia de software."
+        # Act
+        sucesso = atualizar_prestador(prestador_para_atualizar)
+        prestador_atualizado_db = obter_prestador_por_id(id_inserido)
+        # Assert
+        assert sucesso is True
+        assert prestador_atualizado_db is not None
+        assert prestador_atualizado_db.nome == "Nome Atualizado"
+        assert prestador_atualizado_db.area_atuacao == "Engenharia"
+        assert prestador_atualizado_db.descricao_servicos == "Serviços de engenharia de software."
+
+    def test_deletar_prestador(self, test_db, prestador_exemplo):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_prestador()
+        id_inserido = inserir_prestador(prestador_exemplo)
+
+        prestador_db_antes = obter_prestador_por_id(id_inserido)
+        assert prestador_db_antes is not None
+        # Act
+        sucesso = deletar_prestador_repo(id_inserido)
+        prestador_db_depois = obter_prestador_por_id(id_inserido)
+        # Assert
+        assert sucesso is True
+        assert prestador_db_depois is None

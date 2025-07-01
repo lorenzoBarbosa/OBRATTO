@@ -8,6 +8,7 @@ from utils.db import open_connection
 def criar_tabela_administrador() -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
+        cursor.execute("DROP TABLE IF EXISTS Administrador")
         cursor.execute(CRIAR_TABELA_ADMINISTRADOR)
         conn.commit()
         return True
