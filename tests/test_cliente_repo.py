@@ -1,3 +1,4 @@
+
 from typing import Optional
 import pytest
 import sqlite3
@@ -13,7 +14,6 @@ from data.cliente.cliente_repo import atualizar_cliente, criar_tabela_cliente, d
 
 
 
-
 class TestAdministradorRepo:
 
     def test_criar_tabela_cliente(self, test_db):
@@ -24,7 +24,6 @@ class TestAdministradorRepo:
         assert resultado == True,"A criação da tabela deveria retornar True"
 
     def test_inserir_cliente(self, test_db):
-        pass
         #Arrange
         criar_tabela_usuario()
         criar_tabela_cliente() 

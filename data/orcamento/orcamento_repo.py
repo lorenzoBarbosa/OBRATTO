@@ -51,7 +51,7 @@ def obter_orcamento_por_id(orcamento_id: int) -> Optional[Orcamento]:
 def obter_todos_orcamentos() -> List[Orcamento]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS_OS_ORCAMENTOS)
+        cursor.execute(OBTER_TODOS_ORCAMENTOS)
         rows = cursor.fetchall()
         return [
             Orcamento(

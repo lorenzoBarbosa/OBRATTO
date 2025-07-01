@@ -18,7 +18,6 @@ from data.orcamentoservico.orcamento_servico_repo import (
     atualizar_orcamento_servico,
     deletar_orcamento_servico
 )
-
 class TestOrcamentoServicoRepo:
 
     def test_criar_tabela_orcamento_servico(self,test_db):
@@ -95,7 +94,7 @@ class TestOrcamentoServicoRepo:
 
         servico = Servico(
             id_servico=0,
-            id_prestador=id_prestador,  # use o valor real
+            id_prestador=id_prestador,
             titulo="Serviço de Jardinagem",
             descricao="Cuidar do jardim",
             categoria="Jardinagem",

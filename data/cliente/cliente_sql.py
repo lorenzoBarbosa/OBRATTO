@@ -23,12 +23,13 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    u.tipo_usuario
+    u.tipo_usuario,
+    c.genero,
+    c.data_nascimento
 FROM cliente c
 JOIN usuario u ON c.id_usuario = u.id
 ORDER BY u.nome;
 """
-
 
 OBTER_CLIENTE_POR_ID = """
 SELECT
@@ -40,10 +41,12 @@ SELECT
     u.telefone,
     u.data_cadastro,
     u.endereco,
-    u.tipo_usuario
+    u.tipo_usuario,
+    c.genero,
+    c.data_nascimento
 FROM cliente c
-JOIN usuario u ON c.id_usuario = u.id -- CONDIÇÃO DE JOIN CORRIGIDA
-WHERE c.id = ?; -- Busca pelo ID da tabela 'cliente'
+JOIN usuario u ON c.id_usuario = u.id
+WHERE c.id = ?;
 """
 
 ATUALIZAR_CLIENTE = """
