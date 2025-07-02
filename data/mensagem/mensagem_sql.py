@@ -48,6 +48,12 @@ JOIN usuario destinatario ON m.id_destinatario = destinatario.id
 WHERE m.id_mensagem = ?;
 """
 
+OBTER_MENSAGEM_POR_PAGINA = """
+SELECT * FROM mensagem
+ORDER BY id_mensagem
+LIMIT ? OFFSET ?;
+"""
+
 ATUALIZAR_MENSAGEM = """
 UPDATE mensagem
 SET id_remetente = ?,

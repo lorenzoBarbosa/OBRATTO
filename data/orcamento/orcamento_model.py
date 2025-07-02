@@ -11,4 +11,4 @@ class Orcamento:
     prazo_entrega: datetime.datetime
     status: str
     descricao: str
-    id: Optional[int] = None  # campo opcional deve vir por último
+    id: int

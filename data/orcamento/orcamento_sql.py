@@ -53,19 +53,6 @@ FROM orcamento
 ORDER BY id;
 """
 
-# ATUALIZAR_ORCAMENTO_POR_ID = """
-# UPDATE orcamento
-# SET
-#     id_fornecedor = ?,
-#     id_cliente = ?,
-#     valor_estimado = ?,
-#     data_solicitacao = ?,
-#     prazo_entrega = ?,
-#     status = ?,
-#     descricao = ?
-# WHERE id = ?;
-# """
-
 ATUALIZAR_ORCAMENTO_POR_ID = """
 UPDATE orcamento
 SET

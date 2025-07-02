@@ -1,5 +1,7 @@
+import sqlite3
 import pytest
 from datetime import datetime
+from data.mensagem.mensagem_repo import obter_mensagem_por_pagina
 from data.mensagem.mensagem_model import Mensagem
 from data.mensagem.mensagem_repo import (
     criar_tabela_mensagem,
@@ -86,6 +88,35 @@ class TestMensagemRepo:
         #Assert
         assert mensagem_db is not None, "A mensagem obtida não deve ser None"
         assert mensagem_db.conteudo == "Mensagem específica", "O conteúdo da mensagem obtida não corresponde ao esperado"
+
+    def test_obter_mensagem_por_pagina(self, test_db):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_mensagem()
+
+        for i in range(15):
+            mensagem = Mensagem(
+                id_mensagem=0,
+                id_remetente=1,
+                id_destinatario=2,
+                conteudo="Mensagem específica",
+                data_hora=datetime.now(),
+                nome_remetente="José",
+                nome_destinatario="Gabriel"
+            )
+            inserir_mensagem(mensagem)
+        with sqlite3.connect(test_db) as conn:
+            mensagem_pagina_1 = obter_mensagem_por_pagina(conn, limit=10, offset=0)
+            mensagem_pagina_2 = obter_mensagem_por_pagina(conn,limit=10,offset=10)
+            mensagem_pagina_3 = obter_mensagem_por_pagina(conn,limit=10, offset=20)
+        # Assert
+        assert len(mensagem_pagina_1) == 10, "A primeira página deveria conter 10 mensagens"
+        assert len(mensagem_pagina_2) == 5, "A segunda página deveria conter os 5 mensagens restantes"
+        assert len(mensagem_pagina_3) == 0, "A terceira página não deveria conter nenhuma mensagem"
+        # Opcional
+        ids_pagina_1 = {m.id_mensagem for m in mensagem_pagina_1}
+        ids_pagina_2 = {m.id_mensagem for m in mensagem_pagina_2}
+        assert ids_pagina_1.isdisjoint(ids_pagina_2), "As mensagens da página 1 não devem se repetir na página 2"
 
     def test_atualizar_mensagem(self,test_db):
         criar_tabela_usuario()

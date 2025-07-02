@@ -1,4 +1,5 @@
 from datetime import datetime
+import sqlite3
 from typing import Optional, List
 from data.mensagem.mensagem_model import Mensagem
 from data.mensagem.mensagem_sql import *
@@ -63,7 +64,23 @@ def obter_mensagem_por_id(id_mensagem):
             )
         return None
 
-
+def obter_mensagem_por_pagina(conn, limit: int, offset: int) -> list[Mensagem]:
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    cursor.execute(OBTER_MENSAGEM_POR_PAGINA,(limit, offset))
+    rows = cursor.fetchall()
+    return [
+        Mensagem(
+            id_mensagem=row["id_mensagem"],
+            id_remetente=row["id_remetente"],
+            id_destinatario=row["id_destinatario"],
+            conteudo=row["conteudo"],
+            data_hora=datetime.fromisoformat(row[4]),
+            nome_remetente=row["nome_remetente"],
+            nome_destinatario=row["nome_destinatario"]
+        )
+        for row in rows
+    ]
 
 def atualizar_mensagem(mensagem: Mensagem) -> bool:
     """
