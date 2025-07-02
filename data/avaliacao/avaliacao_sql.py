@@ -44,6 +44,12 @@ FROM avaliacao av
 WHERE av.id_avaliacao = ?;
 """
 
+OBTER_AVALIACAO_POR_PAGINA = """
+SELECT * FROM avaliacao
+ORDER BY id_avaliacao
+LIMIT ? OFFSET ?;
+"""
+
 ATUALIZAR_AVALIACAO = """
 UPDATE avaliacao
 SET id_avaliador = ?,

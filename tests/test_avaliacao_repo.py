@@ -1,4 +1,5 @@
 from asyncio import open_connection as async_open_connection
+import sqlite3
 from utils.db import open_connection
 import pytest
 from datetime import datetime
@@ -11,6 +12,7 @@ from data.avaliacao.avaliacao_model import Avaliacao
 from data.avaliacao.avaliacao_repo import (
     criar_tabela_avaliacao,
     inserir_avaliacao,
+    obter_avaliacao_por_pagina,
     obter_todos,
     obter_avaliacao_por_id,
     atualizar_avaliacao,
@@ -205,6 +207,61 @@ class TestAvaliacaoRepo:
         #Assert
         assert avaliacao_db is not None
         assert isinstance(avaliacao_db.descricao, str)
+
+    # def test_obter_avaliacao_por_pagina(self, test_db):
+    #     #Arrange
+    #     criar_tabela_avaliacao()
+    #     for i in range(1, 11):
+    #         avaliacao = Avaliacao(
+    #             id_avaliacao=i,
+    #             id_avaliador=i,
+    #             id_avaliado=i,
+    #             nota=4.5,
+    #             data_avaliacao=datetime.now(),
+    #             descricao=f"Avaliacao{i}"
+    #         )
+    #         inserir_avaliacao(avaliacao)
+
+    #    #Act
+    #     with sqlite3.connect(test_db) as conn:
+    #         pagina1 = obter_avaliacao_por_pagina(conn, limit=5, offset=0)
+    #         assert len(pagina1) == 5
+    #         assert pagina1[0].descricao == "Avaliação 1"
+
+    #         pagina2 = obter_avaliacao_por_pagina(conn, limit=5, offset=5)
+    #         assert len(pagina2) == 5
+    #         assert pagina2[0].descricao == "Avaliação 6"
+
+    #         pagina3 = obter_avaliacao_por_pagina(conn, limit=5, offset=15)
+    #         assert len(pagina3) == 0
+
+    def test_obter_avaliacao_por_pagina(self, test_db):
+        # Arrange
+        criar_tabela_avaliacao()
+
+        for i in range(15):
+            avaliacao = Avaliacao(
+                id_avaliacao=i,
+                id_avaliador=i,
+                id_avaliado=i,
+                nota=4.5,
+                data_avaliacao=datetime.now(),
+                descricao=f"Avaliacao{i}"
+            )
+            inserir_avaliacao(avaliacao)
+        with sqlite3.connect(test_db) as conn:
+            avaliacao_pagina_1 = obter_avaliacao_por_pagina(conn, limit=10, offset=0)
+            avaliacao_pagina_2 = obter_avaliacao_por_pagina(conn,limit=10,offset=10)
+            avaliacao_pagina_3 = obter_avaliacao_por_pagina(conn,limit=10, offset=20)
+        # Assert
+        assert len(avaliacao_pagina_1) == 10, "A primeira página deveria conter 10 avaliações"
+        assert len(avaliacao_pagina_2) == 5, "A segunda página deveria conter os 5 avaliações restantes"
+        assert len(avaliacao_pagina_3) == 0, "A terceira página não deveria conter nenhum avaliação"
+        # Opcional
+        ids_pagina_1 = {a.id_avaliacao for a in avaliacao_pagina_1}
+        ids_pagina_2 = {a.id_avaliacao for a in avaliacao_pagina_2}
+        assert ids_pagina_1.isdisjoint(ids_pagina_2), "As avaliações da página 1 não devem se repetir na página 2"
+
 
     def test_atualizar_avaliacao(self, test_db):
         #Arrange

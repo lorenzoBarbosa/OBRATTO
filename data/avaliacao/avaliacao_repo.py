@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, List
 from data.avaliacao.avaliacao_model import Avaliacao
 from data.avaliacao.avaliacao_sql import *
@@ -61,6 +62,24 @@ def obter_avaliacao_por_id(id_avaliacao: int) -> Optional[Avaliacao]:
                 descricao=row["descricao"]
             )
         return None
+    
+def obter_avaliacao_por_pagina(conn, limit: int, offset: int) -> list[Avaliacao]:
+    cursor = conn.cursor()
+    cursor.execute(OBTER_AVALIACAO_POR_PAGINA,(limit, offset))
+    rows = cursor.fetchall()
+    return [
+        Avaliacao(
+            id_avaliacao=row[0],
+            id_avaliador=row[1],
+            id_avaliado=row[2],
+            nota=row[3],
+            data_avaliacao=datetime.fromisoformat(row[4]),
+            descricao=row[5]
+        )
+        for row in rows
+    ]
+
+
 
 def atualizar_avaliacao(avaliacao:Avaliacao) -> bool:
     """
