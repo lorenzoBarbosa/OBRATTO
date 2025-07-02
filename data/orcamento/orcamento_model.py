@@ -1,10 +1,9 @@
 from dataclasses import dataclass
-import datetime
 from typing import Optional
+import datetime
 
-
+@dataclass
 class Orcamento:
-    id: Optional[int] = None        # campo id opcional para identificar o orçamento
     id_fornecedor: int
     id_cliente: int
     valor_estimado: float
@@ -12,3 +11,4 @@ class Orcamento:
     prazo_entrega: datetime.datetime
     status: str
     descricao: str
+    id: Optional[int] = None  # campo opcional deve vir por último

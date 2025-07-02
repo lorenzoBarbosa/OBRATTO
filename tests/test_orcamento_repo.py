@@ -11,10 +11,9 @@ from data.cliente.cliente_model import Cliente
 from data.cliente.cliente_repo import criar_tabela_cliente, inserir_cliente
 
 from data.orcamento.orcamento_model import Orcamento
-from data.orcamento.orcamento_repo import criar_tabela_orcamento, deletar_orcamento, inserir_orcamento, obter_orcamento_por_id, obter_todos_orcamentos
+from data.orcamento.orcamento_repo import criar_tabela_orcamento, deletar_orcamento, inserir_orcamento, obter_orcamento_por_id, obter_todos_orcamentos, atualizar_orcamento_por_id
 
 from datetime import datetime, timedelta, date
-from data.orcamento.orcamento_model import Orcamento
 
 
 class Test_OrcamentoRepo:
@@ -101,10 +100,34 @@ class Test_OrcamentoRepo:
         id_orcamento = inserir_orcamento(orcamento)
         assert id_orcamento is not None, "Orçamento não foi inserido com sucesso"
 
-    def test_obter_orcamento_por_id(self, test_db):
-        # Teste parecido com o anterior, para obter orçamento pelo id
-        # ... (aqui você pode seguir o padrão do test_inserir_orcamento)
-        pass
+    def test_obter_todos_orcamentos(self, test_db):
+        criar_tabela_orcamento()
+
+        orc1 = Orcamento(
+            id_fornecedor=1,
+            id_cliente=3,
+            valor_estimado=1000,
+            data_solicitacao=datetime.now(),
+            prazo_entrega=datetime.now() + timedelta(days=15),
+            status="Confirmado",
+            descricao="Orçamento 1"
+        )
+        inserir_orcamento(orc1)
+
+        orc2 = Orcamento(
+            id_fornecedor=2,
+            id_cliente=4,
+            valor_estimado=2000,
+            data_solicitacao=datetime.now(),
+            prazo_entrega=datetime.now() + timedelta(days=45),
+            status="Pendente",
+            descricao="Orçamento 2"
+        )
+        inserir_orcamento(orc2)
+
+        orcamentos = obter_todos_orcamentos()
+        assert isinstance(orcamentos, list)
+        assert len(orcamentos) >= 2
 
     def test_atualizar_orcamento_por_id(self, test_db):
         criar_tabela_usuario()
@@ -158,14 +181,14 @@ class Test_OrcamentoRepo:
             status="Aprovado",
             descricao="Atualizado"
         )
-        from data.orcamento.orcamento_repo import atualizar_orcamento
-        sucesso = atualizar_orcamento(orcamento_atualizado)
+        
+        sucesso = atualizar_orcamento_por_id(orcamento_atualizado)
         assert sucesso is True
 
         atualizado = obter_orcamento_por_id(id_orcamento)
         assert atualizado.valor_estimado == 1200.0
         assert atualizado.status == "Aprovado"
-        assert "atualizada" in atualizado.descricao
+        assert "Atualizado" in atualizado.descricao
 
     def test_deletar_orcamento(self, test_db):
         criar_tabela_orcamento()
@@ -174,7 +197,7 @@ class Test_OrcamentoRepo:
             id_fornecedor=5,
             id_cliente=6,
             valor_estimado=4000,
-            data_solicitacao=datetime.datetime.now(),
+            data_solicitacao=datetime.now(),
             prazo_entrega=datetime.now() + timedelta(days=10),
             status="Cancelado",
             descricao="Orçamento a deletar"
