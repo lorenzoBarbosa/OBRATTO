@@ -42,6 +42,11 @@ FROM notificacao n
 WHERE n.id_notificacao = ?;
 """
 
+OBTER_NOTIFICACAO_POR_PAGINA = """
+SELECT * FROM notificacao
+ORDER BY id_notificacao
+LIMIT ? OFFSET ?;
+"""
 
 ATUALIZAR_NOTIFICACAO = """
 UPDATE notificacao

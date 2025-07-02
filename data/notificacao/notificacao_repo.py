@@ -1,3 +1,4 @@
+import sqlite3
 from typing import Optional, List
 from data.notificacao.notificacao_model import Notificacao
 from data.notificacao.notificacao_sql import *
@@ -64,6 +65,22 @@ def obter_notificacao_por_id(id_notificacao: int) -> Optional[Notificacao]:
             )
         return None
 
+def obter_notificacao_por_pagina(conn, limit: int, offset: int) -> list[Notificacao]:
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    cursor.execute(OBTER_NOTIFICACAO_POR_PAGINA,(limit, offset))
+    rows = cursor.fetchall()
+    return [
+        Notificacao(
+            id_notificacao=row["id_notificacao"],
+            id_usuario=row["id_usuario"],
+            mensagem=row["mensagem"],
+            data_hora=row["data_hora"],
+            tipo_notificacao= row["tipo_notificacao"],
+            visualizar=bool(row["vizualizar"])
+        )
+        for row in rows
+    ]
 
 def atualizar_notificacao(notificacao: Notificacao) -> bool:
     """
