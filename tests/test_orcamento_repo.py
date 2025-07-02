@@ -74,8 +74,15 @@ class Test_OrcamentoRepo:
         assert id_usuario_cliente is not None, "Usuário cliente não inserido"
 
         cliente = Cliente(
-            id=0,
-            id_usuario=id_usuario_cliente,
+            id=id_usuario_cliente,
+            nome=usuario_cliente.nome,
+            email=usuario_cliente.email,
+            senha=usuario_cliente.senha,
+            cpf_cnpj=usuario_cliente.cpf_cnpj,
+            telefone=usuario_cliente.telefone,
+            data_cadastro=usuario_cliente.data_cadastro,
+            endereco=usuario_cliente.endereco,
+            tipo_usuario=usuario_cliente.tipo_usuario,
             genero="feminino",
             data_nascimento=date(2000, 1, 1)
         )
@@ -83,6 +90,7 @@ class Test_OrcamentoRepo:
         assert id_cliente is not None, "Cliente não inserido"
 
         orcamento = Orcamento(
+            id=0, 
             id_fornecedor=id_fornecedor,
             id_cliente=id_cliente,
             valor_estimado=1500.00,
@@ -90,7 +98,7 @@ class Test_OrcamentoRepo:
             prazo_entrega=datetime.now() + timedelta(days=7),
             status="Pendente",
             descricao="Serviço de pintura"
-        )
+)
         id_orcamento = inserir_orcamento(orcamento)
         assert id_orcamento is not None, "Orçamento não foi inserido com sucesso"
 
@@ -98,6 +106,7 @@ class Test_OrcamentoRepo:
         criar_tabela_orcamento()
 
         orc1 = Orcamento(
+            id=0,
             id_fornecedor=1,
             id_cliente=3,
             valor_estimado=1000,
@@ -105,10 +114,11 @@ class Test_OrcamentoRepo:
             prazo_entrega=datetime.now() + timedelta(days=15),
             status="Confirmado",
             descricao="Orçamento 1"
-        )
+)
         inserir_orcamento(orc1)
 
         orc2 = Orcamento(
+            id=0,
             id_fornecedor=2,
             id_cliente=4,
             valor_estimado=2000,
@@ -116,7 +126,7 @@ class Test_OrcamentoRepo:
             prazo_entrega=datetime.now() + timedelta(days=45),
             status="Pendente",
             descricao="Orçamento 2"
-        )
+)
         inserir_orcamento(orc2)
 
         orcamentos = obter_todos_orcamentos()
@@ -146,11 +156,22 @@ class Test_OrcamentoRepo:
         )
         id_usuario_c = inserir_usuario(usuario_c)
         cliente = Cliente(
-            id=0, id_usuario=id_usuario_c, genero="Feminino", data_nascimento=date(2000, 1, 1)
-        )
+            id=id_usuario_c,
+            nome=usuario_c.nome,
+            email=usuario_c.email,
+            senha=usuario_c.senha,
+            cpf_cnpj=usuario_c.cpf_cnpj,
+            telefone=usuario_c.telefone,
+            data_cadastro=usuario_c.data_cadastro,
+            endereco=usuario_c.endereco,
+            tipo_usuario=usuario_c.tipo_usuario,
+            genero="Feminino",
+            data_nascimento=date(2000, 1, 1)
+)
         id_cliente = inserir_cliente(cliente)
 
         orcamento = Orcamento(
+            id=0,
             id_fornecedor=id_fornecedor,
             id_cliente=id_cliente,
             valor_estimado=1000,
@@ -185,6 +206,7 @@ class Test_OrcamentoRepo:
         criar_tabela_orcamento()
 
         orcamento = Orcamento(
+            id=0,
             id_fornecedor=5,
             id_cliente=6,
             valor_estimado=4000,
