@@ -79,8 +79,6 @@ def obter_avaliacao_por_pagina(conn, limit: int, offset: int) -> list[Avaliacao]
         for row in rows
     ]
 
-
-
 def atualizar_avaliacao(avaliacao:Avaliacao) -> bool:
     """
     Atualiza dados da tabela avaliacao.

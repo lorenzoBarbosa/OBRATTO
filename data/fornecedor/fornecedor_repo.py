@@ -66,12 +66,33 @@ def obter_fornecedor_por_id(fornecedor_id: int) -> Optional[Fornecedor]:
                 senha=row["senha"],
                 cpf_cnpj=row["cpf_cnpj"],
                 telefone=row["telefone"],
-                data_cadastro=data_cadastro,
+                data_cadastro=row["data_cadastro"],
                 endereco=row["endereco"],
                 razao_social=row["razao_social"],
                 tipo_usuario=row["tipo_usuario"]
             )
         return None
+    
+def obter_fornecedor_por_pagina(conn, limit: int, offset: int) -> list[Fornecedor]:
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    cursor.execute(OBTER_FORNECEDOR_POR_PAGINA,(limit, offset))
+    rows = cursor.fetchall()
+    return [
+        Fornecedor(
+            id=row["id"],
+            nome=row["nome"],
+            email=row["email"],
+            senha=row["senha"],
+            cpf_cnpj=row["cpf_cnpj"],
+            telefone=row["telefone"],
+            data_cadastro=row["data_cadastro"],
+            endereco=row["endereco"],
+            razao_social=row["razao_social"],
+            tipo_usuario=row["tipo_usuario"]
+        )
+        for row in rows
+    ]
 
 def atualizar_fornecedor(fornecedor: Fornecedor) -> bool:
     with open_connection() as conn:
