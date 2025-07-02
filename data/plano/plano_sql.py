@@ -46,6 +46,13 @@ WHERE p.id_plano = ?
 ORDER BY p.id_plano
 """
 
+OBTER_PLANO_POR_PAGINA = """
+SELECT * FROM plano
+ORDER BY id_plano
+LIMIT ? OFFSET ?;
+"""
+
+
 
 
 ATUALIZAR_PLANO_POR_ID = """

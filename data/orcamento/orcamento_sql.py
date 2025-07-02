@@ -53,6 +53,22 @@ FROM orcamento
 ORDER BY id;
 """
 
+OBTER_ORCAMENTOS_POR_PAGINA = """
+SELECT 
+    id,
+    id_fornecedor,
+    id_cliente,
+    valor_estimado,
+    data_solicitacao,
+    prazo_entrega,
+    status,
+    descricao
+FROM orcamento
+ORDER BY id
+LIMIT ? OFFSET ?;
+"""
+
+
 ATUALIZAR_ORCAMENTO_POR_ID = """
 UPDATE orcamento
 SET

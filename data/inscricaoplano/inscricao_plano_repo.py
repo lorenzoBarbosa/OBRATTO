@@ -53,6 +53,22 @@ def obter_inscricao_plano_por_id(id_inscricao: int) -> Optional[InscricaoPlano]:
                 id_prestador=row["id_prestador"],
             )
         return None
+    
+def obter_inscricao_plano_por_pagina(pagina: int, tamanho_pagina: int) -> List[InscricaoPlano]:
+    offset = (pagina - 1) * tamanho_pagina
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_INSCRICAO_PLANO_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        return [
+            InscricaoPlano(
+                id_inscricao_plano=row["id_inscricao_plano"],
+                id_plano=row["id_plano"],
+                id_fornecedor=row["id_fornecedor"],
+                id_prestador=row["id_prestador"]
+            ) for row in rows
+        ]
+
 
 
 def atualizar_inscricao_plano(inscricao_plano: InscricaoPlano) -> bool:

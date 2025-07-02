@@ -83,6 +83,42 @@ class Test_PlanoRepo:
         assert plano_obtido.id_plano == id_plano
         assert plano_obtido.nome_plano == "Plano Intermediário"
 
+    def test_obter_planos_por_pagina(self, test_db):
+        criar_tabela_plano()
+
+        # Inserir 5 planos para testar paginação
+        for i in range(1, 6):
+            plano = Plano(
+                nome_plano=f"Plano {i}",
+                valor_mensal=10.0 * i,
+                limite_servico=5 * i,
+                tipo_plano="Teste",
+                descricao=f"Descrição {i}"
+            )
+            inserir_plano(plano)
+
+        # Página 1: tamanho 2
+        pagina_1 = obter_plano_por_pagina(pagina=1, tamanho_pagina=2)
+        assert len(pagina_1) == 2
+        assert pagina_1[0].nome_plano == "Plano 1"
+        assert pagina_1[1].nome_plano == "Plano 2"
+
+        # Página 2: tamanho 2
+        pagina_2 = obter_plano_por_pagina(pagina=2, tamanho_pagina=2)
+        assert len(pagina_2) == 2
+        assert pagina_2[0].nome_plano == "Plano 3"
+        assert pagina_2[1].nome_plano == "Plano 4"
+
+        # Página 3: tamanho 2 (restante)
+        pagina_3 = obter_plano_por_pagina(pagina=3, tamanho_pagina=2)
+        assert len(pagina_3) == 1
+        assert pagina_3[0].nome_plano == "Plano 5"
+
+        # Página 4: tamanho 2 (sem resultados)
+        pagina_4 = obter_plano_por_pagina(pagina=4, tamanho_pagina=2)
+        assert len(pagina_4) == 0
+
+
     def test_atualizar_plano_por_id(self, test_db):
         criar_tabela_plano()
 

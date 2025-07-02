@@ -65,6 +65,26 @@ def obter_todos_orcamentos() -> List[Orcamento]:
                 descricao=row["descricao"]
             ) for row in rows
         ]
+    
+
+def obter_orcamentos_por_pagina(pagina: int, tamanho_pagina: int) -> List[Orcamento]:
+    offset = (pagina - 1) * tamanho_pagina
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_ORCAMENTOS_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        return [
+            Orcamento(
+                id=row["id"],
+                id_fornecedor=row["id_fornecedor"],
+                id_cliente=row["id_cliente"],
+                valor_estimado=row["valor_estimado"],
+                data_solicitacao=datetime.datetime.fromisoformat(row["data_solicitacao"]),
+                prazo_entrega=datetime.datetime.fromisoformat(row["prazo_entrega"]),
+                status=row["status"],
+                descricao=row["descricao"]
+            ) for row in rows
+        ]
 
 
 

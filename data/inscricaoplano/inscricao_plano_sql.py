@@ -28,6 +28,13 @@ SELECT * FROM inscricao_plano
 WHERE id_inscricao_plano = ?;
 """
 
+OBTER_INSCRICAO_PLANO_POR_PAGINA = """
+SELECT * FROM inscricao_plano
+ORDER BY id_inscricao_plano
+LIMIT ? OFFSET ?;
+"""
+
+
 ATUALIZAR_INSCRICAO_PLANO = """
 UPDATE inscricao_plano
 SET id_fornecedor = ?,

@@ -183,6 +183,88 @@ class Test_InscricaoPlanoRepo:
         assert inscricao_obtida.id_prestador == inscricao_teste.id_prestador
         assert inscricao_obtida.id_plano == inscricao_teste.id_plano
 
+    def test_obter_inscricao_plano_por_pagina(self, test_db):
+        criar_tabela_usuario()
+        criar_tabela_fornecedor()
+        criar_tabela_prestador()
+        criar_tabela_plano()
+        criar_tabela_inscricao_plano()
+
+        # Inserindo dados de base
+        id_fornecedor = inserir_fornecedor(Fornecedor(
+            id=0,
+            nome="Fornecedor Paginado",
+            email="fornecedor@pagina.com",
+            senha="senha123",
+            cpf_cnpj="12345678000100",
+            telefone="27999990000",
+            data_cadastro="2023-01-01",
+            endereco="Rua Paginada",
+            tipo_usuario="Fornecedor",
+            razao_social="Fornecedor LTDA"
+        ))
+
+        id_usuario = inserir_usuario(Usuario(
+            id=0,
+            nome="Prestador Paginado",
+            email="prestador@pagina.com",
+            senha="senha123",
+            cpf_cnpj="11122233300",
+            telefone="27988880000",
+            endereco="Rua dos Paginadores",
+            tipo_usuario="Prestador",
+            data_cadastro="2023-01-01"
+        ))
+
+        id_prestador = inserir_prestador(Prestador(
+            id=id_usuario,
+            nome="Prestador Paginado",
+            email="prestador@pagina.com",
+            senha="senha123",
+            cpf_cnpj="11122233300",
+            telefone="27988880000",
+            endereco="Rua dos Paginadores",
+            tipo_usuario="Prestador",
+            data_cadastro="2023-01-01",
+            area_atuacao="Serviços",
+            tipo_pessoa="Física",
+            razao_social="",
+            descricao_servicos="Serviços gerais"
+        ))
+
+        id_plano = inserir_plano(Plano(
+            nome_plano="Plano Paginado",
+            valor_mensal=59.90,
+            limite_servico=10,
+            tipo_plano="Premium",
+            descricao="Descrição do plano paginado"
+        ))
+
+        # Inserindo várias inscrições
+        for i in range(10):
+            inserir_inscricao_plano(InscricaoPlano(
+                id_inscricao_plano=None,
+                id_fornecedor=id_fornecedor,
+                id_prestador=id_prestador,
+                id_plano=id_plano
+            ))
+
+        # Página 1 com tamanho 5
+        pagina_1 = obter_inscricao_plano_por_pagina(pagina=1, tamanho_pagina=5)
+        assert isinstance(pagina_1, list)
+        assert len(pagina_1) == 5
+
+        # Página 2 com tamanho 5
+        pagina_2 = obter_inscricao_plano_por_pagina(pagina=2, tamanho_pagina=5)
+        assert isinstance(pagina_2, list)
+        assert len(pagina_2) == 5
+
+        # Página 3 (deve estar vazia)
+        pagina_3 = obter_inscricao_plano_por_pagina(pagina=3, tamanho_pagina=5)
+        assert isinstance(pagina_3, list)
+        assert len(pagina_3) == 0
+
+
     def test_atualizar_inscricao_plano(self, test_db):
         criar_tabela_usuario()
         criar_tabela_fornecedor()

@@ -78,7 +78,24 @@ def obter_plano_por_id(plano_id: int) -> Optional[Plano]:
             )
         return None  # Corrigido
 
-    
+
+def obter_plano_por_pagina(pagina: int, tamanho_pagina: int) -> List[Plano]:
+    offset = (pagina - 1) * tamanho_pagina
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_PLANO_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        return [
+            Plano(
+                id_plano=row["id_plano"],
+                nome_plano=row["nome_plano"],
+                valor_mensal=row["valor_mensal"],
+                limite_servico=row["limite_servico"],
+                tipo_plano=row["tipo_plano"],
+                descricao=row["descricao"],
+            )
+            for row in rows
+        ]
 
     
 def atualizar_plano_por_id(plano: Plano):
