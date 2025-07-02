@@ -1,11 +1,13 @@
 from datetime import datetime
+import sqlite3
 from data.fornecedor.fornecedor_repo import (
     criar_tabela_fornecedor,
     inserir_fornecedor,
     obter_fornecedor,
     obter_fornecedor_por_id,
     atualizar_fornecedor,
-    deletar_fornecedor
+    deletar_fornecedor,
+    obter_fornecedor_por_pagina
 )
 from data.fornecedor.fornecedor_model import Fornecedor
 from data.usuario.usuario_repo import criar_tabela_usuario
@@ -96,6 +98,37 @@ class TestFornecedorRepo:
         assert fornecedor_bd.tipo_usuario == "fornecedor"
         assert fornecedor_bd.razao_social == "Fornecedor Ltda"
 
+    def test_obter_fornecedor_por_pagina(self, test_db):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_fornecedor()
+
+        for i in range(15):
+            fornecedor = Fornecedor(
+                id=0,
+                nome="Fornecedor Teste",
+                email="fornecedor@email.com",
+                senha="senha123",
+                cpf_cnpj="12345678900",
+                telefone="27999999999",
+                data_cadastro=datetime.now().isoformat(),
+                endereco="Rua dos Fornecedores, 123",
+                razao_social="Fornecedor Ltda",
+                tipo_usuario="fornecedor"
+            )
+            inserir_fornecedor(fornecedor)
+        with sqlite3.connect(test_db) as conn:
+            fornecedor_pagina_1 = obter_fornecedor_por_pagina(conn, limit=10, offset=0)
+            fornecedor_pagina_2 = obter_fornecedor_por_pagina(conn,limit=10,offset=10)
+            fornecedor_pagina_3 = obter_fornecedor_por_pagina(conn,limit=10, offset=20)
+        # Assert
+        assert len(fornecedor_pagina_1) == 10, "A primeira página deveria conter 10 fornecedores"
+        assert len(fornecedor_pagina_2) == 5, "A segunda página deveria conter os 5 fornecedor restantes"
+        assert len(fornecedor_pagina_3) == 0, "A terceira página não deveria conter nenhum fornecedor"
+        # Opcional
+        ids_pagina_1 = {f.id for f in fornecedor_pagina_1}
+        ids_pagina_2 = {f.id for f in fornecedor_pagina_2}
+        assert ids_pagina_1.isdisjoint(ids_pagina_2), "Os fornecedores da página 1 não devem se repetir na página 2"
 
     def test_atualizar_fornecedor(self, test_db):
         # Arrange
