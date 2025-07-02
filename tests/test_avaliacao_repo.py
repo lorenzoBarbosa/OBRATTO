@@ -47,11 +47,20 @@ class TestAvaliacaoRepo:
         id_usuario_avaliador = inserir_usuario(usuario_avaliador)
 
         cliente = Cliente(
-            id=0,
-            id_usuario=id_usuario_avaliador,
+            id=id_usuario_avaliador,
+            nome="Avaliador",
+            email="avaliador@teste.com",
+            senha="123",
+            cpf_cnpj="11111111111",
+            telefone="11999999999",
+            data_cadastro=datetime.now().isoformat(),
+            endereco="Rua A, 123",
+            tipo_usuario="cliente",
             genero="Feminino",
             data_nascimento=datetime.strptime("2000-01-01", "%Y-%m-%d").date()
         )
+
+
         id_cliente = inserir_cliente(cliente)
         cliente.id = id_cliente
 
