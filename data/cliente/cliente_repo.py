@@ -71,6 +71,28 @@ def obter_cliente_por_id(cliente_id: int) -> Optional[Cliente]:
                 data_nascimento=date.fromisoformat(row["data_nascimento"])
             )
         return None
+    
+def obter_cliente_por_pagina(conn, limit: int, offset: int) -> list[Cliente]:
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    cursor.execute(OBTER_CLIENTE_POR_PAGINA,(limit, offset))
+    rows = cursor.fetchall()
+    return [
+        Cliente(
+            id=row["id"],
+            nome=row["nome"],
+            email=row["email"],
+            senha=row["senha"],
+            cpf_cnpj=row["cpf_cnpj"],
+            telefone=row["telefone"],
+            data_cadastro=row["data_cadastro"],
+            endereco=row["endereco"],
+            genero=row["genero"],
+            data_nascimento=row["data_nascimento"],
+            tipo_usuario=row["tipo_usuario"]
+        )
+        for row in rows
+    ]
 
 def atualizar_cliente(cliente: Cliente) -> bool:
     with open_connection() as conn:

@@ -44,7 +44,6 @@ JOIN usuario u ON ad.id_usuario = u.id
 WHERE ad.id = ?;
 """
 
-
 ATUALIZAR_ADMINISTRADOR = """
 UPDATE administrador
 SET id_usuario = ?

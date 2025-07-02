@@ -1,4 +1,5 @@
 from datetime import datetime, date
+import sqlite3
 from data.cliente.cliente_repo import (
     criar_tabela_cliente,
     inserir_cliente,
@@ -6,6 +7,7 @@ from data.cliente.cliente_repo import (
     obter_cliente_por_id,
     atualizar_cliente,
     deletar_cliente,
+    obter_cliente_por_pagina,
 )
 from data.cliente.cliente_model import Cliente
 from data.usuario.usuario_repo import criar_tabela_usuario
@@ -60,7 +62,40 @@ class TestClienteRepo:
         assert len(lista_clientes) == 2, "A lista deveria conter dois clientes"
         assert lista_clientes[0].nome == "Cliente A"
         assert lista_clientes[1].nome == "Cliente B"
-        
+
+    def test_obter_cliente_por_pagina(self, test_db):
+            # Arrange
+            criar_tabela_usuario()
+            criar_tabela_cliente()
+
+            for i in range(15):
+                cliente = Cliente(
+                    id=0,
+                    nome="Cliente Teste",
+                    email="cliente@email.com",
+                    senha="senha123",
+                    cpf_cnpj="12345678900",
+                    telefone="27999999999",
+                    data_cadastro=datetime.now().isoformat(),
+                    endereco="Rua dos Clientes, 123",
+                    genero="Masculino",
+                    data_nascimento=date(1990, 1, 1),
+                    tipo_usuario="cliente"
+                )
+                inserir_cliente(cliente)
+            with sqlite3.connect(test_db) as conn:
+                cliente_pagina_1 = obter_cliente_por_pagina(conn, limit=10, offset=0)
+                cliente_pagina_2 = obter_cliente_por_pagina(conn,limit=10,offset=10)
+                cliente_pagina_3 = obter_cliente_por_pagina(conn,limit=10, offset=20)
+            # Assert
+            assert len(cliente_pagina_1) == 10, "A primeira página deveria conter 10 clientes"
+            assert len(cliente_pagina_2) == 5, "A segunda página deveria conter os 5 clientes restantes"
+            assert len(cliente_pagina_3) == 0, "A terceira página não deveria conter nenhum cliente"
+            # Opcional
+            ids_pagina_1 = {f.id for f in cliente_pagina_1}
+            ids_pagina_2 = {f.id for f in cliente_pagina_2}
+            assert ids_pagina_1.isdisjoint(ids_pagina_2), "Os clientes da página 1 não devem se repetir na página 2"
+
     def test_atualizar_cliente(self, test_db):
         # Arrange
         criar_tabela_usuario()
