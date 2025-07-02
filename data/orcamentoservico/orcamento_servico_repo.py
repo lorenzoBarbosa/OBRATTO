@@ -78,6 +78,28 @@ def obter_orcamento_servico_por_id(id_orcamento: int) -> Optional[OrcamentoServi
             )
         return None
 
+def obter_orcamento_servico_por_pagina(conn, limit: int, offset: int) -> list[OrcamentoServico]:
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    cursor.execute(OBTER_ORCAMENTO_SERVICO_POR_PAGINA,(limit, offset))
+    rows = cursor.fetchall()
+    return [
+        OrcamentoServico(
+            id_orcamento=row["id_orcamento"],
+            id_servico=row["id_servico"],
+            id_prestador=row["id_prestador"],
+            id_cliente=row["id_cliente"],
+            valor_estimado=row["valor_estimado"],
+            data_solicitacao=row["data_solicitacao"],
+            prazo_entrega=row["prazo_entrega"],
+            status=row["status"],
+            descricao=row["descricao"],
+            nome_prestador=row["nome_prestador"],
+            nome_cliente=row["nome_cliente"],
+            titulo_servico=row["titulo_servico"]
+        )
+        for row in rows
+    ]
 
 def atualizar_orcamento_servico(orcamento: OrcamentoServico) -> bool:
     """

@@ -66,6 +66,21 @@ JOIN servico s ON o.id_servico = s.id_servico
 WHERE o.id_orcamento = ?;
 """
 
+OBTER_ORCAMENTO_SERVICO_POR_PAGINA = """
+SELECT 
+    os.*,
+    u_prestador.nome AS nome_prestador,
+    u_cliente.nome AS nome_cliente,
+    s.titulo AS titulo_servico
+FROM orcamento_servico os
+JOIN usuario u_prestador ON os.id_prestador = u_prestador.id
+JOIN usuario u_cliente ON os.id_cliente = u_cliente.id
+JOIN servico s ON os.id_servico = s.id_servico
+ORDER BY os.data_solicitacao DESC
+LIMIT ? OFFSET ?;
+
+"""
+
 ATUALIZAR_ORCAMENTO_SERVICO = """
 UPDATE orcamento_servico
 SET id_servico = ?,

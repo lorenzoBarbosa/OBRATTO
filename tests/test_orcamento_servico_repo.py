@@ -1,3 +1,4 @@
+import sqlite3
 from data.servico.servico_model import Servico
 from data.servico.servico_repo import criar_tabela_servico, inserir_servico
 from data.usuario.usuario_model import Usuario
@@ -16,7 +17,8 @@ from data.orcamentoservico.orcamento_servico_repo import (
     obter_orcamento_servico,
     obter_orcamento_servico_por_id,
     atualizar_orcamento_servico,
-    deletar_orcamento_servico
+    deletar_orcamento_servico,
+    obter_orcamento_servico_por_pagina
 )
 class TestOrcamentoServicoRepo:
 
@@ -157,6 +159,75 @@ class TestOrcamentoServicoRepo:
         # Assert
         assert orcamento is not None
         assert isinstance(orcamento.descricao, str)
+
+    def test_obter_orcamento_servico_por_pagina(self, test_db):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_orcamento_servico()
+        criar_tabela_servico()
+
+        usuario1 = Usuario(
+            id=1,
+            nome="Prestador Teste",
+            email="prestador@teste.com",
+            senha="123",
+            cpf_cnpj="11111111111",
+            telefone="27999999999",
+            endereco="Rua A, 123",
+            tipo_usuario="prestador",
+            data_cadastro=datetime.now().isoformat()
+        )
+
+        usuario2 = Usuario(
+            id=2,
+            nome="Cliente Teste",
+            email="cliente@teste.com",
+            senha="456",
+            cpf_cnpj="22222222222",
+            telefone="27988888888",
+            endereco="Rua B, 456",
+            tipo_usuario="cliente",
+            data_cadastro=datetime.now().isoformat()
+        )
+
+        inserir_usuario(usuario1)
+        inserir_usuario(usuario2)
+
+        servico = Servico(
+            id_servico=1,
+            id_prestador=1,
+            titulo="Serviço de Jardinagem",
+            descricao="Cuidar do jardim",
+            categoria="Jardinagem",
+            valor_base=100.0
+        )
+        inserir_servico(servico)
+
+        for i in range(15):
+            orcamento_servico = OrcamentoServico(
+                id_orcamento=0,
+                id_servico=1,
+                id_prestador=1,
+                id_cliente=2,
+                valor_estimado=150.0,
+                data_solicitacao=date.today(),
+                prazo_entrega=date.today(),
+                status="Pendente",
+                descricao="Orçamento para serviço de jardinagem")
+            
+            inserir_orcamento_servico(orcamento_servico)
+        with sqlite3.connect(test_db) as conn:
+            orcamento_servico_pagina_1 = obter_orcamento_servico_por_pagina(conn, limit=10, offset=0)
+            orcamento_servico_pagina_2 = obter_orcamento_servico_por_pagina(conn,limit=10,offset=10)
+            orcamento_servico_pagina_3 = obter_orcamento_servico_por_pagina(conn,limit=10, offset=20)
+        # Assert
+        assert len(orcamento_servico_pagina_1) == 10, "A primeira página deveria conter 10 orçamentos de serviços"
+        assert len(orcamento_servico_pagina_2) == 5, "A segunda página deveria conter os 5 orçamentos de serviços restantes"
+        assert len(orcamento_servico_pagina_3) == 0, "A terceira página não deveria conter nenhum orçamento de serviço"
+        # Opcional
+        ids_pagina_1 = {os.id_orcamento for os in orcamento_servico_pagina_1}
+        ids_pagina_2 = {os.id_orcamento for os in orcamento_servico_pagina_2}
+        assert ids_pagina_1.isdisjoint(ids_pagina_2), "Os orcamento_servicoes da página 1 não devem se repetir na página 2"
 
     def test_atualizar_orcamento_servico(self, test_db):
         # Arrange
