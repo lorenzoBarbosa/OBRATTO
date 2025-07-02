@@ -37,8 +37,8 @@ SELECT
 FROM orcamento_servico o
 JOIN prestador p ON o.id_prestador = p.id
 JOIN usuario u_prestador ON p.id = u_prestador.id
-JOIN cliente c ON o.id_cliente = c.id_usuario
-JOIN usuario u_cliente ON c.id_usuario = u_cliente.id
+JOIN cliente c ON o.id_cliente = c.id
+JOIN usuario u_cliente ON c.id = u_cliente.id
 JOIN servico s ON o.id_servico = s.id_servico
 ORDER BY o.data_solicitacao DESC;
 """    
@@ -57,12 +57,12 @@ SELECT
     u_prestador.nome AS nome_prestador,
     u_cliente.nome AS nome_cliente,
     s.titulo AS titulo_servico
-FROM orcamento_servico o
-JOIN prestador p ON o.id_prestador = p.id
-JOIN usuario u_prestador ON p.id = u_prestador.id
-JOIN cliente c ON o.id_cliente = c.id_usuario
-JOIN usuario u_cliente ON c.id_usuario = u_cliente.id
-JOIN servico s ON o.id_servico = s.id_servico
+FROM orcamento_servico AS o
+JOIN prestador AS p ON o.id_prestador = p.id
+JOIN usuario AS u_prestador ON p.id = u_prestador.id
+JOIN cliente AS c ON o.id_cliente = c.id
+JOIN usuario AS u_cliente ON c.id = u_cliente.id
+JOIN servico AS s ON o.id_servico = s.id_servico
 WHERE o.id_orcamento = ?;
 """
 

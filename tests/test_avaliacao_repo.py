@@ -59,8 +59,7 @@ class TestAvaliacaoRepo:
             genero="Feminino",
             data_nascimento=datetime.strptime("2000-01-01", "%Y-%m-%d").date()
         )
-
-
+        
         id_cliente = inserir_cliente(cliente)
         cliente.id = id_cliente
 

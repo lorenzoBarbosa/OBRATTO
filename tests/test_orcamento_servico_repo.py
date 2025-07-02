@@ -49,12 +49,20 @@ class TestOrcamentoServicoRepo:
         # Act
         cliente = Cliente(
             id=0,
-            id_usuario=id_usuario_cliente,
+            nome="Cliente Teste",
+            email="email@gamil.com",
+            senha="123",
+            cpf_cnpj="11111111111",
+            telefone="11999999999",
+            data_cadastro=datetime.now().isoformat(),
+            endereco="Rua Cliente, 123",
+            tipo_usuario="cliente",
             genero="Masculino",
             data_nascimento=date(1990, 1, 1)
         )
+            
+        cliente.id_usuario = id_usuario_cliente
         id_cliente = inserir_cliente(cliente)
-        cliente.id = id_cliente
 
         usuario_prestador = Usuario(
             id=0,
