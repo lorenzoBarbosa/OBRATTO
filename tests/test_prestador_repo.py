@@ -1,3 +1,4 @@
+import sqlite3
 import pytest
 from datetime import datetime
 from data.prestador.prestador_model import Prestador
@@ -8,6 +9,7 @@ from data.prestador.prestador_repo import (
     obter_prestador_por_id,
     atualizar_prestador,
     deletar_prestador_repo,
+    obter_prestador_por_pagina,
 )
 from data.usuario.usuario_repo import criar_tabela_usuario
 
@@ -76,6 +78,42 @@ class TestPrestadorRepo:
         assert prestador_db is not None
         assert prestador_db.id == id_inserido
         assert prestador_db.email == "prestador.teste@email.com"
+
+    def test_obter_prestador_por_pagina(self, test_db):
+            # Arrange
+            criar_tabela_usuario()
+            criar_tabela_prestador()
+
+            for i in range(15):
+                prestador = Prestador(
+                    id=0,
+                    nome="Prestador Teste",
+                    email="prestador@email.com",
+                    senha="senha123",
+                    cpf_cnpj="12345678900",
+                    telefone="27999999999",
+                    data_cadastro=datetime.now().isoformat(),
+                    endereco="Rua dos Prestadores, 123",
+                    area_atuacao="Serviços",
+                    tipo_pessoa="juridica",
+                    razao_social="prestador Ltda",
+                    descricao_servicos="Prestação de serviços em tecnologia.",
+                    tipo_usuario="prestador"
+                )
+                inserir_prestador(prestador)
+            with sqlite3.connect(test_db) as conn:
+                prestador_pagina_1 = obter_prestador_por_pagina(conn, limit=10, offset=0)
+                prestador_pagina_2 = obter_prestador_por_pagina(conn, limit=10, offset=10)
+                prestador_pagina_3 = obter_prestador_por_pagina(conn, limit=10, offset=20)
+            # Assert
+            assert len(prestador_pagina_1) == 10, "A primeira página deveria conter 10 prestadores"
+            assert len(prestador_pagina_2) == 5, "A segunda página deveria conter os 5 prestadores restantes"
+            assert len(prestador_pagina_3) == 0, "A terceira página não deveria conter nenhum prestador"
+            # Opcional
+            ids_pagina_1 = {f.id for f in prestador_pagina_1}
+            ids_pagina_2 = {f.id for f in prestador_pagina_2}
+            assert ids_pagina_1.isdisjoint(ids_pagina_2), "Os prestadores da página 1 não devem se repetir na página 2"
+
 
     def test_atualizar_prestador(self, test_db, prestador_exemplo):
         # Arrange

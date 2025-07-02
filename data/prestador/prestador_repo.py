@@ -1,7 +1,8 @@
 from datetime import datetime
+import sqlite3
 from typing import Optional, List
 from data.prestador.prestador_model import Prestador
-from data.prestador.prestador_sql import (CRIAR_TABELA_PRESTADOR, INSERIR_PRESTADOR, OBTER_PRESTADOR, OBTER_PRESTADOR_POR_ID, ATUALIZAR_PRESTADOR, DELETAR_PRESTADOR)
+from data.prestador.prestador_sql import (CRIAR_TABELA_PRESTADOR, INSERIR_PRESTADOR, OBTER_PRESTADOR, OBTER_PRESTADOR_POR_ID, ATUALIZAR_PRESTADOR, DELETAR_PRESTADOR, OBTER_PRESTADOR_POR_PAGINA)
 from data.usuario.usuario_repo import atualizar_usuario, deletar_usuario, inserir_usuario
 from utils.db import open_connection
 
@@ -50,6 +51,30 @@ def obter_prestador_por_id(prestador_id: int) -> Optional[Prestador]:
                 row["data_cadastro"] = datetime.fromisoformat(row["data_cadastro"])
             return Prestador(**row)
         return None
+    
+def obter_prestador_por_pagina(conn, limit: int, offset: int) -> list[Prestador]:
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    cursor.execute(OBTER_PRESTADOR_POR_PAGINA, (limit, offset))
+    rows = cursor.fetchall()
+    return [
+        Prestador(
+            id=row["id"],
+            nome=row["nome"],
+            email=row["email"],
+            senha=row["senha"],
+            cpf_cnpj=row["cpf_cnpj"],
+            telefone=row["telefone"],
+            data_cadastro=row["data_cadastro"],
+            endereco=row["endereco"],
+            area_atuacao=row["area_atuacao"],
+            tipo_pessoa=row["tipo_pessoa"],
+            razao_social=row["razao_social"],
+            descricao_servicos=row["descricao_servicos"],
+            tipo_usuario=row["tipo_usuario"]
+        )
+        for row in rows
+    ]
 
 def atualizar_prestador(prestador: Prestador) -> bool:
     with open_connection() as conn:

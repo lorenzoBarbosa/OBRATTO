@@ -51,6 +51,15 @@ FROM prestador p
 JOIN usuario u ON p.id = u.id
 WHERE p.id = ?;
 """
+OBTER_PRESTADOR_POR_PAGINA = """
+SELECT u.id, u.nome, u.email, u.senha, u.cpf_cnpj, u.telefone,
+       u.data_cadastro, u.endereco, p.area_atuacao, p.tipo_pessoa, p.razao_social, p.descricao_servicos, u.tipo_usuario
+FROM usuario u
+JOIN prestador p ON p.id = u.id
+ORDER BY p.area_atuacao
+LIMIT ? OFFSET ?;
+"""
+
 ATUALIZAR_PRESTADOR = """
 UPDATE prestador
 SET area_atuacao = ?, tipo_pessoa = ?, razao_social = ?, descricao_servicos = ?
