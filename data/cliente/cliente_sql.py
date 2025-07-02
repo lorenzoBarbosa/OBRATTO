@@ -1,18 +1,16 @@
 CRIAR_TABELA_CLIENTE = """
 CREATE TABLE IF NOT EXISTS cliente (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_usuario INTEGER NOT NULL UNIQUE,
-    genero TEXT,
-    data_nascimento DATE,
-    FOREIGN KEY(id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    id INTEGER PRIMARY KEY,
+    genero TEXT NOT NULL,
+    data_nascimento TEXT NOT NULL,
+    FOREIGN KEY (id) REFERENCES usuario(id) ON DELETE CASCADE
 );
 """
 
 INSERIR_CLIENTE = """
-INSERT INTO cliente (id_usuario, genero, data_nascimento)
+INSERT INTO cliente (id, genero, data_nascimento)
 VALUES (?, ?, ?);
 """
-
 OBTER_CLIENTE = """
 SELECT
     u.id,
@@ -27,10 +25,9 @@ SELECT
     c.genero,
     c.data_nascimento
 FROM cliente c
-JOIN usuario u ON c.id_usuario = u.id
+JOIN usuario u ON c.id = u.id
 ORDER BY u.nome;
 """
-
 OBTER_CLIENTE_POR_ID = """
 SELECT
     u.id,
@@ -45,17 +42,14 @@ SELECT
     c.genero,
     c.data_nascimento
 FROM cliente c
-JOIN usuario u ON c.id_usuario = u.id
+JOIN usuario u ON c.id = u.id
 WHERE c.id = ?;
 """
-
 ATUALIZAR_CLIENTE = """
 UPDATE cliente
-SET genero = ?,
-    data_nascimento = ?
+SET genero = ?, data_nascimento = ?
 WHERE id = ?;
 """
-
 DELETAR_CLIENTE = """
 DELETE FROM cliente
 WHERE id = ?;

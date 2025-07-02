@@ -77,30 +77,44 @@ class TestUsuarioRepo:
         assert usuario_encontrado.nome == "Usuario ID Test", "O nome do usuário encontrado não corresponde ao original"
 
     def test_obter_usuarios_por_pagina(self, test_db):
-        # Arrange
-        for i in range(15):
-            usuario = Usuario(
-                id=0,
-                nome=f"Usuario Paginado {i}",
-                email=f"paginado{i}@teste.com",
-                senha="senha_paginada",
-                cpf_cnpj=f"1111111111{i:02}",
-                telefone="33444556677",
-                data_cadastro=datetime.now(),
-                endereco="Endereco Paginado"
-            )
-            inserir_usuario(usuario)
-        usuarios_pagina_1 = obter_usuarios_por_pagina(pagina=1, limite=10)
-        usuarios_pagina_2 = obter_usuarios_por_pagina(pagina=2, limite=10)
-        usuarios_pagina_3 = obter_usuarios_por_pagina(pagina=3, limite=10)
-        # Assert
-        assert len(usuarios_pagina_1) == 10, "A primeira página deveria conter 10 usuários"
-        assert len(usuarios_pagina_2) == 5, "A segunda página deveria conter os 5 usuários restantes"
-        assert len(usuarios_pagina_3) == 0, "A terceira página não deveria conter nenhum usuário"
-        # Opcional
-        ids_pagina_1 = {u.id for u in usuarios_pagina_1}
-        ids_pagina_2 = {u.id for u in usuarios_pagina_2}
-        assert ids_pagina_1.isdisjoint(ids_pagina_2), "Os usuários da página 1 não devem se repetir na página 2"
+            # Arrange
+            criar_tabela_usuario()
+            for i in range(1, 16):
+                usuario = Usuario(
+                    id=0,
+                    nome=f"Usuario {i}",
+                    email=f"usuario{i}@email.com",
+                    senha="senha",
+                    cpf_cnpj=f"000000000{i:02d}", 
+                    telefone=f"999999999{i:02d}",
+                    data_cadastro=datetime.now(),
+                    endereco=f"Rua {i}",
+                    tipo_usuario=1
+                )
+                inserir_usuario(usuario)
+            # Act
+            pagina_1 = obter_usuarios_por_pagina(pg_num=1, pg_size=5)
+            # Assert
+            assert len(pagina_1) == 5, "A primeira página deveria ter 5 usuários"
+            assert pagina_1[0].nome == "Usuario 1", "O primeiro usuário da página 1 está incorreto"
+            assert pagina_1[4].nome == "Usuario 5", "O último usuário da página 1 está incorreto"
+            # Act
+            pagina_2 = obter_usuarios_por_pagina(pg_num=2, pg_size=5)
+            # Assert
+            assert len(pagina_2) == 5, "A segunda página deveria ter 5 usuários"
+            assert pagina_2[0].nome == "Usuario 6", "O primeiro usuário da página 2 está incorreto"
+            assert pagina_2[4].nome == "Usuario 10", "O último usuário da página 2 está incorreto"
+            # Act
+            pagina_3 = obter_usuarios_por_pagina(pg_num=3, pg_size=5)
+            # Assert
+            assert len(pagina_3) == 5, "A terceira página deveria ter 5 usuários (os últimos 5)"
+            assert pagina_3[0].nome == "Usuario 11", "O primeiro usuário da página 3 está incorreto"
+            assert pagina_3[4].nome == "Usuario 15", "O último usuário da página 3 está incorreto"
+            # Act
+            pagina_4 = obter_usuarios_por_pagina(pg_num=4, pg_size=5)
+            # Assert
+            assert len(pagina_4) == 0, "A quarta página deveria estar vazia"
+            
 
     def test_atualizar_tipo_usuario(self, test_db):
         criar_tabela_usuario()

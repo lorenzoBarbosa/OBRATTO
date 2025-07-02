@@ -119,7 +119,7 @@ class TestAdministradorRepo:
             
             assert "UNIQUE constraint failed" in str(e.value)
 
-    def test_deletar_um_administrador_e_confirmar_remocao(self, test_db):
+    def test_deletar_administrador(self, test_db):
             #Arrange
             criar_tabela_usuario()
             criar_tabela_administrador()
@@ -144,3 +144,5 @@ class TestAdministradorRepo:
                 assert novo_id_admin is not None and novo_id_admin > id_admin_criado
             except Exception as e:
                 assert False, f"A reinserção do administrador deveria ter sucesso, mas falhou. Erro: {e}"
+
+    

@@ -29,9 +29,8 @@ SELECT * FROM usuario WHERE id = ?;
 """
 
 OBTER_USUARIO_POR_PAGINA = """
-SELECT id, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
-FROM usuario
-ORDER BY nome ASC
+SELECT * FROM usuario
+ORDER BY id
 LIMIT ? OFFSET ?;
 """
 

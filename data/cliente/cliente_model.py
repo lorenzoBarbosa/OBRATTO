@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-import datetime
+from datetime import date
+from data.usuario.usuario_model import Usuario
 
 @dataclass
-class Cliente:
-    id: int  # PK da tabela cliente
-    id_usuario: int  # FK para tabela usuario
+class Cliente(Usuario):
     genero: str
-    data_nascimento: datetime.date
+    data_nascimento: date

@@ -72,13 +72,15 @@ def obter_usuario_por_id(id: int) -> Optional[Usuario]:
     return None
 
 
-def obter_usuarios_por_pagina(pagina: int, limite: int) -> List[Usuario]:
-    with open_connection() as conn:
-        offset = (pagina - 1) * limite
+def obter_usuarios_por_pagina (pg_num: int, pg_size:int) -> List[Usuario]:
+    try:
+        limit = pg_size
+        offset = (pg_num - 1) * pg_size
+        conn = open_connection()
         cursor = conn.cursor()
-        cursor.execute(OBTER_USUARIO_POR_PAGINA, (limite, offset))
+        cursor.execute(OBTER_USUARIO_POR_PAGINA, (limit, offset))
         rows = cursor.fetchall()
-        return [
+        usuarios = [
             Usuario(
                 id=row["id"],
                 nome=row["nome"],
@@ -91,8 +93,11 @@ def obter_usuarios_por_pagina(pagina: int, limite: int) -> List[Usuario]:
                 tipo_usuario=row["tipo_usuario"]
             ) for row in rows
         ]
-
-
+        conn.close()
+        return usuarios
+    except Exception as e:
+        print(f"Erro ao obter usuários por página: {e}")
+         
 def atualizar_usuario(usuario: Usuario) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()

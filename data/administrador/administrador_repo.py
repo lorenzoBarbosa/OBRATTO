@@ -1,3 +1,4 @@
+import sqlite3
 from typing import Optional, List
 from data.administrador.administrador_model import Administrador
 from data.administrador.administrador_sql import *
@@ -78,3 +79,5 @@ def deletar_administrador(administrador_id: int) -> bool:
         cursor.execute(DELETAR_ADMINISTRADOR, (administrador_id,))
         conn.commit()
         return cursor.rowcount > 0
+
+

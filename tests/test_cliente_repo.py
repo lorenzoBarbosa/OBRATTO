@@ -1,123 +1,107 @@
-
-from typing import Optional
-import pytest
-import sqlite3
-from datetime import date, datetime
-from utils.db import open_connection
-
-
-from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_repo import criar_tabela_usuario, inserir_usuario
-
+from datetime import datetime, date
+from data.cliente.cliente_repo import (
+    criar_tabela_cliente,
+    inserir_cliente,
+    obter_cliente,
+    obter_cliente_por_id,
+    atualizar_cliente,
+    deletar_cliente,
+)
 from data.cliente.cliente_model import Cliente
-from data.cliente.cliente_repo import atualizar_cliente, criar_tabela_cliente, deletar_cliente, inserir_cliente, obter_cliente, obter_cliente_por_id
+from data.usuario.usuario_repo import criar_tabela_usuario
 
 class TestClienteRepo:
 
     def test_criar_tabela_cliente(self, test_db):
-        #Arrange
-        #Act
+        # Arrange
+        criar_tabela_usuario()
+        # Act
         resultado = criar_tabela_cliente()
-        #Assert
-        assert resultado == True,"A criação da tabela deveria retornar True"
+        # Assert
+        assert resultado is True, "A criação da tabela cliente deveria retornar True"
 
     def test_inserir_cliente(self, test_db):
-        #Arrange
+        # Arrange
         criar_tabela_usuario()
-        criar_tabela_cliente() 
-        usuario_base = Usuario(
-            id=0, nome="Cliente Teste", email="cliente@teste.com",
-            senha="123", cpf_cnpj="789789", telefone="789789",
-            data_cadastro=datetime.now(), endereco="Rua do Cliente", tipo_usuario="Cliente"
-        )
-        id_usuario_criado = inserir_usuario(usuario_base)
-        assert id_usuario_criado is not None, "Falha ao criar o usuário base."
-
-        cliente_para_inserir = Cliente(
-            id=0,
-            id_usuario=id_usuario_criado,
+        criar_tabela_cliente()
+        cliente_novo = Cliente(
+            id=0, 
+            nome="Maria Silva",
+            email="maria.silva@email.com",
+            senha="senhaforte123",
+            cpf_cnpj="111.222.333-44",
+            telefone="27988887777",
+            data_cadastro=datetime.now(),
+            endereco="Rua dos Clientes, 456",
+            tipo_usuario=2, 
             genero="Feminino",
-            data_nascimento=date(1990, 5, 20)
+            data_nascimento=date(1995, 10, 25)
         )
-        #Act
+        # Act
+        id_inserido = inserir_cliente(cliente_novo)
         # Assert
-        id_cliente_inserido = inserir_cliente(cliente_para_inserir)
-        assert id_cliente_inserido is not None and id_cliente_inserido > 0
-        with pytest.raises(sqlite3.IntegrityError) as e:
-            inserir_cliente(cliente_para_inserir)
-        assert "UNIQUE constraint failed" in str(e.value)
-    
+        cliente_db = obter_cliente_por_id(id_inserido)
+        assert cliente_db is not None, "O cliente inserido não deveria ser None"
+        assert cliente_db.nome == "Maria Silva"
+        assert cliente_db.genero == "Feminino"
+        assert cliente_db.data_nascimento == date(1995, 10, 25)
+
     def test_obter_todos_os_clientes(self, test_db):
-        #Arrange
+        # Arrange
         criar_tabela_usuario()
         criar_tabela_cliente()
-
-        usuario_cliente1 = Usuario(id=0, nome="Cliente Ana", email="ana@cliente.com", senha="123", cpf_cnpj="111", telefone="111", data_cadastro=datetime.now(), endereco="Rua A", tipo_usuario="Cliente")
-        usuario_admin = Usuario(id=0, nome="Admin Beto", email="beto@admin.com", senha="123", cpf_cnpj="222", telefone="222", data_cadastro=datetime.now(), endereco="Rua B", tipo_usuario="Administrador")
-        usuario_cliente2 = Usuario(id=0, nome="Cliente Carlos", email="carlos@cliente.com", senha="123", cpf_cnpj="333", telefone="333", data_cadastro=datetime.now(), endereco="Rua C", tipo_usuario="Cliente")
-
-        id_ana = inserir_usuario(usuario_cliente1)
-        id_beto = inserir_usuario(usuario_admin) # Beto é admin, não cliente. Ele não deve aparecer na lista de clientes.
-        id_carlos = inserir_usuario(usuario_cliente2)
-
-        inserir_cliente(Cliente(id=0, id_usuario=id_ana, genero="Feminino", data_nascimento=date(1995, 1, 1)))
-        inserir_cliente(Cliente(id=0, id_usuario=id_carlos, genero="Masculino", data_nascimento=date(1992, 2, 2)))
-        #Act
-        lista_de_clientes = obter_cliente()
-        #Assert 
-        assert len(lista_de_clientes) == 2
-        nomes_encontrados = {cliente.nome for cliente in lista_de_clientes}
-        assert "Cliente Ana" in nomes_encontrados
-        assert "Cliente Carlos" in nomes_encontrados
-        assert "Admin Beto" not in nomes_encontrados
-
-
-    def test_obter_cliente_por_id(self, test_db):
-        #Arrange
-        criar_tabela_usuario()
-        criar_tabela_cliente()
-
-        email_unico = "final@cliente.com"
-        usuario_original = Usuario(id=0, nome="Cliente Final", email=email_unico, senha="final123", cpf_cnpj="123123", telefone="123123", data_cadastro=datetime.now(), endereco="Rua Final", tipo_usuario="Cliente")
-        id_usuario = inserir_usuario(usuario_original)
-
-        cliente_a_inserir = Cliente(id=0, id_usuario=id_usuario, genero="Masculino", data_nascimento=date(1995, 5, 5))
-        id_cliente = inserir_cliente(cliente_a_inserir)
-        assert id_cliente is not None, "Falha ao inserir na tabela cliente para o teste."
-        #Act
-        usuario_encontrado = obter_cliente_por_id(id_cliente)
-        #Assert 
-        assert usuario_encontrado is not None
-        assert isinstance(usuario_encontrado, Usuario)
-        assert usuario_encontrado.id == id_usuario
-        assert usuario_encontrado.nome == "Cliente Final"
-
-    def test_deletar_um_cliente_e_confirmar_remocao(self, test_db):
-        #Arrange
-        criar_tabela_usuario()
-        criar_tabela_cliente()
-        usuario = Usuario(
-            id=0, nome="Cliente a ser Excluído", email="excluir@teste.com",
-            senha="123", cpf_cnpj="121212", telefone="121212",
-            data_cadastro=datetime.now(), endereco="Rua a ser Deletada", tipo_usuario="Cliente"
-        )
-        id_usuario = inserir_usuario(usuario)
+        cliente_1 = Cliente(id=0, nome="Cliente A", email="a@a.com", senha="123", cpf_cnpj="1", telefone="1", data_cadastro=datetime.now(), endereco="Rua A", tipo_usuario=2, genero="M", data_nascimento=date(2001, 1, 1))
+        cliente_2 = Cliente(id=0, nome="Cliente B", email="b@b.com", senha="456", cpf_cnpj="2", telefone="2", data_cadastro=datetime.now(), endereco="Rua B", tipo_usuario=2, genero="F", data_nascimento=date(2002, 2, 2))
+        inserir_cliente(cliente_1)
+        inserir_cliente(cliente_2)
+        # Act
+        lista_clientes = obter_cliente()
+        # Assert
+        assert len(lista_clientes) == 2, "A lista deveria conter dois clientes"
+        assert lista_clientes[0].nome == "Cliente A"
+        assert lista_clientes[1].nome == "Cliente B"
         
-        cliente_para_deletar = Cliente(
-            id=0, id_usuario=id_usuario, genero="N/A", data_nascimento=date(1970, 1, 1)
+    def test_atualizar_cliente(self, test_db):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_cliente()
+        cliente_original = Cliente(
+            id=0,
+            nome="João Santos",
+            email="joao.santos@email.com",
+            senha="senhaoriginal",
+            cpf_cnpj="444.555.666-77",
+            telefone="27977776666",
+            data_cadastro=datetime.now(),
+            endereco="Endereço Antigo, 1",
+            tipo_usuario=2,
+            genero="Masculino",
+            data_nascimento=date(1980, 1, 15)
         )
-        id_cliente_criado = inserir_cliente(cliente_para_deletar)
-        
-        assert id_cliente_criado is not None, "Falha ao criar o cliente para o teste de deleção."
-        #Act
-        resultado_delecao = deletar_cliente(cliente_id=id_cliente_criado)
-        #assert
-        assert resultado_delecao is True, "A função de deletar deveria retornar True."
-        try:
-            novo_id_cliente = inserir_cliente(cliente_para_deletar)
-            assert novo_id_cliente is not None and novo_id_cliente > id_cliente_criado
-        except Exception as e:
-            assert False, f"A reinserção dos dados do cliente deveria ter sucesso, mas falhou. Erro: {e}"
+        id_inserido = inserir_cliente(cliente_original)
+        cliente_para_atualizar = obter_cliente_por_id(id_inserido)
+        cliente_para_atualizar.nome = "João da Silva Santos"
+        cliente_para_atualizar.genero = "Outro"
+        cliente_para_atualizar.endereco = "Endereço Novo, 100"
+        # Act
+        resultado = atualizar_cliente(cliente_para_atualizar)
+        # Assert
+        assert resultado is True, "A atualização deveria retornar True"
+        cliente_atualizado_db = obter_cliente_por_id(id_inserido)
+        assert cliente_atualizado_db.nome == "João da Silva Santos"
+        assert cliente_atualizado_db.genero == "Outro"
+        assert cliente_atualizado_db.endereco == "Endereço Novo, 100"
 
-
-    
+    def test_deletar_cliente(self, test_db):
+        # Arrange
+        criar_tabela_usuario()
+        criar_tabela_cliente()
+        cliente_para_deletar = Cliente(id=0, nome="Cliente Temporário", email="temp@temp.com", senha="123", cpf_cnpj="0", telefone="0", data_cadastro=datetime.now(), endereco="Rua Temp", tipo_usuario=2, genero="N/A", data_nascimento=date(2000, 1, 1))
+        id_inserido = inserir_cliente(cliente_para_deletar)
+        assert obter_cliente_por_id(id_inserido) is not None
+        # Act
+        resultado = deletar_cliente(id_inserido)
+        # Assert
+        assert resultado is True, "A deleção deveria retornar True"
+        cliente_apos_delecao = obter_cliente_por_id(id_inserido)
+        assert cliente_apos_delecao is None, "O cliente deveria ser None após a deleção"

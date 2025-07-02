@@ -13,7 +13,6 @@ from data.usuario.usuario_repo import criar_tabela_usuario
 
 @pytest.fixture
 def prestador_exemplo():
-    """Retorna uma instância de Prestador para ser usada nos testes."""
     return Prestador(
         id=0,
         nome="Prestador Teste",
