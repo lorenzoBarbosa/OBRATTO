@@ -1,6 +1,7 @@
+import sqlite3
 from typing import List, Optional
 from data.servico.servico_model import Servico
-from data.servico.servico_sql import CRIAR_TABELA_SERVICO, INSERIR_SERVICO, OBTER_SERVICO, OBTER_SERVICO_POR_ID, ATUALIZAR_SERVICO, DELETAR_SERVICO
+from data.servico.servico_sql import CRIAR_TABELA_SERVICO, INSERIR_SERVICO, OBTER_SERVICO, OBTER_SERVICO_POR_ID, ATUALIZAR_SERVICO, DELETAR_SERVICO, OBTER_SERVICO_POR_PAGINA
 from utils.db import open_connection
 
 
@@ -62,6 +63,23 @@ def obter_servico_por_id(id_servico: int) -> Optional[Servico]:
             )
         return None
 
+def obter_servico_por_pagina(conn, limit: int, offset: int) -> list[Servico]:
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    cursor.execute(OBTER_SERVICO_POR_PAGINA,(limit, offset))
+    rows = cursor.fetchall()
+    return [
+        Servico(
+            id_servico=row["id_servico"],
+            id_prestador=row["id_prestador"],
+            titulo=row["titulo"],
+            descricao=row["descricao"],
+            categoria=row["categoria"],
+            valor_base=row["valor_base"],
+            nome_prestador=row["nome_prestador"]
+        )
+        for row in rows
+    ]
 
 def atualizar_servico(servico:Servico) -> bool:
     """

@@ -49,6 +49,21 @@ JOIN usuario u ON p.id = u.id
 WHERE s.id_servico = ?;
 """
 
+OBTER_SERVICO_POR_PAGINA = """
+SELECT 
+    s.id_servico,
+    s.id_prestador,
+    u.nome AS nome_prestador,
+    s.titulo,
+    s.descricao,
+    s.categoria,
+    s.valor_base
+FROM servico s
+JOIN prestador p ON s.id_prestador = p.id
+JOIN usuario u ON p.id = u.id  -- <== ALTERAÇÃO AQUI
+ORDER BY s.titulo
+LIMIT ? OFFSET ?;
+"""
 
 ATUALIZAR_SERVICO = """
 UPDATE servico
