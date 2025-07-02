@@ -39,12 +39,10 @@ class Test_InscricaoPlanoRepo:
         id_inscricao = inserir_inscricao_plano(inscricao_plano_teste)
         assert id_inscricao is not None
 
-        # Recuperar do banco pelo id
         inscricao_plano_db = obter_inscricao_plano_por_id(id_inscricao)
         assert inscricao_plano_db is not None
         assert inscricao_plano_db.id_fornecedor
 
-    
     def test_obter_inscricao_plano(self, test_db):
         criar_tabela_usuario()
         criar_tabela_fornecedor()
@@ -77,7 +75,6 @@ class Test_InscricaoPlanoRepo:
         id_plano = inserir_plano(plano)
         assert id_plano is not None, "Plano não foi inserido"
 
-       # Cria o usuário primeiro (com os dados pessoais)
         id_usuario = inserir_usuario(Usuario(
             id=0,
             nome="Maria Prestadora",
@@ -91,9 +88,8 @@ class Test_InscricaoPlanoRepo:
         ))
         assert id_usuario is not None, "Usuário não foi inserido"
 
-        # Agora cria o prestador, associando o id_usuario
         prestador = Prestador(
-            id=id_usuario,  # usa o mesmo id do usuário
+            id=id_usuario,
             nome="Maria Prestadora",
             email="maria@prestadora.com",
             senha="senha123",
@@ -112,14 +108,12 @@ class Test_InscricaoPlanoRepo:
         assert id_prestador is not None, "Prestador não foi inserido"
 
     def test_obter_inscricao_plano_por_id(self, test_db):
-    # Criar tabelas dependentes
         criar_tabela_usuario()
         criar_tabela_fornecedor()
         criar_tabela_prestador()
         criar_tabela_plano()
         criar_tabela_inscricao_plano()
     
-        # Inserir dados necessários para chave estrangeira
         id_fornecedor = inserir_fornecedor(Fornecedor(
             id=0,
             nome="Fornecedor Teste",
@@ -148,7 +142,7 @@ class Test_InscricaoPlanoRepo:
         assert id_usuario is not None
         
         id_prestador = inserir_prestador(Prestador(
-            id=id_usuario,  # ✔ o ID do usuário é o mesmo do prestador
+            id=id_usuario,  
             nome="Prestador Teste",
             email="prestador@teste.com",
             senha="senha123",
@@ -173,7 +167,6 @@ class Test_InscricaoPlanoRepo:
         ))
         assert id_plano is not None
         
-        # Agora insere a inscrição do plano
         inscricao_teste = InscricaoPlano(
             id_inscricao_plano=None,
             id_fornecedor=id_fornecedor,
@@ -183,7 +176,6 @@ class Test_InscricaoPlanoRepo:
         id_inserido = inserir_inscricao_plano(inscricao_teste)
         assert id_inserido is not None
         
-        # Busca pelo id
         inscricao_obtida = obter_inscricao_plano_por_id(id_inserido)
         assert inscricao_obtida is not None
         assert inscricao_obtida.id_inscricao_plano == id_inserido
@@ -192,14 +184,12 @@ class Test_InscricaoPlanoRepo:
         assert inscricao_obtida.id_plano == inscricao_teste.id_plano
 
     def test_atualizar_inscricao_plano(self, test_db):
-    # Crie as tabelas necessárias
         criar_tabela_usuario()
         criar_tabela_fornecedor()
         criar_tabela_prestador()
         criar_tabela_plano()
         criar_tabela_inscricao_plano()
 
-        # Insira dados para chave estrangeira
         id_fornecedor = inserir_fornecedor(Fornecedor(
             id=0,
             nome="Fornecedor Teste",
@@ -226,7 +216,7 @@ class Test_InscricaoPlanoRepo:
         ))
 
         id_prestador = inserir_prestador(Prestador(
-            id=id_usuario,  # o id do prestador é o mesmo do usuário
+            id=id_usuario, 
             nome="Prestador Teste",
             email="prestador@teste.com",
             senha="senha123",
@@ -249,7 +239,6 @@ class Test_InscricaoPlanoRepo:
             descricao="Descrição do plano"
         ))
 
-        # Insere uma inscrição para atualizar depois
         inscricao_original = InscricaoPlano(
             id_inscricao_plano=None,
             id_fornecedor=id_fornecedor,
@@ -259,31 +248,27 @@ class Test_InscricaoPlanoRepo:
         id_inscricao = inserir_inscricao_plano(inscricao_original)
         assert id_inscricao is not None
 
-        # Agora cria um objeto atualizado (exemplo, mudando o plano)
         inscricao_atualizada = InscricaoPlano(
             id_inscricao_plano=id_inscricao,
             id_fornecedor=id_fornecedor,
             id_prestador=id_prestador,
-            id_plano=id_plano  # ou outro id de plano se quiser testar mudança
+            id_plano=id_plano 
         )
 
         sucesso = atualizar_inscricao_plano(inscricao_atualizada)
         assert sucesso is True
 
-        # Validar que atualização aconteceu
         inscricao_db = obter_inscricao_plano_por_id(id_inscricao)
         assert inscricao_db is not None
         assert inscricao_db.id_plano == inscricao_atualizada.id_plano
 
     def test_deletar_inscricao_plano(self, test_db):
-    # Criar tabelas necessárias
         criar_tabela_usuario()
         criar_tabela_fornecedor()
         criar_tabela_prestador()
         criar_tabela_plano()
         criar_tabela_inscricao_plano()
 
-        # Inserir dados necessários para chaves estrangeiras
         id_fornecedor = inserir_fornecedor(Fornecedor(
             id=0,
             nome="Fornecedor Teste",
@@ -308,7 +293,7 @@ class Test_InscricaoPlanoRepo:
             data_cadastro="2023-01-01"
         ))
         id_prestador = inserir_prestador(Prestador(
-            id=id_usuario,  # o id do prestador é o mesmo do usuário
+            id=id_usuario, 
             nome="Prestador Teste",
             email="prestador@teste.com",
             senha="senha123",
@@ -330,7 +315,6 @@ class Test_InscricaoPlanoRepo:
             descricao="Descrição do plano"
         ))
 
-        # Insere inscrição para depois deletar
         inscricao = InscricaoPlano(
             id_inscricao_plano=None,
             id_fornecedor=id_fornecedor,
@@ -340,11 +324,9 @@ class Test_InscricaoPlanoRepo:
         id_inscricao = inserir_inscricao_plano(inscricao)
         assert id_inscricao is not None
 
-        # Deletar inscrição
         sucesso = deletar_inscricao_plano(id_inscricao)
         assert sucesso is True
 
-        # Verifica se deletou mesmo
         inscricao_db = obter_inscricao_plano_por_id(id_inscricao)
         assert inscricao_db is None
 

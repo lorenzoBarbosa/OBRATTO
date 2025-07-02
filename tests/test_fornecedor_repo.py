@@ -48,7 +48,6 @@ class TestFornecedorRepo:
         criar_tabela_usuario()
         criar_tabela_fornecedor()
         
-        # Inserir um fornecedor para o teste
         fornecedor = Fornecedor(
             id=0,
             nome="Fornecedor Teste",
@@ -69,10 +68,10 @@ class TestFornecedorRepo:
 
 
     def test_obter_fornecedor_por_id(self, test_db):
-        criar_tabela_usuario()      # cria tabela usuário (caso seja FK)
-        criar_tabela_fornecedor()   # cria tabela fornecedor
+        # Arrange
+        criar_tabela_usuario()      
+        criar_tabela_fornecedor()
         
-        # Inserir algum fornecedor para ter dados
         fornecedor = Fornecedor(
             id=0,
             nome="Fornecedor Teste",
@@ -85,9 +84,8 @@ class TestFornecedorRepo:
             razao_social="Fornecedor Ltda",
             tipo_usuario="fornecedor"
         )
+        #Act
         id_inserido = inserir_fornecedor(fornecedor)
-        
-        # Agora você pode chamar obter_fornecedor()
         fornecedor_bd = obter_fornecedor_por_id(id_inserido)
         
         # Assert 

@@ -68,7 +68,7 @@ class TestOrcamentoServicoRepo:
         id_usuario_prestador = inserir_usuario(usuario_prestador)
 
         prestador = Prestador(
-            id=id_usuario_prestador,  # ✔ O mesmo id do usuário
+            id=id_usuario_prestador,
             nome="Prestador Teste",
             email="prestador@teste.com",
             senha="123",

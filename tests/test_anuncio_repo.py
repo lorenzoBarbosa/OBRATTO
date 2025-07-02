@@ -148,7 +148,7 @@ class TestAnuncioRepo:
             razao_social="Fornecedor LTDA",
             tipo_usuario="Fornecedor"
         )
-        id_fornecedor = inserir_fornecedor(fornecedor)  # Ajuste aqui para retornar id do fornecedor, se possível
+        id_fornecedor = inserir_fornecedor(fornecedor)
 
         anuncio = Anuncio(
             id_anuncio=0,
@@ -173,7 +173,7 @@ class TestAnuncioRepo:
         assert anuncio_db.data_criacao == "2023-10-01", "A data de criação do anúncio não corresponde ao esperado."
 
     def test_obter_anuncio_por_id(self, test_db):
-    # Arrange preparar para o teste
+    # Arrange 
         criar_tabela_usuario()
         criar_tabela_fornecedor()
         criar_tabela_anuncio()
@@ -184,10 +184,10 @@ class TestAnuncioRepo:
 
         id_fornecedor = inserir_fornecedor(fornecedor)
         anuncio = Anuncio(0, nome_anuncio="Anúncio Teste", id_fornecedor=id_fornecedor, data_criacao="2023-10-01", descricao="Descrição do anúncio", preco=100.0)
-        # Act fazer a ação que será testada
+        # Act
         id_anuncio = inserir_anuncio(anuncio)
         anuncio_db = obter_anuncio_por_id(id_anuncio)
-        # Asserts verificar se o resultado é o esperado
+        # Asserts 
         assert id_anuncio is not None, "O anúncio não foi inserido com sucesso."
         assert anuncio_db is not None, "O anúncio não foi encontrado no banco de dados."
         assert anuncio_db.nome_anuncio == "Anúncio Teste", "O nome do anúncio não corresponde ao esperado."
@@ -197,7 +197,7 @@ class TestAnuncioRepo:
         assert anuncio_db.data_criacao == "2023-10-01", "A data de criação do anúncio não corresponde ao esperado."
 
     def test_obter_anuncio_paginado(self, test_db):
-    # Arrange – preparar dados
+    # Arrange 
         criar_tabela_usuario()
         criar_tabela_fornecedor()
         criar_tabela_anuncio()
@@ -229,7 +229,6 @@ class TestAnuncioRepo:
         )
         id_fornecedor = inserir_fornecedor(fornecedor)
 
-        # Inserir múltiplos anúncios
         for i in range(5):
             anuncio = Anuncio(
                 id_anuncio=0,
@@ -385,7 +384,6 @@ class TestAnuncioRepo:
         # Assert - verificar se a atualização foi bem sucedida
         assert sucesso is True
 
-        # Verificar se o anúncio foi realmente atualizado no banco
         anuncio_bd = obter_anuncio_por_id(id_anuncio)
         assert anuncio_bd is not None
         assert anuncio_bd.nome_anuncio == "Anuncio Atualizado"
@@ -442,7 +440,5 @@ class TestAnuncioRepo:
 
         # Assert - verificar se a exclusão foi bem sucedida
         assert sucesso is True
-
-        # Verificar se o anúncio foi realmente removido
         anuncio_bd = obter_anuncio_por_id(id_anuncio)
         assert anuncio_bd is None

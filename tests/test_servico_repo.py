@@ -21,7 +21,6 @@ class TestServicoRepo:
         criar_tabela_usuario()
         criar_tabela_prestador()
 
-        # Inserir usuário primeiro!
         usuario = Usuario(
             id=0,
             nome="Prestador Teste",
@@ -30,14 +29,14 @@ class TestServicoRepo:
             cpf_cnpj="12345678900",
             telefone="999999999",
             endereco="Rua Exemplo, 123",
-            tipo_usuario="prestador",  # ou o valor correspondente no seu sistema
+            tipo_usuario="prestador", 
             data_cadastro=datetime.now().isoformat()
         )
 
         id_usuario = inserir_usuario(usuario)
 
         prestador = Prestador(
-            id=id_usuario,               # id do usuário (FK e PK do prestador)
+            id=id_usuario, 
             nome=usuario.nome,
             email=usuario.email,
             senha=usuario.senha,

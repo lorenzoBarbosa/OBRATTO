@@ -67,8 +67,8 @@ class TestAvaliacaoRepo:
         id_usuario_prestador = inserir_usuario(usuario_prestador)
 
         prestador = Prestador(
-            id=id_usuario_prestador,  # o ID do usuário vai como `id`
-            nome="Avaliado",  # herdado de Usuario
+            id=id_usuario_prestador,
+            nome="Avaliado",
             email="avaliado@teste.com",
             senha="123",
             cpf_cnpj="22222222222",

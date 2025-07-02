@@ -18,20 +18,18 @@ from datetime import datetime, timedelta, date
 
 class Test_OrcamentoRepo:
     def test_criar_tabela_orcamento(self, test_db):
-        criar_tabela_usuario()  # Garantir que usuário existe, se necessário
+        criar_tabela_usuario() 
         criar_tabela_fornecedor()
         criar_tabela_cliente()
         resultado = criar_tabela_orcamento()
         assert resultado is True, "A criação da tabela deveria retornar True"
 
     def test_inserir_orcamento(self, test_db):
-        # Criar todas as tabelas necessárias
         criar_tabela_usuario()
         criar_tabela_fornecedor()
         criar_tabela_cliente()
         criar_tabela_orcamento()
 
-        # Criar e inserir usuário fornecedor
         usuario_fornecedor = Usuario(
             id=0,
             nome="Fornecedor Teste",
@@ -46,7 +44,6 @@ class Test_OrcamentoRepo:
         id_usuario_fornecedor = inserir_usuario(usuario_fornecedor)
         assert id_usuario_fornecedor is not None, "Usuário fornecedor não inserido"
 
-        # Criar e inserir fornecedor (herdando dados do usuário)
         fornecedor = Fornecedor(
             id=0,
             nome="Fornecedor Teste",
@@ -62,7 +59,6 @@ class Test_OrcamentoRepo:
         id_fornecedor = inserir_fornecedor(fornecedor)
         assert id_fornecedor is not None, "Fornecedor não inserido"
 
-        # Criar e inserir usuário cliente
         usuario_cliente = Usuario(
             id=0,
             nome="Cliente Teste",
@@ -77,7 +73,6 @@ class Test_OrcamentoRepo:
         id_usuario_cliente = inserir_usuario(usuario_cliente)
         assert id_usuario_cliente is not None, "Usuário cliente não inserido"
 
-        # Criar e inserir cliente (com FK para usuário)
         cliente = Cliente(
             id=0,
             id_usuario=id_usuario_cliente,
@@ -87,7 +82,6 @@ class Test_OrcamentoRepo:
         id_cliente = inserir_cliente(cliente)
         assert id_cliente is not None, "Cliente não inserido"
 
-        # Criar e inserir orçamento
         orcamento = Orcamento(
             id_fornecedor=id_fornecedor,
             id_cliente=id_cliente,
@@ -135,7 +129,6 @@ class Test_OrcamentoRepo:
         criar_tabela_cliente()
         criar_tabela_orcamento()
 
-        # Cadastrar usuário/fornecedor
         usuario_f = Usuario(
             id=0, nome="F", email="f@f.com", senha="1", cpf_cnpj="1", telefone="1",
             data_cadastro=datetime.now(), endereco="End", tipo_usuario="Fornecedor"
@@ -147,7 +140,6 @@ class Test_OrcamentoRepo:
         )
         id_fornecedor = inserir_fornecedor(fornecedor)
 
-        # Cliente
         usuario_c = Usuario(
             id=0, nome="C", email="c@c.com", senha="2", cpf_cnpj="2", telefone="2",
             data_cadastro=datetime.now(), endereco="End", tipo_usuario="Cliente"
@@ -168,7 +160,6 @@ class Test_OrcamentoRepo:
             descricao="..."
         )
 
-        # INSERIR O ORÇAMENTO ORIGINAL E GUARDAR O ID
         id_orcamento = inserir_orcamento(orcamento)
 
         orcamento_atualizado = Orcamento(

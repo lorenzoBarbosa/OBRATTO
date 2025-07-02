@@ -92,8 +92,6 @@ class TestClienteRepo:
         assert usuario_encontrado.id == id_usuario
         assert usuario_encontrado.nome == "Cliente Final"
 
-    #criar teste para atualizar cliente
-
     def test_deletar_um_cliente_e_confirmar_remocao(self, test_db):
         #Arrange
         criar_tabela_usuario()
