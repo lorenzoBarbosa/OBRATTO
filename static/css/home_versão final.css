@@ -43,7 +43,7 @@ nav {
 .hero{
     height: 1012px;
     background-color: #EEEEEE;
-    background-image: url(/img/tela_fundo.png);
+    background-image: url(/static/img/tela_fundo.png);
     background-repeat: repeat;
     background-size: cover;
 }
