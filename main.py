@@ -1,3 +1,8 @@
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+import uvicorn
 from utils.db import open_connection
 
 from data.usuario.usuario_sql import CRIAR_TABELA_USUARIO
@@ -47,5 +52,19 @@ def main():
         print(f"Tabela {i} criada com sucesso? {sucesso}")
 
 
+
+app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+
+@app.get("/")
+async def get_root():
+    response = HTMLResponse(
+        content="<h1>Bem-vindo à OBRATTO!</h1>",
+        status_code=200
+    )
+    return response
+
 if __name__ == "__main__":
-    main()
+    uvicorn.run(app="main:app", host="127.0.0.1", port=8000, reload=True)
