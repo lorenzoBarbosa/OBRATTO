@@ -9,6 +9,9 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+#criar as tabelas chamando a função repo.
+
+
 @app.get("/")
 async def get_root():
     response = templates.TemplateResponse("index.html", {"request": {}})
