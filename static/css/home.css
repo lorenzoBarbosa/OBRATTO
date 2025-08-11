@@ -10,20 +10,17 @@ nav {
     background-color: #171370;
 }
 
-.logo-padding {
-  padding-bottom: 10px;
-    padding-top: 10px;
+#logo{
+    width: 80px;
+    margin-top: -4px;
+    margin-bottom: 8px;
 }
 
-.margem-superior-50 {
-    margin-top: 50px;
-}
-
-#botao_pesquisar{
-    background-color: white;
-    color: black;
-    border-radius: 70px;
-    transition: 1s;
+#barra_pesquisa{
+    border-radius: 70px; 
+    width: 300px; 
+    height: 40px;
+    margin-top: 8px;
 }
 
 #lupa{
@@ -31,28 +28,38 @@ nav {
     position: relative;
     right: 40px;
     font-size: 20px;
-    top: 9px;
+    top: 13px;
+    transition: all 0.4s ease;
+}
+
+#lupa:hover{
+    font-size: 23px;
+    color: #E85F4B;
+    transform: scale(1.08);
 }
 
 #login{
     color: white;
-    font-size: 35px;
+    font-size: 40px !important;
     position: relative;
     top: 1px;
-    right: 5px;
+    right: 10px;
+    transition: all 0.4s ease;
 }
-#barra_pesquisa{
-    border-radius: 70px; 
-    width: 300px; 
-    height: 40px;
-    margin-top: 5px;
+
+#login:hover{
+    color: #E85F4B;
+    font-size: 43px !important;
+    transform: scale(1.08);
 }
-.hero{
-    height: 1012px;
+
+.hero {
+    height: 100vh; /* altura = 100% da altura da janela */
     background-color: #EEEEEE;
     background-image: url(/static/img/tela_fundo.png);
-    background-repeat: repeat;
-    background-size: cover;
+    background-repeat: no-repeat; /* evita repetir a imagem */
+    background-size: cover; /* cobre toda a área mantendo proporção */
+    background-position: center; /* centraliza a imagem */
 }
 
 #titulo{
