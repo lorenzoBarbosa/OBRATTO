@@ -46,6 +46,12 @@ produto_repo.criar_tabela_produto()
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+# Rota de redirecionamento para fornecedor
+@app.get("/fornecedor")
+async def fornecedor_redirect():
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/fornecedor/produtos/listar")
+
 #rotas
 
 app.include_router(fornecedor_produtos_router)

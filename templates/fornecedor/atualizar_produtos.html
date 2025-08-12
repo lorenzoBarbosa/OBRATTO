@@ -3,10 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBRATTO</title>
+    <title>OBRATTO - Atualizar Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-bar {
+            background-color: #333;
+            padding: 15px 0;
+            margin: -30px -30px 30px -30px;
+            border-radius: 8px 8px 0 0;
+        }
+        .nav-bar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .nav-bar li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .nav-bar a:hover, .nav-bar .active {
+            background-color: #555;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .product-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            border-left: 4px solid #007bff;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        .form-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .required {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1>Atualizar Produto</h1>
-    <hr>
+    <div class="container">
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="/fornecedor">🏪 Home</a></li>
+                <li><a href="/fornecedor/produtos/listar">📦 Produtos</a></li>
+                <li><a href="/fornecedor/produtos/inserir">➕ Novo Produto</a></li>
+                <li><a href="/fornecedor/produtos/debug">🔧 Debug</a></li>
+            </ul>
+        </nav>
+
+        <h1>✏️ Atualizar Produto</h1>
+        
+        <div class="product-info">
+            <strong>📦 Editando produto ID: {{ produto.id }}</strong>
+        </div>
+        
+        <form method="post" action="/fornecedor/produtos/atualizar/{{ produto.id }}">
+            <div class="form-group">
+                <label for="nome">Nome do Produto <span class="required">*</span></label>
+                <input type="text" id="nome" name="nome" value="{{ produto.nome }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="descricao">Descrição <span class="required">*</span></label>
+                <textarea id="descricao" name="descricao" required>{{ produto.descricao }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="preco">Preço (R$) <span class="required">*</span></label>
+                <input type="number" id="preco" name="preco" step="0.01" min="0" value="{{ produto.preco }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="quantidade">Quantidade em Estoque <span class="required">*</span></label>
+                <input type="number" id="quantidade" name="quantidade" min="0" value="{{ produto.quantidade }}" required>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-warning">💾 Atualizar Produto</button>
+                <a href="/fornecedor/produtos/listar" class="btn btn-secondary">❌ Cancelar</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
