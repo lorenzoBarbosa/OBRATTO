@@ -1,7 +1,7 @@
 from datetime import datetime
 import sqlite3
 from typing import Optional, List
-from produto_model import Produto
+from data.produto.produto_model import Produto
 from data.produto.produto_sql import (CRIAR_TABELA_PRODUTO, INSERIR_PRODUTO, OBTER_PRODUTO, OBTER_PRODUTO_POR_ID, ATUALIZAR_PRODUTO, DELETAR_PRODUTO, OBTER_PRODUTO_POR_PAGINA)
 from utils.db import open_connection
 
@@ -15,10 +15,18 @@ def criar_tabela_produto():
 
 def inserir_produto(produto: Produto):
     with open_connection() as conn:
-        conn.execute(
-            INSERIR_PRODUTO,
-            (produto.id, produto.nome, produto.descricao, produto.preco, produto.quantidade)
-        )
+        if produto.id is None:
+            # Insert without ID (autoincrement)
+            conn.execute(
+                "INSERT INTO PRODUTO (nome, descricao, preco, quantidade) VALUES (?, ?, ?, ?)",
+                (produto.nome, produto.descricao, produto.preco, produto.quantidade)
+            )
+        else:
+            # Insert with ID
+            conn.execute(
+                INSERIR_PRODUTO,
+                (produto.id, produto.nome, produto.descricao, produto.preco, produto.quantidade)
+            )
         conn.commit()
 
 def obter_produto_por_id(id: int) -> Optional[Produto]:

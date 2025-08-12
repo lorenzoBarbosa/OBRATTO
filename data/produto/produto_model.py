@@ -5,7 +5,7 @@ import datetime
 
 @dataclass
 class Produto:
-    id: int
+    id: Optional[int]
     nome: str
     descricao: str
     preco: float

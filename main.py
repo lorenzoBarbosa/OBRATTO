@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -41,8 +41,15 @@ templates = Jinja2Templates(directory="templates")
 
 produto_repo.criar_tabela_produto()
 
+# Rota principal para teste
+@app.get("/")
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+#rotas
 
 app.include_router(fornecedor_produtos_router)
+app.include_router(administrador_router)
 
 if __name__ == "__main__":
     uvicorn.run(app="main:app", host="127.0.0.1", port=8000, reload=True)
