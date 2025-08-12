@@ -10,6 +10,7 @@ from data.fornecedor import fornecedor_repo
 from data.cliente import cliente_repo
 from data.prestador import prestador_repo
 from data.plano import plano_repo
+from data.inscricaoplano import inscricao_plano_repo
 from data.anuncio import anuncio_repo
 from data.avaliacao import avaliacao_repo
 from data.mensagem import mensagem_repo
@@ -22,6 +23,7 @@ from data.usuario import usuario_repo
 #fornecedor
 
 from routes.fornecedor.fornecedor_produtos import router as fornecedor_produtos_router
+from routes.fornecedor.fornecedor_planos import router as fornecedor_planos_router
 
 #administrador
 
@@ -52,9 +54,13 @@ async def fornecedor_redirect():
     from fastapi.responses import RedirectResponse
     return RedirectResponse(url="/fornecedor/produtos/listar")
 
+
+#adicionar depois a rota home como principal
+
 #rotas
 
 app.include_router(fornecedor_produtos_router)
+app.include_router(fornecedor_planos_router)
 app.include_router(administrador_router)
 
 if __name__ == "__main__":
