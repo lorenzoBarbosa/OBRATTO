@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #E8E3E0;
+}
+
+/* Cores */
+.fundo-azul {
+  background-color: #171370 !important;
+;
+}
+#logo{
+    width: 50px;
+    margin-top: -4px;
+    margin-bottom: 8px;
+}
+.container {
+  display: flex; /* Usa flexbox para organizar lado a lado */
+  justify-content: flex-start; /* Alinha conteúdo à esquerda */
+  align-items: center; /* Centraliza verticalmente */
+  height: calc(100vh - 40px); /* Ocupa toda a altura, menos o cabeçalho */
+}
+
+.login-main {
+  display: flex; /* formulário e logo lado a lado */
+  justify-content: space-between; /* formulário à esquerda, logo à direita */
+  align-items: center;
+  padding: 30px 50px;
+  border-radius: 5px;
+  gap: 50px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Coluna de texto e campos */
+.login-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+}
+
+.titulo {
+  color: #e85f4b; /* laranja */
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.subtitulo {
+  font-size: 20px;
+  color:black;
+}
+
+/* Campos */
+.login-texto input {
+  padding: 10px; /* Espaçamento interno */
+  border-radius: 20px; /* Bordas arredondadas */
+  border: none; /* Remove borda padrão */
+  background-color: #d9d9d9; /* Cinza claro */
+  outline: none; /* Remove contorno ao clicar */
+}
+
+/* Botões */
+.botoes {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-entrar, .btn-google {
+  flex: 1; 
+  padding: 8px 0;
+  border-radius: 20px;
+  cursor: pointer;
+  color: black;
+  font-size: 15px;
+  border: none;
+
+}
+
+.btn-entrar {
+  background-color: #e85f4b; /* laranja */
+  color: white;
+}
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-google img {
+  height: 16px;
+}
+
+/* Coluna do logo grande */
+.login-logo {
+  text-align: right;
+}
+
+.login-logo img {
+  max-width: 1000px;
+}
+
+.slogan {
+  font-size: 14px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.cadatro-link {
+  margin-top: 12px;
+  font-size: 12px;
+  text-align: center;
+
+}
+.cadastro-link a {
+  color: #e85f4b;
+  text-decoration: none;
+  font-weight: bold;
+}
+.cadastro-link a:hover {
+  text-decoration: underline;
+}
