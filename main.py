@@ -44,15 +44,16 @@ templates = Jinja2Templates(directory="templates")
 produto_repo.criar_tabela_produto()
 
 # Rota principal para teste
-@app.get("/")
+@app.get("/") # mudar a rota para home principal quando estiver pronta
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+
 # Rota de redirecionamento para fornecedor
-@app.get("/fornecedor")
-async def fornecedor_redirect():
-    from fastapi.responses import RedirectResponse
-    return RedirectResponse(url="/fornecedor/produtos/listar")
+# @app.get("/fornecedor")
+# async def fornecedor_redirect():
+#     from fastapi.responses import RedirectResponse
+#     return RedirectResponse(url="/fornecedor/produtos/listar")
 
 
 #adicionar depois a rota home como principal

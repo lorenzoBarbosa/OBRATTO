@@ -1,5 +1,14 @@
 .venv
+venv
 __pycache__
 *.pyc
 *.pyo
 *.pyd
+[env]
+.env
+# Ignorar bancos de dados
+*.db
+*.sqlite3
+# Ignorar arquivos temporários
+*.log
+*.tmp
