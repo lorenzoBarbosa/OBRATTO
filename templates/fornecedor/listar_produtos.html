@@ -162,7 +162,7 @@
                     <td>{{ produto.quantidade }} unidades</td>
                     <td class="actions">
                         <a href="/fornecedor/produtos/atualizar/{{ produto.id }}" class="btn btn-warning">✏️ Editar</a>
-                        <a href="/fornecedor/produtos/excluir/{{ produto.id }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir o produto \'{{ produto.nome }}\'?')">🗑️ Excluir</a>
+                        <a href="/fornecedor/produtos/confi_exclusao/{{ produto.id }}" class="btn btn-danger">🗑️ Excluir</a>
                     </td>
                 </tr>
                 {% endfor %}
