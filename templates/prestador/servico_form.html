@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Serviço - Prestador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            color: #333;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .header p {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .breadcrumb {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #6c757d;
+            margin: 0 0.5rem;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+
+        .form-header {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .form-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .form-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: #dc3545;
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-control.valid {
+            border-color: #28a745;
+        }
+
+        .form-control.invalid {
+            border-color: #dc3545;
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        .char-counter.warning {
+            color: #ffc107;
+        }
+
+        .char-counter.danger {
+            color: #dc3545;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-prefix {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .input-group .form-control {
+            padding-left: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: 1px solid #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+            border-color: #545b62;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 1px solid;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-body {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <h1>Novo Serviço</h1>
+            <p>Cadastre um novo serviço para seu negócio</p>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/prestador/servicos/listar?id_prestador={{ id_prestador or '1' }}">Meus Serviços</a>
+            <span>></span>
+            <strong>Novo Serviço</strong>
+        </div>
+
+        <!-- Mensagens de erro/sucesso -->
+        {% if error_message %}
+        <div class="alert alert-error">
+            <strong>Erro:</strong> {{ error_message }}
+        </div>
+        {% endif %}
+
+        {% if success_message %}
+        <div class="alert alert-success">
+            <strong>Sucesso:</strong> {{ success_message }}
+        </div>
+        {% endif %}
+
+        <!-- Formulário -->
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Informações do Serviço</h2>
+                <p>Preencha todos os campos obrigatórios para cadastrar o novo serviço</p>
+            </div>
+
+            <div class="form-body">
+                <form method="POST" id="servicoForm" novalidate>
+                    <!-- Campo oculto para ID do prestador -->
+                    <input type="hidden" name="id_prestador" value="{{ id_prestador or '' }}">
+
+                    <!-- Nome do Prestador -->
+                    <div class="form-group">
+                        <label for="nome_prestador">
+                            Nome do Prestador
+                            <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="nome_prestador" 
+                            name="nome_prestador" 
+                            class="form-control" 
+                            placeholder="Ex: João Silva Construções"
+                            value="{{ servico.nome_prestador if servico else '' }}"
+                            required
+                            maxlength="100"
+                        >
+                        <div class="help-text">Nome ou razão social do prestador de serviços</div>
+                    </div>
+
+                    <!-- Tipo de Serviço (Título) -->
+                    <div class="form-group">
+                        <label for="titulo">
+                            Tipo de Serviço
+                            <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="titulo" 
+                            name="titulo" 
+                            class="form-control" 
+                            placeholder="Ex: Construção de Casa Popular"
+                            value="{{ servico.titulo if servico else '' }}"
+                            required
+                            maxlength="100"
+                        >
+                        <div class="help-text">Título ou nome do serviço oferecido</div>
+                    </div>
+
+                    <!-- Categoria -->
+                    <div class="form-group">
+                        <label for="categoria">
+                            Categoria
+                            <span class="required">*</span>
+                        </label>
+                        <select id="categoria" name="categoria" class="form-control" required>
+                            <option value="">Selecione uma categoria...</option>
+                            <option value="Engenharia Civil" {{ 'selected' if servico and servico.categoria == 'Engenharia Civil' else '' }}>Engenharia Civil</option>
+                            <option value="Arquitetura" {{ 'selected' if servico and servico.categoria == 'Arquitetura' else '' }}>Arquitetura</option>
+                            <option value="Construção" {{ 'selected' if servico and servico.categoria == 'Construção' else '' }}>Construção</option>
+                            <option value="Reformas" {{ 'selected' if servico and servico.categoria == 'Reformas' else '' }}>Reformas</option>
+                            <option value="Elétrica" {{ 'selected' if servico and servico.categoria == 'Elétrica' else '' }}>Elétrica</option>
+                            <option value="Hidráulica" {{ 'selected' if servico and servico.categoria == 'Hidráulica' else '' }}>Hidráulica</option>
+                            <option value="Pintura" {{ 'selected' if servico and servico.categoria == 'Pintura' else '' }}>Pintura</option>
+                            <option value="Acabamento" {{ 'selected' if servico and servico.categoria == 'Acabamento' else '' }}>Acabamento</option>
+                            <option value="Terraplanagem" {{ 'selected' if servico and servico.categoria == 'Terraplanagem' else '' }}>Terraplanagem</option>
+                            <option value="Fundação" {{ 'selected' if servico and servico.categoria == 'Fundação' else '' }}>Fundação</option>
+                            <option value="Estrutura" {{ 'selected' if servico and servico.categoria == 'Estrutura' else '' }}>Estrutura</option>
+                            <option value="Cobertura" {{ 'selected' if servico and servico.categoria == 'Cobertura' else '' }}>Cobertura</option>
+                            <option value="Consultoria" {{ 'selected' if servico and servico.categoria == 'Consultoria' else '' }}>Consultoria</option>
+                            <option value="Outros" {{ 'selected' if servico and servico.categoria == 'Outros' else '' }}>Outros</option>
+                        </select>
+                        <div class="help-text">Categoria que melhor descreve o tipo de serviço</div>
+                    </div>
+
+                    <!-- Valor Base -->
+                    <div class="form-group">
+                        <label for="valor_base">
+                            Valor Base
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-prefix">R$</span>
+                            <input 
+                                type="number" 
+                                id="valor_base" 
+                                name="valor_base" 
+                                class="form-control" 
+                                placeholder="0,00"
+                                value="{{ servico.valor_base if servico else '' }}"
+                                required
+                                min="0"
+                                step="0.01"
+                            >
+                        </div>
+                        <div class="help-text">Valor base do serviço em reais</div>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="form-group">
+                        <label for="descricao">
+                            Descrição do Serviço
+                            <span class="required">*</span>
+                        </label>
+                        <textarea 
+                            id="descricao" 
+                            name="descricao" 
+                            class="form-control" 
+                            placeholder="Descreva detalhadamente o serviço oferecido..."
+                            required
+                            maxlength="1000"
+                        >{{ servico.descricao if servico else '' }}</textarea>
+                        <div class="char-counter">
+                            <span id="charCount">0</span>/1000 caracteres
+                        </div>
+                        <div class="help-text">Descrição completa do serviço</div>
+                    </div>
+
+                    <!-- Ações do formulário -->
+                    <div class="form-actions">
+                        <a href="/prestador/servicos/listar?id_prestador={{ id_prestador or 1 }}" class="btn btn-secondary">
+    Voltar para Lista
+</a>
+
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span class="loading-spinner" id="loadingSpinner"></span>
+                            <span id="submitText">Cadastrar Serviço</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('servicoForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const descricaoTextarea = document.getElementById('descricao');
+            const charCount = document.getElementById('charCount');
+            const valorInput = document.getElementById('valor_base');
+
+            // Contador de caracteres para descrição
+            function updateCharCount() {
+                const count = descricaoTextarea.value.length;
+                charCount.textContent = count;
+                
+                const counter = charCount.parentElement;
+                counter.classList.remove('warning', 'danger');
+                
+                if (count > 800) {
+                    counter.classList.add('danger');
+                } else if (count > 600) {
+                    counter.classList.add('warning');
+                }
+            }
+
+            descricaoTextarea.addEventListener('input', updateCharCount);
+            updateCharCount();
+
+            // Formatação do valor monetário
+            valorInput.addEventListener('input', function() {
+                let value = this.value.replace(/[^\d.,]/g, '');
+                value = value.replace(',', '.');
+                this.value = value;
+            });
+
+            // Validação em tempo real
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('invalid')) {
+                        validateField(this);
+                    }
+                });
+            });
+
+            function validateField(field) {
+                const isValid = field.checkValidity() && field.value.trim() !== '';
+                
+                field.classList.remove('valid', 'invalid');
+                field.classList.add(isValid ? 'valid' : 'invalid');
+                
+                return isValid;
+            }
+
+            // Submissão do formulário
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validar todos os campos
+                let isFormValid = true;
+                inputs.forEach(input => {
+                    if (!validateField(input)) {
+                        isFormValid = false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    alert('Por favor, preencha todos os campos obrigatórios corretamente.');
+                    return;
+                }
+
+                // Mostrar loading
+                submitBtn.disabled = true;
+                submitText.textContent = 'Cadastrando...';
+                loadingSpinner.style.display = 'block';
+
+                // Enviar formulário
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            });
+
+            // Auto-hide alerts
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.opacity = '0';
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 300);
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>
+
