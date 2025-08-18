@@ -56,6 +56,13 @@ class PrestadorRepo:
             resultado = [p for p in resultado if local.lower() in p.localizacao.lower()]
         return resultado
 
+    def obter_por_id(self, id_prestador: int) -> Optional[Prestador]:
+        """Busca um único prestador pelo seu ID."""
+        for p in self._prestadores:
+            if p.id == id_prestador:
+                return p
+        return None
+
 prestador_repo = PrestadorRepo()
 
 
@@ -80,3 +87,23 @@ async def catalogo_prestadores(
         "servicos_disponiveis": todos_servicos,
         "filtros_ativos": {"q": q, "servico": servico, "local": local}
     })
+
+# Adicione esta rota no final do arquivo publico_router.py
+
+@router.get("/prestador/{id_prestador}", response_class=HTMLResponse, name="detalhes_prestador")
+async def detalhes_prestador(request: Request, id_prestador: int):
+    """
+    Exibe a página de perfil detalhado de um único prestador.
+    """
+    prestador = prestador_repo.obter_por_id(id_prestador)
+    
+    if not prestador:
+        # Se o prestador não for encontrado, pode redirecionar para o catálogo ou mostrar um erro 404.
+        # Por enquanto, vamos lançar um erro.
+        raise HTTPException(status_code=404, detail="Prestador não encontrado")
+        
+    return templates.TemplateResponse("publico/perfil_prestador.html", {
+        "request": request,
+        "prestador": prestador
+    })
+

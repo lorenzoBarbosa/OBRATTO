@@ -43,16 +43,19 @@
             </form>
         </div>
 
-        <!-- Lista de Prestadores -->
+        <!-- ================================================== -->
+        <!-- LISTA DE PRESTADORES - SEÇÃO TOTALMENTE CORRIGIDA -->
+        <!-- ================================================== -->
         <div class="row g-4">
             {% if prestadores %}
                 {% for p in prestadores %}
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 prestador-card">
-                        <div class="card-body text-center">
-                            <img src="{{ p.logo_url }}" alt="Logo de {{ p.nome }}" class="rounded-circle mb-3 prestador-logo">
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="card w-100 prestador-card">
+                        <div class="card-body text-center d-flex flex-column">
+                            <img src="{{ p.logo_url }}" alt="Logo de {{ p.nome }}" class="rounded-circle mb-3 mx-auto prestador-logo">
                             <h5 class="card-title">{{ p.nome }}</h5>
                             <p class="card-text text-muted">{{ p.area_atuacao }}</p>
+                            
                             <div class="d-flex justify-content-center align-items-center mb-3">
                                 <i class="bi bi-star-fill text-warning me-1"></i>
                                 <span class="fw-bold">{{ "%.1f"|format(p.avaliacao) }}</span>
@@ -60,14 +63,16 @@
                                 <i class="bi bi-geo-alt-fill text-danger me-1"></i>
                                 <span>{{ p.localizacao }}</span>
                             </div>
-                            <div>
+
+                            <!-- Tags de serviço -->
+                            <div class="mt-auto">
                                 {% for s in p.servicos[:3] %}
-                                <span class="badge bg-light text-dark">{{ s }}</span>
+                                <span class="badge bg-light text-dark border">{{ s }}</span>
                                 {% endfor %}
                             </div>
                         </div>
                         <div class="card-footer bg-white border-0 p-3">
-                            <a href="#" class="btn btn-outline-primary w-100">Ver Perfil Completo</a>
+                            <a href="{{ url_for('detalhes_prestador', id_prestador=p.id) }}" class="btn btn-outline-primary w-100">Ver Perfil Completo</a>
                         </div>
                     </div>
                 </div>
