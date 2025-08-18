@@ -1,0 +1,79 @@
+<!-- Salve como: templates/prestador/servicos_listar.html -->
+{% extends "prestador/_layout.html" %}
+
+{% block title %}Meus Serviços{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">Meus Serviços</h1>
+    <a href="{{ url_for('form_novo_servico') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle-fill me-2"></i>Novo Serviço
+    </a>
+</div>
+
+<!-- Alertas de feedback -->
+{% if request.query_params.get('msg') == 'sucesso_criar' %}
+<div class="alert alert-success">Serviço criado com sucesso!</div>
+{% elif request.query_params.get('msg') == 'sucesso_editar' %}
+<div class="alert alert-success">Serviço atualizado com sucesso!</div>
+{% elif request.query_params.get('msg') == 'sucesso_remover' %}
+<div class="alert alert-success">Serviço removido com sucesso.</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-header">
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Buscar por título ou categoria..." value="{{ q or '' }}">
+                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        {% if servicos %}
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Valor Base</th>
+                    <th>Status</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servico in servicos %}
+                <tr>
+                    <td><strong>{{ servico.titulo }}</strong></td>
+                    <td><span class="badge bg-secondary">{{ servico.categoria }}</span></td>
+                    <td>R$ {{ "%.2f"|format(servico.valor_base)|replace('.', ',') }}</td>
+                    <td>
+                        {% if servico.ativo %}
+                        <span class="badge bg-success">Ativo</span>
+                        {% else %}
+                        <span class="badge bg-danger">Inativo</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('form_editar_servico', id_servico=servico.id) }}" class="btn btn-sm btn-warning" title="Editar">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <form method="post" action="{{ url_for('remover_servico', id_servico=servico.id) }}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja remover este serviço?');">
+                             <input type="hidden" name="id_prestador" value="{{ id_prestador }}">
+                             <button type="submit" class="btn btn-sm btn-danger" title="Remover"><i class="bi bi-trash-fill"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="text-center p-5">
+            <h4>Nenhum serviço encontrado.</h4>
+            <p>Comece cadastrando um novo serviço para que os clientes possam te encontrar.</p>
+            <a href="{{ url_for('form_novo_servico') }}" class="btn btn-primary mt-2">Criar meu primeiro serviço</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

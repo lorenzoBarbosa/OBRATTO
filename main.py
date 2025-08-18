@@ -1,67 +1,67 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from contextlib import asynccontextmanager
-
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
-# Importações dos repositórios (apenas os que precisam criar tabelas no lifespan)
-from data.produto import produto_repo
-from data.servico import servico_repo
-
-# Importações dos roteadores de fornecedor
+# --- Importações Centralizadas e dos Roteadores ---
+from config import templates
 from routes.fornecedor.fornecedor_produtos import router as fornecedor_produtos_router
 from routes.fornecedor.fornecedor_planos import router as fornecedor_planos_router
+from routes.prestador.prestador_router import router as prestador_router
+from routes.publico_router import router as publico_router 
 
-# Importações dos roteadores de prestador
-from routes.prestador.servicos_oferecidos import router as prestador_servicos_router
-
+# --- Bloco de Simulação para Repositórios ---
+try:
+    from data.produto import produto_repo
+    from data.servico import servico_repo
+except ImportError:
+    class DummyRepo:
+        def criar_tabela_produto(self): pass
+        def criar_tabela_servico(self): pass
+    produto_repo = DummyRepo()
+    servico_repo = DummyRepo()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Código que roda na inicialização da aplicação
     print("Iniciando aplicação e criando tabelas no banco de dados...")
     produto_repo.criar_tabela_produto()
     servico_repo.criar_tabela_servico()
-    # Adicione aqui a criação de todas as outras tabelas que você tiver
     yield
-    # Código que roda no desligamento da aplicação (opcional)
     print("Aplicação desligada.")
 
-
 app = FastAPI(
-    title="Minha Aplicação de Serviços e Produtos",
-    description="API para gerenciamento de produtos de fornecedores e serviços de prestadores.",
+    title="Obratto",
+    description="Plataforma para gerenciamento de produtos de fornecedores e serviços de prestadores.",
     version="1.0.0",
     lifespan=lifespan
 )
 
-# Configuração de arquivos estáticos e templates
+# Configuração de arquivos estáticos
 app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
 
-# Rota principal para teste
-@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+# --- Rota Principal (CORRIGIDA) ---
+@app.get("/", response_class=RedirectResponse, include_in_schema=False)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    try:
+        # --- A ÚNICA MUDANÇA ESTÁ AQUI ---
+        # Trocamos 'painel_prestador' por 'catalogo_prestadores' para que a página
+        # inicial do site seja o catálogo público.
+        return RedirectResponse(url=request.url_for('catalogo_prestadores'))
+    except Exception as e:
+        print(f"ERRO CRÍTICO ao gerar URL para 'catalogo_prestadores': {e}")
+        raise HTTPException(status_code=500, detail="Erro na configuração da rota principal.")
 
-# --- Rotas de Fornecedor ---
+# --- Inclusão dos Roteadores ---
+app.include_router(publico_router)
+app.include_router(prestador_router)
 app.include_router(fornecedor_produtos_router)
 app.include_router(fornecedor_planos_router)
 
-@app.get("/fornecedor", include_in_schema=False)
+@app.get("/fornecedor", include_in_schema=False, response_class=RedirectResponse)
 async def fornecedor_redirect():
     return RedirectResponse(url="/fornecedor/produtos/listar")
 
-# --- Rotas de Prestador ---
-app.include_router(prestador_servicos_router)
-
-@app.get("/prestador", include_in_schema=False)
-async def prestador_redirect():
-    return RedirectResponse(url="/prestador/servicos/listar")
-
-# --- Bloco principal para rodar sem reload ---
+# --- Bloco de Execução ---
 if __name__ == "__main__":
-    # Rodando sem reload para evitar warnings
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
