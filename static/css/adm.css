@@ -1,0 +1,281 @@
+/* Variáveis de cores */
+:root {
+    --color-light: #E1DEE3;
+    --color-dark: #171370;
+    --color-accent: #E85F4B;
+    --color-black: #000000;
+    --color-white: #ffffff;
+}
+
+/* Reset e configurações gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--color-light);
+    background-image: url('./assets/background.png');
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: center;
+    min-height: 100vh;
+}
+
+/* Navbar personalizada */
+.custom-navbar {
+    background-color: var(--color-dark);
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+
+#logo{
+    width: 80px;
+    margin-top: -20px;
+    margin-bottom: -18px;
+}
+
+/* Ícone de saída */
+.exit-icon {
+    color: var(--color-white);
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.exit-icon:hover {
+    color: var(--color-accent);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(3px);
+}
+
+/* Conteúdo principal */
+.main-content {
+    padding: 3rem 0;
+    min-height: calc(100vh - 80px);
+}
+
+/* Título principal */
+.main-title {
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Cards */
+.admin-card {
+    background-color: var(--color-white);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Ícones dos cards */
+.card-icon {
+    font-size: 4rem;
+    color: var(--color-black);
+    margin-bottom: 1rem;
+}
+
+/* Títulos dos cards */
+.card-title {
+    color: var(--color-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Botões de acesso */
+.access-btn {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+}
+
+.access-btn:hover {
+    background-color: #d54a35;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(232, 95, 75, 0.4);
+    color: var(--color-white);
+}
+
+.access-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .admin-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .card-icon {
+        font-size: 3rem;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-title {
+        font-size: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .logo-text {
+        font-size: 1rem;
+    }
+    
+    .exit-icon {
+        font-size: 1.3rem;
+    }
+    
+    .card-icon {
+        font-size: 2.5rem;
+    }
+    
+    .card-title {
+        font-size: 0.9rem;
+    }
+    
+    .access-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animações adicionais */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.admin-card:nth-child(1) { animation-delay: 0.1s; }
+.admin-card:nth-child(2) { animation-delay: 0.2s; }
+.admin-card:nth-child(3) { animation-delay: 0.3s; }
+.admin-card:nth-child(4) { animation-delay: 0.4s; }
+.admin-card:nth-child(5) { animation-delay: 0.5s; }
+.admin-card:nth-child(6) { animation-delay: 0.6s; }
+
+
+
+/* Estilos do Rodapé */
+footer {
+    margin-top: auto;
+    background-color: var(--color-dark) !important;
+}
+
+#logo-footer {
+    display: inline-block;
+    width: 100px;
+}
+
+.logo-text-footer {
+    color: var(--color-white);
+    font-weight: bold;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--color-white);
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+footer p {
+    color: var(--color-light);
+    font-size: 0.95rem;
+}
+
+footer nav a {
+    transition: color 0.3s ease;
+}
+
+footer nav a:hover {
+    color: var(--color-accent) !important;
+}
+
+footer hr {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    margin: 1rem 0;
+}
+
+/* Ajuste para manter o footer no final da página */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* Responsividade do footer */
+@media (max-width: 768px) {
+    .logo-text-footer {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+    
+    footer nav a {
+        display: block;
+        margin: 0.2rem 0;
+    }
+    
+    footer nav {
+        line-height: 1.8;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo-text-footer {
+        font-size: 1rem;
+    }
+    
+    footer p {
+        font-size: 0.85rem;
+    }
+}
