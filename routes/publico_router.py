@@ -8,18 +8,52 @@ from config import templates
 
 # --- Bloco de Simulação de Dados ---
 
+# Em routes/publico_router.py
+
+# ... (importações no topo do arquivo) ...
+
+# ==================================================================
+# ATUALIZE A CLASSE PRESTADOR E O REPOSITÓRIO ABAIXO (SEM PORTFÓLIO)
+# ==================================================================
+
 class Prestador:
-    def __init__(self, id: int, nome: str, area_atuacao: str, avaliacao: float, localizacao: str, logo_url: str, servicos: List[str]):
-        self.id, self.nome, self.area_atuacao, self.avaliacao, self.localizacao, self.logo_url, self.servicos = id, nome, area_atuacao, avaliacao, localizacao, logo_url, servicos
+    def __init__(self, id: int, nome: str, area_atuacao: str, avaliacao: float, localizacao: str, logo_url: str, servicos: List[str],
+                 # --- Campos Detalhados (sem portfólio) ---
+                 descricao: str,
+                 telefone: str,
+                 email: str
+                 ):
+        self.id = id
+        self.nome = nome
+        self.area_atuacao = area_atuacao
+        self.avaliacao = avaliacao
+        self.localizacao = localizacao
+        self.logo_url = logo_url
+        self.servicos = servicos
+        self.descricao = descricao
+        self.telefone = telefone
+        self.email = email
 
 class PrestadorRepo:
     def __init__(self):
         self._prestadores: List[Prestador] = [
-            Prestador(1, "João Silva Construções", "Construção e Reforma", 4.8, "São Paulo, SP", logo_url="/static/img/logos/construção1.jpg", servicos=["Alvenaria", "Pintura", "Elétrica"]),
-            Prestador(2, "Maria Souza Eletricista", "Elétrica", 5.0, "Rio de Janeiro, RJ", logo_url="/static/img/logos/eletricista.jpg", servicos=["Instalação Elétrica", "Reparos"]),
-            Prestador(3, "Hidráulica Rápida Ltda", "Hidráulica", 4.5, "Belo Horizonte, MG", logo_url="/static/img/logos/hidráulica.png", servicos=["Encanamento", "Caça Vazamento"]),
-            Prestador(4, "Pedro Pinturas", "Pintura e Acabamento", 4.7, "São Paulo, SP", logo_url="/static/img/logos/pintura.webp", servicos=["Pintura Interna", "Pintura Externa", "Textura"]),
-            Prestador(5, "Ana Arquiteta", "Arquitetura", 4.9, "Curitiba, PR", logo_url="/static/img/logos/arquitetura.jpeg", servicos=["Projetos Arquitetônicos", "Consultoria"]),
+            Prestador(
+                id=1, nome="João Silva Construções", area_atuacao="Construção e Reforma", avaliacao=4.8, localizacao="São Paulo, SP",
+                logo_url="/static/img/logos/construção1.jpg",
+                servicos=["Alvenaria", "Pintura", "Elétrica", "Reboco", "Fundações"],
+                descricao="Com mais de 15 anos de experiência, a João Silva Construções é especialista em reformas residenciais e comerciais, entregando qualidade e pontualidade em cada projeto.",
+                telefone="(11) 98765-4321",
+                email="contato@joaosilva.com"
+            ),
+            Prestador(
+                id=2, nome="Maria Souza Eletricista", area_atuacao="Elétrica", avaliacao=5.0, localizacao="Rio de Janeiro, RJ",
+                logo_url="/static/img/logos/eletricista.jpg",
+                servicos=["Instalação Elétrica", "Reparos em Disjuntores", "Troca de Fiação"],
+                descricao="Eletricista certificada com foco em segurança e eficiência. Atendimento rápido para emergências e projetos completos.",
+                telefone="(21) 91234-5678",
+                email="maria.souza@eletro.com"
+            ),
+            # Adicione os outros prestadores aqui com os novos campos, se desejar
         ]
     def obter_todos(self) -> List[Prestador]: return self._prestadores
     def buscar(self, nome: Optional[str] = None, servico: Optional[str] = None, local: Optional[str] = None) -> List[Prestador]:
@@ -32,7 +66,16 @@ class PrestadorRepo:
         for p in self._prestadores:
             if p.id == id_prestador: return p
         return None
+
 prestador_repo = PrestadorRepo()
+
+# ... (o resto do arquivo continua igual) ...
+
+# ==================================================================
+# FIM DO BLOCO A SER SUBSTITUÍDO
+# ==================================================================
+
+# ... (O restante do arquivo, incluindo a classe Orcamento e as rotas, continua exatamente igual) ...
 
 # ==================================================================
 # NOVO MODELO E REPOSITÓRIO PARA ORÇAMENTOS
@@ -63,7 +106,48 @@ class OrcamentoRepo:
 
 # Instância global para ser acessada por outros roteadores
 orcamento_repo = OrcamentoRepo()
-# --- Fim do Bloco de Simulação ---
+
+# No topo do routes/publico_router.py
+from datetime import datetime, timedelta # Adicione esta importação
+
+# ... (código existente até a instância orcamento_repo) ...
+orcamento_repo = OrcamentoRepo()
+
+class Contratacao:
+    def __init__(self, id: int, prestador_nome: str, servico: str, data_inicio: datetime, status: str, valor: float):
+        self.id = id
+        self.prestador_nome = prestador_nome
+        self.servico = servico
+        self.data_inicio = data_inicio
+        self.status = status # "Em andamento", "Concluído", "Cancelado"
+        self.valor = valor
+
+class SolicitacaoPendente:
+    def __init__(self, id: int, prestador_nome: str, servico: str, data_solicitacao: datetime, status: str):
+        self.id = id
+        self.prestador_nome = prestador_nome
+        self.servico = servico
+        self.data_solicitacao = data_solicitacao
+        self.status = status # "Aguardando resposta", "Visualizado"
+
+class ClienteRepo:
+    def __init__(self):
+        self._contratacoes: List[Contratacao] = [
+            Contratacao(1, "João Silva Construções", "Construção de Parede", datetime.now() - timedelta(days=10), "Em andamento", 1500.00),
+            Contratacao(2, "Pedro Pinturas", "Pintura Interna", datetime.now() - timedelta(days=30), "Concluído", 850.00),
+        ]
+        self._solicitacoes: List[SolicitacaoPendente] = [
+            SolicitacaoPendente(1, "Maria Souza Eletricista", "Instalação Elétrica", datetime.now() - timedelta(days=2), "Aguardando resposta"),
+            SolicitacaoPendente(2, "Hidráulica Rápida Ltda", "Caça Vazamento", datetime.now() - timedelta(days=1), "Visualizado"),
+        ]
+    def obter_contratacoes_por_cliente(self, id_cliente: int) -> List[Contratacao]:
+        return self._contratacoes
+    def obter_solicitacoes_por_cliente(self, id_cliente: int) -> List[SolicitacaoPendente]:
+        return self._solicitacoes
+
+cliente_repo = ClienteRepo()
+# --- Fim do Bloco de Simulação --.
+
 
 router = APIRouter(tags=["Público"])
 
@@ -145,3 +229,24 @@ async def enviar_contratacao(
     if not prestador: raise HTTPException(status_code=404, detail="Prestador não encontrado")
     print("="*30); print(f"Nova CONTRATAÇÃO para {prestador.nome}:"); print(f" - Cliente: {nome_cliente} ({email_cliente})"); print(f" - Serviço: {servico_desejado}"); print(f" - Detalhes: {detalhes_trabalho}"); print(f" - Período: {data_inicio} a {data_fim}"); print(f" - Local: {localizacao_obra}"); print(f" - Valor: R$ {valor_combinado if valor_combinado else 'A combinar'}"); print(f" - Pagamento: {forma_pagamento}"); print("="*30)
     return templates.TemplateResponse("publico/confirmacao.html", {"request": request, "titulo": "Contratação Solicitada com Sucesso!", "mensagem": f"Sua solicitação de contratação para o serviço de <strong>{servico_desejado}</strong> foi enviada para <strong>{prestador.nome}</strong>. Eles entrarão em contato para confirmar os detalhes.", "link_retorno": request.url_for('detalhes_prestador', id_prestador=id_prestador), "texto_retorno": "Voltar para o Perfil do Prestador"})
+
+# Adicione estas duas rotas ao final do routes/publico_router.py
+
+
+@router.get("/minhas-contratacoes", response_class=HTMLResponse, name="minhas_contratacoes")
+async def minhas_contratacoes(request: Request):
+    id_cliente_logado = 1 # Simulação
+    contratacoes = cliente_repo.obter_contratacoes_por_cliente(id_cliente_logado)
+    return templates.TemplateResponse("publico/minhas_contratacoes.html", {
+        "request": request,
+        "contratacoes": contratacoes
+    })
+
+@router.get("/minhas-solicitacoes", response_class=HTMLResponse, name="minhas_solicitacoes")
+async def minhas_solicitacoes(request: Request):
+    id_cliente_logado = 1 # Simulação
+    solicitacoes = cliente_repo.obter_solicitacoes_por_cliente(id_cliente_logado)
+    return templates.TemplateResponse("publico/minhas_solicitacoes.html", {
+        "request": request,
+        "solicitacoes": solicitacoes
+    })

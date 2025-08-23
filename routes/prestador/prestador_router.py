@@ -80,6 +80,25 @@ async def remover_servico(request: Request, id_servico: int):
     servico_repo.deletar_servico(id_servico)
     return RedirectResponse(url=request.url_for("listar_servicos"), status_code=status.HTTP_303_SEE_OTHER)
 
+@router.post("/servicos/{id_servico}/alternar-status", response_class=RedirectResponse, name="alternar_status_servico")
+async def alternar_status_servico(request: Request, id_servico: int):
+    id_prestador_logado = 1 # Simulação
+    servico = servico_repo.obter_servico_por_id(id_servico)
+    
+    # Verifica se o serviço existe e pertence ao prestador logado
+    if not servico or servico.id_prestador != id_prestador_logado:
+        raise HTTPException(status_code=404, detail="Serviço não encontrado")
+    
+    # Inverte o status atual (True vira False, False vira True)
+    servico.ativo = not servico.ativo
+    
+    # Salva a alteração no repositório
+    servico_repo.atualizar_servico(id_servico, servico)
+    
+    # Redireciona de volta para a lista de serviços
+    return RedirectResponse(url=request.url_for("listar_servicos"), status_code=303)
+
+
 @router.get("/agenda", response_class=HTMLResponse, name="agenda_prestador")
 async def agenda_prestador(request: Request):
     return templates.TemplateResponse("prestador/agenda.html", {"request": request, "id_prestador": 1, "pagina_ativa": "agenda"})
