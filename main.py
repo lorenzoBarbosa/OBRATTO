@@ -9,6 +9,7 @@ from routes.fornecedor.fornecedor_produtos import router as fornecedor_produtos_
 from routes.fornecedor.fornecedor_planos import router as fornecedor_planos_router
 from routes.prestador.prestador_router import router as prestador_router
 from routes.publico_router import router as publico_router 
+from routes.cadastro.cadastro_router import router as cadastro_router
 
 # --- Bloco de Simulação para Repositórios ---
 try:
@@ -56,6 +57,8 @@ app.include_router(publico_router)
 app.include_router(prestador_router)
 app.include_router(fornecedor_produtos_router)
 app.include_router(fornecedor_planos_router)
+app.include_router(cadastro_router)
+
 
 @app.get("/fornecedor", include_in_schema=False, response_class=RedirectResponse)
 async def fornecedor_redirect():

@@ -32,13 +32,13 @@
 
     <h2>Selecione uma opção:</h2>
 
-    <button class="button btn-cliente">Continuar como Cliente</button>
+    <a href="{{ url_for('form_cadastro_cliente') }}" class="button btn-cliente">Continuar como Cliente</a>
     <div class="desc">solicite serviços ou produtos de forma rápida e segura.</div>
 
-    <button class="button btn-prestador">Continuar como Prestador</button>
+    <a href="{{ url_for('form_cadastro_prestador') }}" class="button btn-prestador">Continuar como Prestador</a>
     <div class="desc">Ofereça seus serviços e encontre novos clientes.</div>
 
-    <button class="button btn-fornecedor">Continuar como Fornecedor</button>
+    <a href="{{ url_for('form_cadastro_fornecedor') }}" class="button btn-fornecedor">Continuar como Fornecedor</a>
     <div class="desc">Cadastre sua empresa para fornecer materiais e soluções.</div>
   </div>
 
