@@ -177,7 +177,7 @@ async def detalhes_prestador(request: Request, id_prestador: int):
 async def form_solicitar_orcamento(request: Request, id_prestador: int):
     prestador = prestador_repo.obter_por_id(id_prestador)
     if not prestador: raise HTTPException(status_code=404, detail="Prestador não encontrado")
-    return templates.TemplateResponse("publico/solicitar_orcamento.html", {"request": request, "prestador": prestador})
+    return templates.TemplateResponse("cliente/solicitar_orcamento.html", {"request": request, "prestador": prestador})
 
 # ==================================================================
 # ROTA 4 ATUALIZADA PARA SALVAR O ORÇAMENTO
@@ -222,7 +222,7 @@ async def enviar_orcamento(
 async def form_solicitar_contratacao(request: Request, id_prestador: int):
     prestador = prestador_repo.obter_por_id(id_prestador)
     if not prestador: raise HTTPException(status_code=404, detail="Prestador não encontrado")
-    return templates.TemplateResponse("publico/solicitar_contratacao.html", {"request": request, "prestador": prestador})
+    return templates.TemplateResponse("cliente/solicitar_contratacao.html", {"request": request, "prestador": prestador})
 
 # ROTA 6: Envio da Contratação (sem alterações)
 @router.post("/perfil/{id_prestador}/contratar", response_class=HTMLResponse, name="enviar_contratacao")
@@ -235,7 +235,7 @@ async def enviar_contratacao(
     prestador = prestador_repo.obter_por_id(id_prestador)
     if not prestador: raise HTTPException(status_code=404, detail="Prestador não encontrado")
     print("="*30); print(f"Nova CONTRATAÇÃO para {prestador.nome}:"); print(f" - Cliente: {nome_cliente} ({email_cliente})"); print(f" - Serviço: {servico_desejado}"); print(f" - Detalhes: {detalhes_trabalho}"); print(f" - Período: {data_inicio} a {data_fim}"); print(f" - Local: {localizacao_obra}"); print(f" - Valor: R$ {valor_combinado if valor_combinado else 'A combinar'}"); print(f" - Pagamento: {forma_pagamento}"); print("="*30)
-    return templates.TemplateResponse("publico/confirmacao.html", {"request": request, "titulo": "Contratação Solicitada com Sucesso!", "mensagem": f"Sua solicitação de contratação para o serviço de <strong>{servico_desejado}</strong> foi enviada para <strong>{prestador.nome}</strong>. Eles entrarão em contato para confirmar os detalhes.", "link_retorno": request.url_for('detalhes_prestador', id_prestador=id_prestador), "texto_retorno": "Voltar para o Perfil do Prestador"})
+    return templates.TemplateResponse("cliente/confirmacao.html", {"request": request, "titulo": "Contratação Solicitada com Sucesso!", "mensagem": f"Sua solicitação de contratação para o serviço de <strong>{servico_desejado}</strong> foi enviada para <strong>{prestador.nome}</strong>. Eles entrarão em contato para confirmar os detalhes.", "link_retorno": request.url_for('detalhes_prestador', id_prestador=id_prestador), "texto_retorno": "Voltar para o Perfil do Prestador"})
 
 # Adicione estas duas rotas ao final do routes/publico_router.py
 
