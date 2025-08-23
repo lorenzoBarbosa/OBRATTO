@@ -1,3 +1,4 @@
+from routes.administrador import administrador_anuncios
 from fastapi import FastAPI, Request, HTTPException
 from contextlib import asynccontextmanager
 from fastapi.responses import RedirectResponse, HTMLResponse
@@ -11,6 +12,8 @@ from routes.fornecedor.fornecedor_planos import router as fornecedor_planos_rout
 from routes.fornecedor import fornecedor_perfil
 from routes.fornecedor import fornecedor_promocoes
 from routes.fornecedor import fornecedor_solicitacoes
+from routes.administrador import administrador_usuarios
+from routes.administrador import administrador_anuncios
 from routes.prestador.prestador_router import router as prestador_router
 from routes.publico_router import router as publico_router 
 from routes.cadastro.cadastro_router import router as cadastro_router
@@ -56,14 +59,20 @@ async def read_root(request: Request):
 
 app.include_router(publico_router)
 app.include_router(prestador_router)
-app.include_router(fornecedor_produtos_router)
-app.include_router(fornecedor_planos_router)
+
 app.include_router(cliente_router)
 app.include_router(cadastro_router)
 
+#fornecedor
 app.include_router(fornecedor_promocoes.router)
 app.include_router(fornecedor_perfil.router)
 app.include_router(fornecedor_solicitacoes.router)
+app.include_router(fornecedor_produtos_router)
+app.include_router(fornecedor_planos_router)
+
+#Adm
+app.include_router(administrador_usuarios.router)
+app.include_router(administrador_anuncios.router)
 
 
 @app.get("/fornecedor", include_in_schema=False, response_class=RedirectResponse)
