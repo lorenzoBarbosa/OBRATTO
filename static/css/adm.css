@@ -1,27 +1,7 @@
-/* Variáveis de cores */
-:root {
-    --color-light: #E1DEE3;
-    --color-dark: #171370;
-    --color-accent: #E85F4B;
-    --color-black: #000000;
-    --color-white: #ffffff;
-}
-
-/* Reset e configurações gerais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #E1DEE3;
-    background-image: url('./assets/background.png');
-    background-repeat: repeat;
-    background-size: auto;
-    background-position: center;
-    min-height: 100vh;
 }
 
 .custom-navbar {
@@ -37,7 +17,7 @@ body {
 }
 
 .exit-icon {
-    color: var(--color-white);
+    color: black;
     font-size: 1.5rem;
     padding: 0.5rem;
     border-radius: 5px;
@@ -45,7 +25,7 @@ body {
 }
 
 .exit-icon:hover {
-    color: white;
+    color: black;
     background-color: rgba(255, 255, 255, 0.1);
     transform: translateX(3px);
 }

@@ -1,16 +1,23 @@
-/* Geral */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color:#E8E3E0;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Cores */
 .fundo-azul {
   background-color: #171370 !important;
 }
 
-/* Navbar */
+#logo{
+    width: 80px;
+    margin-top: -20px;
+    margin-bottom: -18px;
+}
+
 #login {
   color: white;
   font-size: 30px;
@@ -25,9 +32,23 @@ body {
   transform: scale(1.08);
 }
 
-/* Conteúdo */
+.exit-icon {
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.exit-icon:hover {
+    color: black;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(3px);
+}
+
 .container {
   padding: 40px 20px;
+  flex: 1;
 }
 
 .logo-img {
@@ -42,7 +63,6 @@ h2 {
   margin-bottom: 30px;
 }
 
-/* Botões */
 .button {
   display: block;
   max-width: 500px;
@@ -58,23 +78,43 @@ h2 {
 
 .btn-cliente {
   background-color: #171370;
+  transition: all 0.3s ease;
+}
+
+.btn-cliente:hover {
+  background-color: rgba(53, 41, 41, 0.655);
+  transform: translateX(3px);
 }
 
 .btn-prestador {
   background-color: #E85F4B;
+  transition: all 0.3s ease;
+}
+
+.btn-prestador:hover {
+  background-color: rgba(53, 41, 41, 0.655);
+  transform: translateX(3px);
 }
 
 .btn-fornecedor {
   background-color: #e3b41d;
+  transition: all 0.3s ease;
 }
 
-/* Descrição */
+.btn-fornecedor:hover {
+  background-color: rgba(53, 41, 41, 0.655);
+  transform: translateX(3px);
+}
+
 .desc {
   font-size: 14px;
   margin-bottom: 15px;
 }
 
-/* Rodapé */
 footer {
   font-size: 14px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
