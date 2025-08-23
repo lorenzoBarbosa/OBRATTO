@@ -53,6 +53,24 @@ class PrestadorRepo:
                 telefone="(21) 91234-5678",
                 email="maria.souza@eletro.com"
             ),
+            Prestador(
+                id=3, nome="Pedro Gaspar", area_atuacao="Pintura", avaliacao=5.0, localizacao="Espírito Santo, ES",
+                logo_url="/static/img/logos/pintura.webp",
+                servicos=["Pintura e reformas"],
+                descricao="Transformo paredes em novos ambientes — pintura com qualidade, capricho e preço justo!",
+                telefone="(26) 97234-5678",
+                email="pedro.gaspar@pintura.com"
+            ),
+            Prestador(
+                id=4, nome="Alice Maria", area_atuacao="Arquitetura", avaliacao=5.0, localizacao="Rio de Janeiro, RJ",
+                logo_url="/static/img/logos/arquitetura.jpeg",
+                servicos=["Projetos arquitetônicos", "Design de interiores"],
+                descricao="Arquiteta apaixonada por criar espaços funcionais e esteticamente agradáveis, com atenção aos detalhes e sustentabilidade.",
+                telefone="(21) 91234-5678",
+                email="alice.mariaa@arquiteta.com"
+            ),
+            
+
             # Adicione os outros prestadores aqui com os novos campos, se desejar
         ]
     def obter_todos(self) -> List[Prestador]: return self._prestadores
@@ -69,17 +87,6 @@ class PrestadorRepo:
 
 prestador_repo = PrestadorRepo()
 
-# ... (o resto do arquivo continua igual) ...
-
-# ==================================================================
-# FIM DO BLOCO A SER SUBSTITUÍDO
-# ==================================================================
-
-# ... (O restante do arquivo, incluindo a classe Orcamento e as rotas, continua exatamente igual) ...
-
-# ==================================================================
-# NOVO MODELO E REPOSITÓRIO PARA ORÇAMENTOS
-# ==================================================================
 class Orcamento:
     def __init__(self, id: int, id_prestador: int, nome_cliente: str, email_cliente: str, servico_desejado: str, descricao: str, status: str = "Pendente"):
         self.id = id
