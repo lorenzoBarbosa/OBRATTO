@@ -1,0 +1,262 @@
+{% extends "publico/base.html" %}
+{% block content %}   
+<div class="hero">
+    <strong>
+        <p id="titulo" class="text-black">
+            Soluções para sua obra, de forma
+        <br>
+            rápida e concreta.
+        </p>
+    </strong>
+      <p id="frase">Encontre, compare e contrate com confiança - Tudo em um só lugar</p>
+</div>
+<p id="categorias_title" class="section-title">
+    <strong>Categorias Mais Solicitadas</strong>
+</p>
+<div id="popularCategoriesCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card popular-category-card" id="card">
+                        <img src="/static/img/pedreiro.png" class="card-img-top" alt="Pedreiro" id="img_card">
+                        <div class="card-body" id="legendas_card">
+                            <h5 class="card-title" id="titulo_card">Pedreiro</h5>
+                            <p class="card-text-hover" id="texto_card">Mão de obra especializada para fundações,
+                                alvenaria e acabamentos.</p>
+                            <a href="#" class="btn btn-link btn-saibamais-cat">
+                                Saiba mais
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card popular-category-card" id="card">
+                        <img src="/static/img/engenheiro.png" class="card-img-top" alt="Engenheiro" id="img_card">
+                        <div class="card-body" id="legendas_card">
+                            <h5 class="card-title" id="titulo_card">Engenheiro</h5>
+                            <p class="card-text-hover" id="texto_card">Planejamento, cálculo estrutural e supervisão
+                                técnica para sua obra.</p>
+                            <a href="#" class="btn btn-link btn-saibamais-cat">
+                                Saiba mais
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card popular-category-card" id="card">
+                        <img src="/static/img/eletricista.png" class="card-img-top" alt="Eletricista" id="img_card">
+                        <div class="card-body" id="legendas_card">
+                            <h5 class="card-title" id="titulo_card">Eletricista</h5>
+                            <p class="card-text-hover" id="texto_card">Instalação e manutenção elétrica segura e
+                                certificada.</p>
+                            <a href="#" class="btn btn-link btn-saibamais-cat">
+                                Saiba mais
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card popular-category-card" id="card">
+                        <img src="/static/img/encanador.jpg" class="card-img-top" alt="Encanador" id="img_card">
+                        <div class="card-body" id="legendas_card">
+                            <h5 class="card-title" id="titulo_card">Encanador</h5>
+                            <p class="card-text-hover" id="texto_card">Serviços hidráulicos, reparos e instalações para
+                                sua casa ou obra.</p>
+                            <a href="#" class="btn btn-link btn-saibamais-cat">
+                                Saiba mais
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card popular-category-card" id="card">
+                        <img src="/static/img/pintor.jpg" class="card-img-top" alt="Pintor" id="img_card">
+                        <div class="card-body" id="legendas_card">
+                            <h5 class="card-title" id="titulo_card">Pintor</h5>
+                            <p class="card-text-hover" id="texto_card">Pintura interna e externa, textura e acabamentos
+                                impecáveis.</p>
+                            <a href="#" class="btn btn-link btn-saibamais-cat">
+                                Saiba mais
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card popular-category-card" id="card">
+                        <img src="/static/img/telhadista.jpg" class="card-img-top" alt="Telhadista" id="img_card">
+                        <div class="card-body" id="legendas_card">
+                            <h5 class="card-title" id="titulo_card">Telhadista</h5>
+                            <p class="card-text-hover" id="texto_card">Instalação, reparo e manutenção de telhados de
+                                diversos tipos.</p>
+                            <a href="#" class="btn btn-link btn-saibamais-cat">
+                                Saiba mais
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="rol_carusel" class="carousel-control-prev" type="button" data-bs-target="#popularCategoriesCarousel"
+        data-bs-slide="prev">
+        <i id="rol_carusel_left" class="bi bi-arrow-left"></i>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#popularCategoriesCarousel"
+        data-bs-slide="next">
+        <i id="rol_carusel_right" class="bi bi-arrow-right"></i>
+    </button>
+</div>
+<div id="servicos_container">
+    <h2 class="section-title">Nossos Serviços</h2>
+    <div class="row" id="servicos">
+        <div class="col">
+            <div class="card" id="categorias">
+                <img src="/static/img/Aluguel de maquinário.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <strong>
+                        <p id="categorias_txt" class="card-text">Aluguel de Maquinário</p>
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" id="categorias">
+                <img src="/static/img/reformas.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <strong>
+                        <p id="categorias_txt" class="card-text margem-inferior">Reformas</p>
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" id="categorias">
+                <img src="/static/img/para a casa.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <strong>
+                        <p id="categorias_txt" class="card-text botao-margem">Para a casa</p>
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" id="categorias">
+                <img src="/static/img/construção.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <strong>
+                        <p id="categorias_txt" class="card-text botao-margem">Construção</p>
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" id="categorias">
+                <img src="/static/img/fornecedores.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <strong>
+                        <p id="categorias_txt" class="card-text botao-margem-ajustada">Fornecedores</p>
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p id="planos_title">
+    <strong>PLANOS</strong>
+</p>
+<div class="row margem-superior-50">
+    <div class="col-md-3 text-center">
+        <img src="/static/img/plano_gratuito.png" alt="">
+        <p id="legenda_planos">
+            <strong>Plano Gratuito</strong>
+        </p>
+        <a href="#" class="link-sem-sub">
+            <button type="button" class="btn botao-centralizado" id="botao_saibamais">Saiba Mais</button>
+        </a>
+    </div>
+    <div class="col-md-3 text-center">
+        <img src="/static/img/plano_pro.png" alt="">
+        <p id="legenda_planos">
+            <strong>Plano Pro</strong>
+        </p>
+        <a href="#" class="sem-sub-linha">
+            <button type="button" class="btn centraliza-botao" id="botao_saibamais">Saiba Mais</button>
+        </a>
+    </div>
+    <div class="col-md-3 text-center">
+        <img src="/static/img/plano_promax.png" alt="">
+        <p id="legenda_planos">
+            <strong>Plano Pro Max</strong>
+        </p>
+        <a href="#" class="link-sem-sublinhado">
+            <button type="button" class="btn botao-centralizado" id="botao_saibamais">Saiba Mais</button>
+        </a>
+    </div>
+    <div class="col-md-3 text-center">
+        <div class="position-relative d-inline-block">
+            <img src="/static/img/plano_fornecedor.png" alt="">
+            <p id="legenda_plano_fornecedor">
+                <strong>Plano Fornecedor</strong>
+            </p>
+        </div>
+        <a href="#" class="sem-sublinhado">
+            <button type="button" class="btn centralizado" id="botao_saibamais">Saiba Mais</button>
+        </a>
+    </div>
+</div>
+<div>
+    <div class="section-container advantages-section">
+        <h2 class="section-title text-white">Vantagens de Usar a Obratto</h2>
+        <div class="row justify-content-center text-center">
+            <div class="col-md-3 advantage-item" data-aos="zoom-in">
+                <i class="bi bi-shield-check icon-highlight"></i>
+                <h3>Segurança Garantida</h3>
+                <p>Contrate com tranquilidade, sabendo que todos os profissionais são verificados e avaliados.</p>
+            </div>
+            <div class="col-md-3 advantage-item" data-aos="zoom-in" data-aos-delay="100">
+                <i class="bi bi-currency-dollar icon-highlight"></i>
+                <h3>Economia e Melhores Preços</h3>
+                <p>Compare orçamentos de diversos profissionais e fornecedores para obter o melhor custo-benefício.</p>
+            </div>
+            <div class="col-md-3 advantage-item" data-aos="zoom-in" data-aos-delay="200">
+                <i class="bi bi-lightning-charge icon-highlight"></i>
+                <h3>Agilidade e Praticidade</h3>
+                <p>Encontre o que precisa de forma rápida e eficiente, sem burocracia, tudo em um só lugar.</p>
+            </div>
+            <div class="col-md-3 advantage-item" data-aos="zoom-in" data-aos-delay="300">
+                <i class="bi bi-hand-thumbs-up icon-highlight"></i>
+                <h3>Variedade de Serviços</h3>
+                <p>De maquinário a reformas completas, encontre uma vasta gama de serviços e produtos para sua obra.</p>
+            </div>
+        </div>
+    </div>
+    <p id="sobrenos_title">
+        <strong>Quem Somos?</strong>
+    </p>
+    <p id="sobre_nos">
+        Somos a Obratto, uma plataforma digital criada para transformar a forma como serviços e materiais são
+        contratados no setor da construção civil. Nosso propósito é conectar clientes, prestadores de serviços e
+        fornecedores em um ambiente seguro, prático e eficiente.
+        Acreditamos que contratar um profissional ou fornecedor confiável não deve ser um desafio. Por isso,
+        desenvolvemos uma solução que centraliza informações, avaliações, orçamentos e contatos diretos, promovendo
+        transparência, agilidade e melhores oportunidades de negócio para todos os envolvidos.
+        Com tecnologia acessível e ferramentas inteligentes, facilitamos a vida de quem constrói, reforma ou fornece.
+        Seja você um profissional autônomo, uma empresa ou um cliente em busca de qualidade, a Obratto é o lugar certo
+        para fazer a construção acontecer de forma rápida e concreta.
+    </p>
+    <p class="text-center">
+        <img src="/static/img/logo_color.png" alt="">
+    </p>
+</div>
+{%endblock%}
