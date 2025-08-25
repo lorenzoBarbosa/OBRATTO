@@ -9,7 +9,7 @@ from config import templates
 # IMPORTAÇÃO ADICIONADA AQUI
 # "Importa a memória de orçamentos que foi criada no roteador público"
 # ==================================================================
-from routes.publico_router import orcamento_repo
+from routes.publico.publico_router import orcamento_repo
 
 # --- Bloco de Simulação do Serviço (sem alterações) ---
 class Servico:

@@ -3,6 +3,10 @@ from contextlib import asynccontextmanager
 from fastapi.staticfiles import StaticFiles
 
 from routes.publico_routes import router as publico_router # alterado por maroquio
+from routes.cliente_routes import router as cliente_router # alterado por maroquio
+from routes.prestador_routes import router as prestador_router # alterado por maroquio
+from routes.fornecedor_routes import router as fornecedor_router # alterado por maroquio
+from routes.admin_routes import router as administrador_router # alterado por maroquio
 
 # from routes.administrador import administrador_anuncios
 # from routes.cliente.cliente_router import router as cliente_router
@@ -45,9 +49,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 app.include_router(publico_router)
-# app.include_router(prestador_router)
-# app.include_router(cliente_router)
-# app.include_router(cadastro_router)
+app.include_router(prestador_router, prefix="/prestador")
+app.include_router(cliente_router, prefix="/cliente")
+app.include_router(fornecedor_router, prefix="/fornecedor")
+app.include_router(administrador_router, prefix="/admin")
 
 #fornecedor
 # app.include_router(fornecedor_promocoes.router)
