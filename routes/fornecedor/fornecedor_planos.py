@@ -23,9 +23,9 @@ templates = Jinja2Templates(directory="templates")
 async def listar_planos(request: Request):
     try:
         planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=10)
-        return templates.TemplateResponse("fornecedor/listar_planos.html", {"request": request, "planos": planos})
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {"request": request, "planos": planos})
     except Exception as e:
-        return templates.TemplateResponse("fornecedor/listar_planos.html", {"request": request, "planos": [], "mensagem": f"Erro ao carregar planos: {str(e)}"})
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {"request": request, "planos": [], "mensagem": f"Erro ao carregar planos: {str(e)}"})
 
 
 
@@ -36,11 +36,11 @@ async def mostrar_alterar_plano(request: Request):
     try:
         planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
         plano_atual = None
-        return templates.TemplateResponse("fornecedor/alterar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
             "request": request, "planos": planos, "plano_atual": plano_atual
         })
     except Exception as e:
-        return templates.TemplateResponse("fornecedor/alterar_plano.html", {"request": request, "planos": [], "mensagem": f"Erro: {str(e)}"})
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {"request": request, "planos": [], "mensagem": f"Erro: {str(e)}"})
 
 
 
@@ -51,17 +51,17 @@ async def alterar_plano(request: Request, id_plano: int = Form(...), id_forneced
         plano = plano_repo.obter_plano_por_id(id_plano)
         if plano:
             planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/listar_planos.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {
                 "request": request, "planos": planos, "mensagem": f"Plano alterado para: {plano.nome_plano}"
             })
         else:
             planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/alterar_plano.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
                 "request": request, "planos": planos, "mensagem": "Plano não encontrado"
             })
     except Exception as e:
         planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-        return templates.TemplateResponse("fornecedor/alterar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
             "request": request, "planos": planos, "mensagem": f"Erro ao alterar plano: {str(e)}"
         })
 
@@ -72,11 +72,11 @@ async def alterar_plano(request: Request, id_plano: int = Form(...), id_forneced
 async def mostrar_cancelar_plano(request: Request):
     try:
         plano_atual = None
-        return templates.TemplateResponse("fornecedor/cancelar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
             "request": request, "plano_atual": plano_atual
         })
     except Exception as e:
-        return templates.TemplateResponse("fornecedor/cancelar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
             "request": request, "mensagem": f"Erro: {str(e)}"
         })
 
@@ -87,15 +87,15 @@ async def mostrar_cancelar_plano(request: Request):
 async def cancelar_plano(request: Request, id_fornecedor: int = Form(...), confirmacao: str = Form(...)):
     try:
         if confirmacao.lower() == "confirmar":
-            return templates.TemplateResponse("fornecedor/cancelar_plano.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
                 "request": request, "mensagem": "Plano cancelado com sucesso!", "cancelado": True
             })
         else:
-            return templates.TemplateResponse("fornecedor/cancelar_plano.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
                 "request": request, "mensagem": "Cancelamento não confirmado. Digite 'confirmar' para cancelar o plano."
             })
     except Exception as e:
-        return templates.TemplateResponse("fornecedor/cancelar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
             "request": request, "mensagem": f"Erro ao cancelar plano: {str(e)}"
         })
 
@@ -108,11 +108,11 @@ async def mostrar_renovar_plano(request: Request):
     try:
         planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
         plano_atual = planos_disponiveis[0] if planos_disponiveis else None
-        return templates.TemplateResponse("fornecedor/renovar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
             "request": request, "planos_disponiveis": planos_disponiveis, "plano_atual": plano_atual
         })
     except Exception as e:
-        return templates.TemplateResponse("fornecedor/renovar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
             "request": request, "planos_disponiveis": [], "mensagem": f"Erro: {str(e)}"
         })
 
@@ -126,17 +126,17 @@ async def renovar_plano(request: Request, plano_id: int = Form(...)):
         plano = plano_repo.obter_plano_por_id(plano_id)
         if plano:
             planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/listar_planos.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {
                 "request": request, "planos": planos_disponiveis, "mensagem": f"Plano renovado com sucesso: {plano.nome_plano}"
             })
         else:
             planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/renovar_plano.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
                 "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Plano não encontrado"
             })
     except Exception as e:
         planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-        return templates.TemplateResponse("fornecedor/renovar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
             "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": f"Erro ao renovar plano: {str(e)}"
         })
 
@@ -148,11 +148,11 @@ async def renovar_plano(request: Request, plano_id: int = Form(...)):
 async def mostrar_assinar_plano(request: Request):
     try:
         planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-        return templates.TemplateResponse("fornecedor/assinar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
             "request": request, "planos_disponiveis": planos_disponiveis
         })
     except Exception as e:
-        return templates.TemplateResponse("fornecedor/assinar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
             "request": request, "planos_disponiveis": [], "mensagem": f"Erro: {str(e)}"
         })
 
@@ -166,7 +166,7 @@ async def assinar_plano(request: Request, plano_id: int = Form(...), id_forneced
         plano = plano_repo.obter_plano_por_id(plano_id)
         if not plano:
             planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/assinar_plano.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
                 "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Plano não encontrado"
             })
         pagamento_repo.criar_tabela_pagamento()
@@ -187,7 +187,7 @@ async def assinar_plano(request: Request, plano_id: int = Form(...), id_forneced
             )
             pagamento_id = pagamento_repo.inserir_pagamento(pagamento)
             if pagamento_id:
-                return templates.TemplateResponse("fornecedor/processar_pagamento.html", {
+                return templates.TemplateResponse("fornecedor/planos e pagamentos/processar_pagamento.html", {
                     "request": request,
                     "plano": plano,
                     "preference_id": preference_result["preference_id"],
@@ -197,17 +197,17 @@ async def assinar_plano(request: Request, plano_id: int = Form(...), id_forneced
                 })
             else:
                 planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-                return templates.TemplateResponse("fornecedor/assinar_plano.html", {
+                return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
                     "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Erro ao criar registro de pagamento"
                 })
         else:
             planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/assinar_plano.html", {
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
                 "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": f"Erro ao criar preferência de pagamento: {preference_result.get('error', 'Erro desconhecido')}"
             })
     except Exception as e:
         planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-        return templates.TemplateResponse("fornecedor/assinar_plano.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
             "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": f"Erro ao processar assinatura: {str(e)}"
         })
 
@@ -224,14 +224,14 @@ async def pagamento_sucesso(request: Request, payment_id: str = None, status: st
                     status="aprovado",
                     metodo_pagamento=payment_info.get("payment_method_id")
                 )
-                return templates.TemplateResponse("fornecedor/pagamento_sucesso.html", {
+                return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_sucesso.html", {
                     "request": request, "payment_info": payment_info, "mensagem": "Pagamento aprovado com sucesso! Seu plano está ativo."
                 })
-        return templates.TemplateResponse("fornecedor/pagamento_sucesso.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_sucesso.html", {
             "request": request, "mensagem": "Pagamento processado com sucesso!"
         })
     except Exception as e:
-        return templates.TemplateResponse("fornecedor/pagamento_erro.html", {
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_erro.html", {
             "request": request, "mensagem": f"Erro ao processar pagamento: {str(e)}"
         })
 
@@ -240,7 +240,7 @@ async def pagamento_sucesso(request: Request, payment_id: str = None, status: st
 # Callback de falha do Mercado Pago
 @router.get("/fornecedor/planos/pagamento/falha")
 async def pagamento_falha(request: Request):
-    return templates.TemplateResponse("fornecedor/pagamento_erro.html", {
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_erro.html", {
         "request": request, "mensagem": "Pagamento rejeitado ou cancelado. Tente novamente."
     })
 
@@ -249,7 +249,7 @@ async def pagamento_falha(request: Request):
 # Callback de pagamento pendente
 @router.get("/fornecedor/planos/pagamento/pendente")
 async def pagamento_pendente(request: Request):
-    return templates.TemplateResponse("fornecedor/pagamento_pendente.html", {
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_pendente.html", {
         "request": request, "mensagem": "Pagamento pendente de aprovação. Aguarde a confirmação."
     })
 

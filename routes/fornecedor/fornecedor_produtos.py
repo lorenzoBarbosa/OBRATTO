@@ -12,7 +12,7 @@ templates = Jinja2Templates(directory="templates")
 @router.get("/fornecedor")
 async def home_adm(request: Request):
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-    return templates.TemplateResponse("fornecedor/home_fornecedor.html", {"request": request, "produtos": produtos})
+    return templates.TemplateResponse("fornecedor/home_teste.html", {"request": request, "produtos": produtos})
 
 
 @router.get("/fornecedor/produtos/listar")
