@@ -83,57 +83,25 @@
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <div class="row g-3">
+                                    {% for produto in produtos %}
                                     <div class="col-lg-4 col-md-6">
                                         <div class="product-card">
                                             <div class="product-image">
                                                 <i class="bi bi-hammer product-icon"></i>
                                             </div>
                                             <div class="product-info">
-                                                <h6 class="product-name">Nome:</h6>
-                                                <p class="product-detail">De: <span class="old-price">R$53,00</span></p>
-                                                <p class="product-detail">Por: <span class="new-price">R$35,00</span></p>
-                                                <p class="product-description">Descrição: Martelo com cabo de ferro, cabo de madeira Eucalipto, 28cm</p>
+                                                <h6 class="product-name">Nome: {{ produto.nome }}</h6>
+                                                <p class="product-detail">De: <span class="old-price">R$ {{ produto.preco_antigo if produto.preco_antigo else '' }}</span></p>
+                                                <p class="product-detail">Por: <span class="new-price">R$ {{ produto.preco }}</span></p>
+                                                <p class="product-description">Descrição: {{ produto.descricao }}</p>
                                             </div>
                                             <div class="product-actions">
                                                 <button class="btn action-btn alter-btn" onclick="location.href='/fornecedor/produtos/atualizar/{{ produto.id }}'">Alterar</button>
-                                                <button class="btn action-btn delete-btn" onclick="location.href='/fornecedor/produtos/excluir/{id}'">Excluir</button>
+                                                <button class="btn action-btn delete-btn" onclick="location.href='/fornecedor/produtos/excluir/{{ produto.id }}'">Excluir</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="product-card">
-                                            <div class="product-image">
-                                                <i class="bi bi-hammer product-icon"></i>
-                                            </div>
-                                            <div class="product-info">
-                                                <h6 class="product-name">Nome:</h6>
-                                                <p class="product-detail">De: <span class="old-price">R$53,00</span></p>
-                                                <p class="product-detail">Por: <span class="new-price">R$35,00</span></p>
-                                                <p class="product-description">Descrição: Martelo com cabo de ferro, cabo de madeira Eucalipto, 28cm</p>
-                                            </div>
-                                            <div class="product-actions">
-                                                <button class="btn action-btn alter-btn" onclick="location.href='/fornecedor/produto/atualizar'">Alterar</button>
-                                                <button class="btn action-btn delete-btn" onclick="location.href='/fornecedor/produtos/excluir/{id}'">Excluir</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="product-card">
-                                            <div class="product-image">
-                                                <i class="bi bi-hammer product-icon"></i>
-                                            </div>
-                                            <div class="product-info">
-                                                <h6 class="product-name">Nome:</h6>
-                                                <p class="product-detail">De: <span class="old-price">R$53,00</span></p>
-                                                <p class="product-detail">Por: <span class="new-price">R$35,00</span></p>
-                                                <p class="product-description">Descrição: Martelo com cabo de ferro, cabo de madeira Eucalipto, 28cm</p>
-                                            </div>
-                                            <div class="product-actions">
-                                                <button class="btn action-btn alter-btn" onclick="location.href='/fornecedor/produtos/atualizar/{{ produto.id }}'">Alterar</button>
-                                                <button class="btn action-btn delete-btn" onclick="location.href='/fornecedor/produtos/excluir/{id}'">Excluir</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="carousel-item">
