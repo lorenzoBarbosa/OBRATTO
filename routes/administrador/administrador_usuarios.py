@@ -14,12 +14,12 @@ async def home_adm(request: Request):
 # Rota para lista de administradores
 @router.get("/administrador/lista")
 async def lista_adm(request: Request):
-    return templates.TemplateResponse("administrador/lista_adm.html", {"request": request})
+    return templates.TemplateResponse("administrador/moderar_adm/lista_adm.html", {"request": request})
 
 # Rota para moderar administradores
 @router.get("/administrador/moderar")
 async def moderar_adm(request: Request):
-    return templates.TemplateResponse("administrador/moderar_adm.html", {"request": request})
+    return templates.TemplateResponse("administrador/moderar_adm/moderar_adm.html", {"request": request})
 
 # Rota para moderar fornecedores
 @router.get("/administrador/moderar_fornecedor")
@@ -34,7 +34,7 @@ async def moderar_prestador(request: Request):
 # Rota para remover administrador
 @router.get("/administrador/remover")
 async def remover_adm(request: Request):
-    return templates.TemplateResponse("administrador/remover_adm.html", {"request": request})
+    return templates.TemplateResponse("administrador/moderar_adm/remover_adm.html", {"request": request})
 
 # Rota dinâmica para buscar administrador por id
 @router.get("/administrador/id/{id}")
