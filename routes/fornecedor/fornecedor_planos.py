@@ -1,5 +1,3 @@
-
-# Rotas de planos do fornecedor
 from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, JSONResponse
@@ -48,6 +46,11 @@ async def mostrar_alterar_plano(request: Request):
 @router.post("/fornecedor/planos/alterar")
 async def alterar_plano(request: Request, id_plano: int = Form(...), id_fornecedor: int = Form(...)):
     try:
+        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+        if not assinatura_ativa:
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
+                "request": request, "mensagem": "Você não possui assinatura ativa para alterar."
+            })
         plano = plano_repo.obter_plano_por_id(id_plano)
         if plano:
             planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
@@ -86,7 +89,14 @@ async def mostrar_cancelar_plano(request: Request):
 @router.post("/fornecedor/planos/cancelar")
 async def cancelar_plano(request: Request, id_fornecedor: int = Form(...), confirmacao: str = Form(...)):
     try:
+        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+        if not assinatura_ativa:
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
+                "request": request, "mensagem": "Você não possui assinatura ativa para cancelar."
+            })
         if confirmacao.lower() == "confirmar":
+            # Aqui você pode adicionar lógica para cancelar no banco
+            # inscricao_plano_repo.cancelar_assinatura(id_fornecedor)
             return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
                 "request": request, "mensagem": "Plano cancelado com sucesso!", "cancelado": True
             })
@@ -121,8 +131,13 @@ async def mostrar_renovar_plano(request: Request):
 
 # Processar renovação de plano
 @router.post("/fornecedor/planos/renovar")
-async def renovar_plano(request: Request, plano_id: int = Form(...)):
+async def renovar_plano(request: Request, plano_id: int = Form(...), id_fornecedor: int = Form(...)):
     try:
+        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+        if not assinatura_ativa:
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
+                "request": request, "mensagem": "Você não possui assinatura ativa para renovar."
+            })
         plano = plano_repo.obter_plano_por_id(plano_id)
         if plano:
             planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
@@ -163,6 +178,12 @@ async def mostrar_assinar_plano(request: Request):
 @router.post("/fornecedor/planos/assinar")
 async def assinar_plano(request: Request, plano_id: int = Form(...), id_fornecedor: int = Form(default=1)):
     try:
+        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+        if assinatura_ativa:
+            planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
+                "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Você já possui uma assinatura ativa. Cancele antes de assinar outro plano."
+            })
         plano = plano_repo.obter_plano_por_id(plano_id)
         if not plano:
             planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
@@ -332,3 +353,28 @@ async def debug_planos(request: Request):
         return {"debug": debug_info, "status": "ok"}
     except Exception as e:
         return {"error": str(e), "status": "error"}
+
+
+# Visualizar assinatura ativa do fornecedor
+@router.get("/fornecedor/planos/minha_assinatura/{id_fornecedor}")
+async def visualizar_assinatura_ativa(request: Request, id_fornecedor: int):
+    try:
+        # Busca a assinatura ativa do fornecedor
+        assinatura = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+        if assinatura:
+            plano = plano_repo.obter_plano_por_id(assinatura.id_plano)
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
+                "request": request,
+                "assinatura": assinatura,
+                "plano": plano
+            })
+        else:
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
+                "request": request,
+                "mensagem": "Nenhuma assinatura ativa encontrada."
+            })
+    except Exception as e:
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
+            "request": request,
+            "mensagem": f"Erro ao buscar assinatura: {str(e)}"
+        })

@@ -13,14 +13,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 
 
-#PÚBLICO
+# PÚBLICO
 
 from routes.publico.publico_routes import router as publico_router # corrigido para refletir a estrutura correta
 
 
 app.include_router(publico_router)
 
-#FORNECEDOR
+# FORNECEDOR
 
 from routes.fornecedor.fornecedor_produtos import router as fornecedor_produtos_router
 from routes.fornecedor.fornecedor_planos import router as fornecedor_planos_router
@@ -29,15 +29,13 @@ from routes.fornecedor import fornecedor_promocoes
 from routes.fornecedor import fornecedor_solicitacoes
 
 
-
 app.include_router(fornecedor_promocoes.router)
 app.include_router(fornecedor_perfil.router)
 app.include_router(fornecedor_solicitacoes.router)
 app.include_router(fornecedor_produtos_router)
 app.include_router(fornecedor_planos_router)
 
-
-#ADMINISTRADOR
+# ADMINISTRADOR
 
 from routes.administrador import administrador_anuncios
 from routes.administrador import administrador_usuarios
@@ -46,9 +44,7 @@ from routes.administrador import administrador_usuarios
 app.include_router(administrador_usuarios.router)
 app.include_router(administrador_anuncios.router)
 
-
-
-#PRESTADOR
+# PRESTADOR
 
 from routes.prestador.prestador_router import router as prestador_router
 
@@ -57,7 +53,7 @@ app.include_router(prestador_router, prefix="/prestador")
 
 
 
-#CLIENTE
+# CLIENTE
 
 from routes.cliente.cliente_router import router as cliente_router
 

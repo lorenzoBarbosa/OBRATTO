@@ -2,9 +2,9 @@ import sqlite3
 import os
 
 def open_connection():
-    """Abre conexão com o banco de dados obratto.db"""
+    """Abre conexão com o banco de dados obratto.db, garantindo fechamento correto."""
     database_path = os.environ.get('TEST_DATABASE_PATH', 'obratto.db')
-    conexao = sqlite3.connect(database_path)
+    conexao = sqlite3.connect(database_path, check_same_thread=False)
     conexao.row_factory = sqlite3.Row
     return conexao
 
