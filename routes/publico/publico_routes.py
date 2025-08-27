@@ -23,9 +23,9 @@ templates = Jinja2Templates(directory="templates")
 async def get_root(request: Request):    
     return templates.TemplateResponse("publico/home.html", {"request": request})
 
-@router.get("/catalogo")
+@router.get("/catalogo-prestadores", name="catalogo_prestadores")
 async def get_catalogo(request: Request):    
-    return templates.TemplateResponse("publico/catalogo.html", {"request": request})
+    return templates.TemplateResponse("publico/catalogo_prestadores.html", {"request": request})
 
 # Rota GET para exibir o formulário de login
 @router.get("/publico/login")
