@@ -1,7 +1,7 @@
-{% extends "prestador/_layout.html" %}
-{% block title %}Meus Serviços{% endblock %}
+{% extends "prestador/base.html" %}
+{% block titulo %}Meus Serviços{% endblock %}
 
-{% block content %}
+{% block conteudo %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3">Meus Serviços</h1>
     <a href="{{ url_for('form_novo_servico') }}" class="btn btn-primary">

@@ -12,7 +12,13 @@ from routes.fornecedor import fornecedor_solicitacoes
 from routes.administrador import administrador_anuncios
 from routes.administrador import administrador_usuarios
 from routes.prestador import prestador
+from routes.prestador import prestador_agenda
+from routes.prestador import prestador_assinatura   
+from routes.prestador import prestador_solicitacoes
+from routes.prestador import prestador_servicos
 from routes.cliente import cliente
+from routes.cliente import cliente_contratacoes
+from routes.cliente import cliente_solicitacao
 
 
 
@@ -30,11 +36,11 @@ app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 app.include_router(publico_routes.router)
 
 # FORNECEDOR
-app.include_router(fornecedor_promocoes.router)
-app.include_router(fornecedor_perfil.router)
-app.include_router(fornecedor_solicitacoes.router)
-app.include_router(fornecedor_produtos.router)
-app.include_router(fornecedor_planos.router)
+app.include_router(fornecedor_promocoes.router, prefix="/fornecedor/promocoes")
+app.include_router(fornecedor_perfil.router, prefix="/fornecedor/promocoes")
+app.include_router(fornecedor_solicitacoes.router, prefix="/fornecedor/solicitacoes")
+app.include_router(fornecedor_produtos.router, prefix="/fornecedor/produtos")
+app.include_router(fornecedor_planos.router, prefix="/fornecedor/planos")
 
 # ADMINISTRADOR
 app.include_router(administrador_usuarios.router)
@@ -42,9 +48,16 @@ app.include_router(administrador_anuncios.router)
 
 # PRESTADOR
 app.include_router(prestador.router, prefix="/prestador")
+app.include_router(prestador_agenda.router, prefix="/prestador")
+app.include_router(prestador_assinatura.router, prefix="/prestador")
+app.include_router(prestador_solicitacoes.router, prefix="/prestador")   
+app.include_router(prestador_servicos.router, prefix="/prestador")
+
 
 # CLIENTE
 app.include_router(cliente.router, prefix="/cliente")
+app.include_router(cliente_contratacoes.router, prefix="/cliente")
+app.include_router(cliente_solicitacao.router, prefix="/cliente")
 
 
 if __name__ == "__main__":
