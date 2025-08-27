@@ -25,7 +25,7 @@ body {
 
 /* Navbar */
 .fundo-azul {
-    background-color: var(--cor-primaria) !important;
+    background: linear-gradient(135deg, #e17126, #e0905b);
 }
 
 .navbar-brand img {
@@ -48,8 +48,14 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(232, 137, 75, 0.25);
 }
 
+.navbar .text-white{
+    color: var(--cor-branca) !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
 .navbar .text-white:hover {
-    color: var(--cor-secundaria) !important;
+    color: #171370 !important;
     transition: color 0.3s ease;
 }
 
