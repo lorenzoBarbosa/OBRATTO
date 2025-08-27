@@ -1,0 +1,12 @@
+
+    {% if assinatura %}
+        <p>ID da Assinatura: {{ assinatura.id }}</p>
+        <p>ID do Plano: {{ plano.id }}</p>
+        <p>Nome do Plano: {{ plano.nome }}</p>
+        <p>Data de Início: {{ assinatura.data_inicio }}</p>
+        <p>Data de Término: {{ assinatura.data_termino }}</p>
+    {% else %}
+        <p>Nenhuma assinatura ativa encontrada.</p>
+    {% endif %}
+</body>
+</html>
