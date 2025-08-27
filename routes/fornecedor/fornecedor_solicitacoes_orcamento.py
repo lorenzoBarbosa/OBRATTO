@@ -5,6 +5,8 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 # Rota GET para exibir solicitações recebidas
-@router.get("/fornecedor/solicitacoes/recebidas")
+@router.get("/solicitacoes_recebidas")
 async def solicitacoes_recebidas(request: Request):
-	return templates.TemplateResponse("fornecedor/solicitacoes_recebidas.html", {"request": request})
+	return templates.TemplateResponse("fornecedor/orcamentos/solicitacoes_recebidas.html", {"request": request})
+
+
