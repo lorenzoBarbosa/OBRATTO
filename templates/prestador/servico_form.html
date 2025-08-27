@@ -1,60 +1,7 @@
-<!-- Salve como: templates/prestador/servico_form.html -->
 {% extends "prestador/_layout.html" %}
-
-{% block title %}{% if acao == 'novo' %}Novo Serviço{% else %}Editar Serviço{% endif %}{% endblock %}
+{% block title %}Meus Serviços{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-4">
-    {% if acao == 'novo' %}
-    Cadastrar Novo Serviço
-    {% else %}
-    Editar Serviço: <span class="text-muted">{{ servico.titulo }}</span>
-    {% endif %}
-</h1>
-
-<div class="card">
-    <div class="card-body">
-        <form method="post">
-            <input type="hidden" name="id_prestador" value="{{ id_prestador }}">
-            
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Título do Serviço</label>
-                <input type="text" class="form-control" id="titulo" name="titulo" value="{{ servico.titulo if servico else '' }}" required>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="categoria" class="form-label">Categoria</label>
-                    <select class="form-select" id="categoria" name="categoria" required>
-                        <option value="">Selecione...</option>
-                        {% set categorias = ["Engenharia Civil", "Arquitetura", "Construção", "Reformas", "Elétrica", "Hidráulica", "Pintura", "Acabamento", "Outros"] %}
-                        {% for cat in categorias %}
-                        <option value="{{ cat }}" {% if servico and servico.categoria == cat %}selected{% endif %}>{{ cat }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="valor_base" class="form-label">Valor Base (R$)</label>
-                    <input type="number" class="form-control" id="valor_base" name="valor_base" step="0.01" min="0" value="{{ servico.valor_base if servico else '' }}" required>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="descricao" class="form-label">Descrição Detalhada</label>
-                <textarea class="form-control" id="descricao" name="descricao" rows="5" required>{{ servico.descricao if servico else '' }}</textarea>
-            </div>
-
-            <div class="d-flex justify-content-end gap-2">
-                <a href="{{ url_for('listar_servicos') }}" class="btn btn-secondary">Cancelar</a>
-                <button type="submit" class="btn btn-primary">
-                    {% if acao == 'novo' %}
-                    <i class="bi bi-check-circle-fill me-2"></i>Cadastrar Serviço
-                    {% else %}
-                    <i class="bi bi-save-fill me-2"></i>Salvar Alterações
-                    {% endif %}
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+<h1 class="h3">Meus Serviços</h1>
+<p>Esta página está em construção.</p>
 {% endblock %}
