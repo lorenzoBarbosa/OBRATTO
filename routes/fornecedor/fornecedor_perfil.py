@@ -8,7 +8,7 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/fornecedor/cadastro")
 async def exibir_cadastro_fornecedor(request: Request):
-    return templates.TemplateResponse("fornecedor/cadastro.html", {"request": request})
+    return templates.TemplateResponse("fornecedor/cadastro_fornecedor.html", {"request": request})
 
 # Visualizar perfil do fornecedor
 @router.get("/fornecedor/conta/{id}")
