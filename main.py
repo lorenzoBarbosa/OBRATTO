@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI(
     title="Obratto",
@@ -9,6 +10,7 @@ app = FastAPI(
     # lifespan=lifespan
 )
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 
 
 #PÚBLICO
