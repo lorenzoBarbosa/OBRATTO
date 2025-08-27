@@ -26,7 +26,7 @@ async def avaliar_contratacao(request: Request, id_contratacao: int):
     })
 
 # Rota para lista de solicitações de contratação
-@router.get("/solicitacoes/")
+@router.get("/solicitacoes de contratação/")
 async def cliente_solicitacoes(request: Request):
     return templates.TemplateResponse("cliente/solicitacoes.html", {
         "request": request,
@@ -43,16 +43,6 @@ async def pagar_contratacao(request: Request, id_contratacao: int):
         "id_contratacao": id_contratacao,
         "id_cliente": "id_cliente_logado",
         "pagina_ativa": "contratacoes"
-    })
-
-# Rota para cancelar solicitação
-@router.get("/cancelar_solicitacao/{id_solicitacao}")
-async def cancelar_solicitacao(request: Request, id_solicitacao: int):
-    return templates.TemplateResponse("cliente/cancelar_solicitacao.html", {
-        "request": request,
-        "id_solicitacao": id_solicitacao,
-        "id_cliente": "id_cliente_logado",
-        "pagina_ativa": "solicitacoes"
     })
 
 
