@@ -133,6 +133,7 @@ async def cadastrar_usuario(
     razao_social: str = Form(None),
     descricao_servicos: str = Form(None)
 ):
+    now = datetime.now()
     if tipo_usuario == "cliente":
         usuario = Cliente(
             id=None,
@@ -141,7 +142,7 @@ async def cadastrar_usuario(
             senha=senha,
             cpf_cnpj=cpf_cnpj,
             telefone=telefone,
-            data_cadastro=None,
+            data_cadastro=now,
             endereco=endereco,
             tipo_usuario=tipo_usuario,
             genero=genero,
@@ -157,7 +158,7 @@ async def cadastrar_usuario(
             senha=senha,
             cpf_cnpj=cpf_cnpj,
             telefone=telefone,
-            data_cadastro=None,
+            data_cadastro=now,
             endereco=endereco,
             tipo_usuario=tipo_usuario,
             area_atuacao=area_atuacao,
@@ -175,7 +176,7 @@ async def cadastrar_usuario(
             senha=senha,
             cpf_cnpj=cpf_cnpj,
             telefone=telefone,
-            data_cadastro=None,
+            data_cadastro=now,
             endereco=endereco,
             tipo_usuario=tipo_usuario,
             razao_social=razao_social
@@ -183,12 +184,35 @@ async def cadastrar_usuario(
         fornecedor_repo.inserir_fornecedor(usuario)
         mensagem = "Fornecedor cadastrado com sucesso"
     elif tipo_usuario == "admin":
-        usuario = Administrador(
-            id=None,
-            id_usuario=None
-        )
-        administrador_repo.inserir_administrador(usuario)
-        mensagem = "Administrador cadastrado com sucesso"
+        # cpf_cnpj é obrigatório para admin
+        if not cpf_cnpj:
+            mensagem = "CPF/CNPJ é obrigatório para administrador"
+            usuario = None
+        else:
+            usuario_base = Usuario(
+                id=None,
+                nome=nome,
+                email=email,
+                senha=senha,
+                cpf_cnpj=cpf_cnpj,
+                telefone=telefone,
+                data_cadastro=now,
+                endereco=endereco,
+                tipo_usuario=tipo_usuario
+            )
+            id_usuario = usuario_repo.inserir_usuario(usuario_base)
+            if id_usuario:
+                admin = Administrador(
+                    id=None,
+                    id_usuario=id_usuario
+                )
+                administrador_repo.inserir_administrador(admin)
+                mensagem = "Administrador cadastrado com sucesso"
+                usuario = usuario_base
+                usuario.id = id_usuario
+            else:
+                mensagem = "Erro ao cadastrar administrador"
+                usuario = None
     else:
         mensagem = "Tipo de usuário inválido"
         usuario = None

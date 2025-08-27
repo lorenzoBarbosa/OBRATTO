@@ -2,4 +2,7 @@
 {% block titulo %}Dados Perfil do Usuário{% endblock %}
 {% block conteudo %}
 <h1>Dados de Perfil do Usuário</h1>
+{% if mensagem %}
+	<div class="alert alert-info">{{ mensagem }}</div>
+{% endif %}
 {% endblock %}
