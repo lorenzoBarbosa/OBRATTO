@@ -5,7 +5,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 # Rota para listar todas promoções
-@router.get("/")
+@router.get("/listar")
 async def listar_promocoes(request: Request):
     return templates.TemplateResponse("fornecedor/promocao/promocoes.html", {"request": request})
 

@@ -36,15 +36,15 @@ app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 app.include_router(publico_routes.router)
 
 # FORNECEDOR
-app.include_router(fornecedor_promocoes.router)
-app.include_router(fornecedor_perfil.router)
-app.include_router(fornecedor_solicitacoes_orcamento.router)
-app.include_router(fornecedor_produtos.router)
-app.include_router(fornecedor_planos.router)
+app.include_router(fornecedor_promocoes.router, prefix="/fornecedor/promocao")
+app.include_router(fornecedor_perfil.router, prefix="/fornecedor")
+app.include_router(fornecedor_solicitacoes_orcamento.router, prefix="/fornecedor")
+app.include_router(fornecedor_produtos.router, prefix="/fornecedor/produtos")
+app.include_router(fornecedor_planos.router, prefix="/fornecedor/planos")
 
 # ADMINISTRADOR
-app.include_router(administrador_usuarios.router)
-app.include_router(administrador_anuncios.router)
+app.include_router(administrador_usuarios.router, prefix="/administrador")
+app.include_router(administrador_anuncios.router, prefix="/administrador")
 
 # PRESTADOR
 app.include_router(prestador.router, prefix="/prestador")

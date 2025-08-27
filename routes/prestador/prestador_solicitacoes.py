@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 # Rota para solicitações do prestador
-@router.get("/solicitacoes/")
+@router.get("/solicitacoes")
 async def prestador_solicitacoes(request: Request):
     return templates.TemplateResponse("prestador/solicitacoes_listar.html", {"request": request})
 
