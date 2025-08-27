@@ -2,7 +2,6 @@ from fastapi import APIRouter, Request, Form, HTTPException, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Optional, List
 from config import templates
-from routes.publico.publico_routes import orcamento_repo
 
 router = APIRouter(prefix="/prestador", tags=["Prestador"])
 
