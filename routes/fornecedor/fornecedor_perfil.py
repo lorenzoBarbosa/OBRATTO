@@ -25,11 +25,9 @@ async def excluir_conta(request: Request, id: int):
         mensagem = "Fornecedor não encontrado"
     return templates.TemplateResponse("fornecedor/conta.html", {"request": request, "fornecedor": fornecedor, "mensagem": mensagem})
 
-# Rota GET para exibir o perfil do fornecedor
-@router.get("/fornecedor/perfil_publico")
-async def exibir_perfil(request: Request):
-    return templates.TemplateResponse("fornecedor/perfil.html", {"request": request})
+@router.get("/fornecedor/perfil_publico/{id}")
+async def exibir_perfil_publico(request: Request, id: int):
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+    return templates.TemplateResponse("fornecedor/perfil_publico.html", {"request": request, "fornecedor": fornecedor})
 
-@router.get("/fornecedor/conta")
-async def exibir_conta(request: Request):
-    return templates.TemplateResponse("fornecedor/conta.html", {"request": request})
+
