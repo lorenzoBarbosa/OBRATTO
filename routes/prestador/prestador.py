@@ -16,3 +16,8 @@ async def painel_prestador(request: Request):
     return templates.TemplateResponse("prestador/painel.html", {"request": request})
 
 
+# Rota para exibir o formulário de cadastro do prestador
+@router.get("/cadastro")
+async def exibir_cadastro_prestador(request: Request):
+    return templates.TemplateResponse("prestador/cadastro.html", {"request": request})
+

@@ -8,7 +8,7 @@ from routes.fornecedor import fornecedor_produtos
 from routes.fornecedor import fornecedor_planos
 from routes.fornecedor import fornecedor_perfil
 from routes.fornecedor import fornecedor_promocoes
-from routes.fornecedor import fornecedor_solicitacoes
+from routes.fornecedor import fornecedor_solicitacoes_orcamento
 from routes.administrador import administrador_anuncios
 from routes.administrador import administrador_usuarios
 from routes.prestador import prestador
@@ -36,11 +36,11 @@ app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 app.include_router(publico_routes.router)
 
 # FORNECEDOR
-app.include_router(fornecedor_promocoes.router, prefix="/fornecedor/promocoes")
-app.include_router(fornecedor_perfil.router, prefix="/fornecedor/promocoes")
-app.include_router(fornecedor_solicitacoes.router, prefix="/fornecedor/solicitacoes")
-app.include_router(fornecedor_produtos.router, prefix="/fornecedor/produtos")
-app.include_router(fornecedor_planos.router, prefix="/fornecedor/planos")
+app.include_router(fornecedor_promocoes.router)
+app.include_router(fornecedor_perfil.router)
+app.include_router(fornecedor_solicitacoes_orcamento.router)
+app.include_router(fornecedor_produtos.router)
+app.include_router(fornecedor_planos.router)
 
 # ADMINISTRADOR
 app.include_router(administrador_usuarios.router)

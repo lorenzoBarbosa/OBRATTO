@@ -1,10 +1,15 @@
-
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 from data.administrador import administrador_repo
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
+
+
+# Rota para exibir o formulário de cadastro do administrador
+@router.get("/administrador/cadastro")
+async def exibir_cadastro_administrador(request: Request):
+    return templates.TemplateResponse("administrador/cadastro_adm.html", {"request": request})
 
 # Rota para home do administrador
 @router.get("/administrador/home")
@@ -41,3 +46,4 @@ async def remover_adm(request: Request):
 async def get_administrador(request: Request, id: int):
     administrador = administrador_repo.obter_administrador_por_id(id)
     return templates.TemplateResponse("administrador.html", {"request": request, "administrador": administrador})
+

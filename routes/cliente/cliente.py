@@ -20,4 +20,9 @@ async def home_cliente(request: Request):
     })
 
 
+# Rota para exibir o formulário de cadastro do cliente
+@router.get("/cliente/cadastro")
+async def exibir_cadastro_cliente(request: Request):
+    return templates.TemplateResponse("cliente/cadastro.html", {"request": request})
+
 
