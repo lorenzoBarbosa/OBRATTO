@@ -18,6 +18,15 @@ from datetime import date, datetime
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
+
+@router.get("/")
+async def get_root(request: Request):    
+    return templates.TemplateResponse("publico/home.html", {"request": request})
+
+@router.get("/catalogo")
+async def get_catalogo(request: Request):    
+    return templates.TemplateResponse("publico/catalogo.html", {"request": request})
+
 # Rota GET para exibir o formulário de login
 @router.get("/publico/login")
 async def mostrar_login(request: Request):
