@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 # Listar planos disponíveis
-@router.get("/fornecedor/planos/listar")
+@router.get("/listar")
 async def listar_planos(request: Request):
     try:
         planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=10)
@@ -29,7 +29,7 @@ async def listar_planos(request: Request):
 
 
 # Mostrar formulário de alteração de plano
-@router.get("/fornecedor/planos/alterar")
+@router.get("/alterar")
 async def mostrar_alterar_plano(request: Request):
     try:
         planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
@@ -43,7 +43,7 @@ async def mostrar_alterar_plano(request: Request):
 
 
 # Processar alteração de plano
-@router.post("/fornecedor/planos/alterar")
+@router.post("/alterar")
 async def alterar_plano(request: Request, id_plano: int = Form(...), id_fornecedor: int = Form(...)):
     try:
         assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
@@ -71,7 +71,7 @@ async def alterar_plano(request: Request, id_plano: int = Form(...), id_forneced
 
 
 # Mostrar confirmação de cancelamento de plano
-@router.get("/fornecedor/planos/cancelar")
+@router.get("/cancelar")
 async def mostrar_cancelar_plano(request: Request):
     try:
         plano_atual = None
@@ -86,7 +86,7 @@ async def mostrar_cancelar_plano(request: Request):
 
 
 # Processar cancelamento de plano
-@router.post("/fornecedor/planos/cancelar")
+@router.post("/cancelar")
 async def cancelar_plano(request: Request, id_fornecedor: int = Form(...), confirmacao: str = Form(...)):
     try:
         assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
@@ -112,7 +112,7 @@ async def cancelar_plano(request: Request, id_fornecedor: int = Form(...), confi
 
 
 # Mostrar formulário de renovação de plano
-@router.get("/fornecedor/planos/renovar")
+@router.get("/renovar")
 async def mostrar_renovar_plano(request: Request):
     try:
         planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
@@ -129,7 +129,7 @@ async def mostrar_renovar_plano(request: Request):
 
 
 # Processar renovação de plano
-@router.post("/fornecedor/planos/renovar")
+@router.post("/renovar")
 async def renovar_plano(request: Request, plano_id: int = Form(...), id_fornecedor: int = Form(...)):
     try:
         assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
@@ -158,7 +158,7 @@ async def renovar_plano(request: Request, plano_id: int = Form(...), id_forneced
 
 
 # Mostrar formulário de assinatura de plano
-@router.get("/fornecedor/planos/assinar")
+@router.get("/assinar")
 async def mostrar_assinar_plano(request: Request):
     try:
         planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
@@ -174,7 +174,7 @@ async def mostrar_assinar_plano(request: Request):
 
 
 # Processar assinatura de plano
-@router.post("/fornecedor/planos/assinar")
+@router.post("/assinar")
 async def assinar_plano(request: Request, plano_id: int = Form(...), id_fornecedor: int = Form(default=1)):
     try:
         assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
@@ -233,7 +233,7 @@ async def assinar_plano(request: Request, plano_id: int = Form(...), id_forneced
 
 
 # Callback de sucesso do Mercado Pago
-@router.get("/fornecedor/planos/pagamento/sucesso")
+@router.get("/pagamento/sucesso")
 async def pagamento_sucesso(request: Request, payment_id: str = None, status: str = None, external_reference: str = None):
     try:
         if payment_id:
@@ -258,7 +258,7 @@ async def pagamento_sucesso(request: Request, payment_id: str = None, status: st
 
 
 # Callback de falha do Mercado Pago
-@router.get("/fornecedor/planos/pagamento/falha")
+@router.get("/pagamento/falha")
 async def pagamento_falha(request: Request):
     return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_erro.html", {
         "request": request, "mensagem": "Pagamento rejeitado ou cancelado. Tente novamente."
@@ -267,7 +267,7 @@ async def pagamento_falha(request: Request):
 
 
 # Callback de pagamento pendente
-@router.get("/fornecedor/planos/pagamento/pendente")
+@router.get("/pagamento/pendente")
 async def pagamento_pendente(request: Request):
     return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_pendente.html", {
         "request": request, "mensagem": "Pagamento pendente de aprovação. Aguarde a confirmação."
