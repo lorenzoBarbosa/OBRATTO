@@ -14,6 +14,17 @@ async def home_adm(request: Request):
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
     return templates.TemplateResponse("fornecedor/home_teste.html", {"request": request, "produtos": produtos})
 
+    
+@router.get("/fornecedor/produtos/buscar")
+async def buscar_produto(request: Request, id: int = None, nome: str = None):
+    produtos = []
+    if id is not None:
+        produto = produto_repo.obter_produto_por_id(id)
+        if produto:
+            produtos = [produto]
+    elif nome:
+        produtos = produto_repo.obter_produto_por_nome(nome)
+    return templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos})
 
 @router.get("/fornecedor/produtos/listar")
 async def listar_produtos(request: Request):
@@ -64,7 +75,7 @@ async def excluir_produto(request: Request, id: int):
         response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto não encontrado"})
     return response
 
-# Rota GET para excluir (backup/compatibilidade)
+
 @router.get("/fornecedor/produtos/excluir/{id}")
 async def excluir_produto_get(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)
@@ -77,7 +88,7 @@ async def excluir_produto_get(request: Request, id: int):
         response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto não encontrado"})
     return response
 
-# Rota para confirmação de exclusão de produto
+
 @router.get("/fornecedor/produtos/confi_exclusao/{id}")
 async def confi_exclusao_produto(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)

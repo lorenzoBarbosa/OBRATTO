@@ -44,6 +44,13 @@ def obter_produto_por_pagina(limit: int, offset: int) -> List[Produto]:
             Produto(id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4])
             for row in cursor.fetchall()
         ]
+def obter_produto_por_nome(nome: str) -> List[Produto]:
+    with open_connection() as conn:
+        cursor = conn.execute("SELECT * FROM PRODUTO WHERE nome LIKE ?", (f"%{nome}%",))
+        return [
+            Produto(id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4])
+            for row in cursor.fetchall()
+        ]
 
 def atualizar_produto(produto: Produto):
     with open_connection() as conn:

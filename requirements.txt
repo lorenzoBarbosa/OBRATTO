@@ -4,6 +4,7 @@ jinja2
 Babel
 python-multipart
 itsdangerous
+mercadopago
 
 # Dependências de teste
 pytest
