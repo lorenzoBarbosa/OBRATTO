@@ -31,6 +31,6 @@ async def excluir_conta(request: Request, id: int):
 @router.get("/fornecedor/perfil_publico/{id}")
 async def exibir_perfil_publico(request: Request, id: int):
     fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
-    return templates.TemplateResponse("fornecedor/perfil_publico.html", {"request": request, "fornecedor": fornecedor})
+    return templates.TemplateResponse("fornecedor/perfil.html", {"request": request, "fornecedor": fornecedor})
 
 

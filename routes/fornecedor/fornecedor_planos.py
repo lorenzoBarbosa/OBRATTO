@@ -95,8 +95,7 @@ async def cancelar_plano(request: Request, id_fornecedor: int = Form(...), confi
                 "request": request, "mensagem": "Você não possui assinatura ativa para cancelar."
             })
         if confirmacao.lower() == "confirmar":
-            # Aqui você pode adicionar lógica para cancelar no banco
-            # inscricao_plano_repo.cancelar_assinatura(id_fornecedor)
+          
             return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
                 "request": request, "mensagem": "Plano cancelado com sucesso!", "cancelado": True
             })
@@ -276,105 +275,105 @@ async def pagamento_pendente(request: Request):
 
 
 
-# Webhook do Mercado Pago
-@router.post("/fornecedor/planos/webhook/mercadopago")
-async def webhook_mercadopago(request: Request):
-    try:
-        notification_data = await request.json()
-        result = mp_config.process_webhook(notification_data)
-        if result["success"]:
-            payment_info = result["payment_info"]
-            payment_id = str(payment_info["id"])
-            status = payment_info["status"]
-            status_map = {
-                "approved": "aprovado",
-                "rejected": "rejeitado",
-                "cancelled": "cancelado",
-                "pending": "pendente"
-            }
-            local_status = status_map.get(status, "pendente")
-            pagamento_repo.atualizar_status_pagamento(
-                mp_payment_id=payment_id,
-                status=local_status,
-                metodo_pagamento=payment_info.get("payment_method_id")
-            )
-        return JSONResponse({"status": "ok"})
-    except Exception as e:
-        print(f"Erro no webhook: {e}")
-        return JSONResponse({"status": "error", "message": str(e)})
+# # Webhook do Mercado Pago
+# @router.post("/fornecedor/planos/webhook/mercadopago")
+# async def webhook_mercadopago(request: Request):
+#     try:
+#         notification_data = await request.json()
+#         result = mp_config.process_webhook(notification_data)
+#         if result["success"]:
+#             payment_info = result["payment_info"]
+#             payment_id = str(payment_info["id"])
+#             status = payment_info["status"]
+#             status_map = {
+#                 "approved": "aprovado",
+#                 "rejected": "rejeitado",
+#                 "cancelled": "cancelado",
+#                 "pending": "pendente"
+#             }
+#             local_status = status_map.get(status, "pendente")
+#             pagamento_repo.atualizar_status_pagamento(
+#                 mp_payment_id=payment_id,
+#                 status=local_status,
+#                 metodo_pagamento=payment_info.get("payment_method_id")
+#             )
+#         return JSONResponse({"status": "ok"})
+#     except Exception as e:
+#         print(f"Erro no webhook: {e}")
+#         return JSONResponse({"status": "error", "message": str(e)})
 
 
 
-# Verificar status de pagamento
-@router.get("/status_pagamento/{payment_id}")
-async def verificar_status_pagamento(payment_id: str):
-    try:
-        payment_info = mercadopago_config.get_payment_info(payment_id)
-        if payment_info:
-            pagamento_repo = PagamentoRepository()
-            pagamento_repo.atualizar_status(payment_id, payment_info["status"])
-            return {
-                "status": payment_info["status"],
-                "payment_id": payment_id,
-                "transaction_amount": payment_info.get("transaction_amount"),
-                "status_detail": payment_info.get("status_detail")
-            }
-        return {"status": "not_found", "message": "Pagamento não encontrado"}
-    except Exception as e:
-        print(f"Erro ao verificar status: {e}")
-        return {"status": "error", "message": str(e)}
+# # Verificar status de pagamento
+# @router.get("/status_pagamento/{payment_id}")
+# async def verificar_status_pagamento(payment_id: str):
+#     try:
+#         payment_info = mercadopago_config.get_payment_info(payment_id)
+#         if payment_info:
+#             pagamento_repo = PagamentoRepository()
+#             pagamento_repo.atualizar_status(payment_id, payment_info["status"])
+#             return {
+#                 "status": payment_info["status"],
+#                 "payment_id": payment_id,
+#                 "transaction_amount": payment_info.get("transaction_amount"),
+#                 "status_detail": payment_info.get("status_detail")
+#             }
+#         return {"status": "not_found", "message": "Pagamento não encontrado"}
+#     except Exception as e:
+#         print(f"Erro ao verificar status: {e}")
+#         return {"status": "error", "message": str(e)}
 
 
 
 
-# Debug dos planos
-@router.get("/fornecedor/planos/debug")
-async def debug_planos(request: Request):
-    try:
-        from utils.db import get_database_info
-        db_info = get_database_info()
-        plano_repo.criar_tabela_plano()
-        pagamento_repo.criar_tabela_pagamento()
-        planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=10)
-        debug_info = {
-            "database_info": db_info,
-            "tabela_criada": True,
-            "total_planos": len(planos),
-            "planos": [
-                {
-                    "id": p.id_plano,
-                    "nome": p.nome_plano,
-                    "valor": p.valor_mensal,
-                    "tipo": p.tipo_plano,
-                    "descricao": p.descricao
-                } for p in planos
-            ]
-        }
-        return {"debug": debug_info, "status": "ok"}
-    except Exception as e:
-        return {"error": str(e), "status": "error"}
+# # Debug dos planos
+# @router.get("/fornecedor/planos/debug")
+# async def debug_planos(request: Request):
+#     try:
+#         from utils.db import get_database_info
+#         db_info = get_database_info()
+#         plano_repo.criar_tabela_plano()
+#         pagamento_repo.criar_tabela_pagamento()
+#         planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=10)
+#         debug_info = {
+#             "database_info": db_info,
+#             "tabela_criada": True,
+#             "total_planos": len(planos),
+#             "planos": [
+#                 {
+#                     "id": p.id_plano,
+#                     "nome": p.nome_plano,
+#                     "valor": p.valor_mensal,
+#                     "tipo": p.tipo_plano,
+#                     "descricao": p.descricao
+#                 } for p in planos
+#             ]
+#         }
+#         return {"debug": debug_info, "status": "ok"}
+#     except Exception as e:
+#         return {"error": str(e), "status": "error"}
 
 
 # Visualizar assinatura ativa do fornecedor
-@router.get("/fornecedor/planos/minha_assinatura/{id_fornecedor}")
-async def visualizar_assinatura_ativa(request: Request, id_fornecedor: int):
-    try:
-        # Busca a assinatura ativa do fornecedor
-        assinatura = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
-        if assinatura:
-            plano = plano_repo.obter_plano_por_id(assinatura.id_plano)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
-                "request": request,
-                "assinatura": assinatura,
-                "plano": plano
-            })
-        else:
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
-                "request": request,
-                "mensagem": "Nenhuma assinatura ativa encontrada."
-            })
-    except Exception as e:
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
-            "request": request,
-            "mensagem": f"Erro ao buscar assinatura: {str(e)}"
-        })
+# @router.get("/fornecedor/planos/minha_assinatura/{id_fornecedor}")
+# async def visualizar_assinatura_ativa(request: Request, id_fornecedor: int):
+#     try:
+#         # Busca a assinatura ativa do fornecedor
+#         assinatura = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+#         if assinatura:
+#             plano = plano_repo.obter_plano_por_id(assinatura.id_plano)
+#             return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
+#                 "request": request,
+#                 "assinatura": assinatura,
+#                 "plano": plano
+#             })
+#         else:
+#             return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
+#                 "request": request,
+#                 "mensagem": "Nenhuma assinatura ativa encontrada."
+#             })
+#     except Exception as e:
+#         return templates.TemplateResponse("fornecedor/planos e pagamentos/minha_assinatura.html", {
+#             "request": request,
+#             "mensagem": f"Erro ao buscar assinatura: {str(e)}"
+#         })
