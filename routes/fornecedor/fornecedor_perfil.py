@@ -6,6 +6,9 @@ from data.fornecedor import fornecedor_repo
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
+@router.get("/fornecedor/cadastro")
+async def exibir_cadastro_fornecedor(request: Request):
+    return templates.TemplateResponse("fornecedor/cadastro.html", {"request": request})
 
 # Visualizar perfil do fornecedor
 @router.get("/fornecedor/conta/{id}")

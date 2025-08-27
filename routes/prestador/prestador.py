@@ -66,3 +66,8 @@ async def prestador_solicitacoes(request: Request):
 async def responder_solicitacao(request: Request, id_solicitacao: int):
     return templates.TemplateResponse("prestador/home/responder_solicitacao.html", {"request": request, "solicitacao": "solicitacao", "id_prestador": 1, "pagina_ativa": "solicitacoes"})
 
+# Rota para exibir o formulário de cadastro do prestador
+@router.get("/cadastro")
+async def exibir_cadastro_prestador(request: Request):
+    return templates.TemplateResponse("prestador/cadastro.html", {"request": request})
+

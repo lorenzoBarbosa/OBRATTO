@@ -125,6 +125,10 @@ async def responder_mensagem(request: Request, id: int, resposta: str = Form(...
     return templates.TemplateResponse("publico/mensagens.html", {"request": request, "mensagem": mensagem_texto})
 
 
+router.get("/publico/cadastro")
+async def cadastro_usuario(request: Request):
+    return templates.TemplateResponse("publico/escolha_cadastro.html", {"request": request})
+
 @router.post("/publico/cadastrar_usuario")
 async def cadastrar_usuario(
     request: Request,
