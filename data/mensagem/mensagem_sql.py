@@ -25,10 +25,12 @@ INSERT INTO mensagem (
 OBTER_MENSAGEM = """
 SELECT 
     m.id_mensagem,
-    remetente.nome AS nome_remetente,
-    destinatario.nome AS nome_destinatario,
+    m.id_remetente,
+    m.id_destinatario,
     m.conteudo,
-    m.data_hora
+    m.data_hora,
+    remetente.nome AS nome_remetente,
+    destinatario.nome AS nome_destinatario
 FROM mensagem m
 JOIN usuario remetente ON m.id_remetente = remetente.id
 JOIN usuario destinatario ON m.id_destinatario = destinatario.id

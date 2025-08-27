@@ -38,10 +38,12 @@ def obter_mensagem() -> List[Mensagem]:
         for row in rows:
             mensagens.append(Mensagem(
                 id_mensagem=row["id_mensagem"],
-                nome_destinatario=row["nome_destinatario"],
+                id_remetente=row["id_remetente"],
+                id_destinatario=row["id_destinatario"],
                 conteudo=row["conteudo"],
-                data_hora= row["data_hora"],
-                nome_remetente=row["nome_remetente"]
+                data_hora=row["data_hora"],
+                nome_remetente=row["nome_remetente"],
+                nome_destinatario=row["nome_destinatario"]
             ))
         return mensagens
 

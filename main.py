@@ -15,7 +15,7 @@ app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 
 #PÚBLICO
 
-from routes.publico_routes import router as publico_router # alterado por maroquio
+from routes.publico.publico_routes import router as publico_router # corrigido para refletir a estrutura correta
 
 
 app.include_router(publico_router)
@@ -52,11 +52,11 @@ app.include_router(administrador_router, prefix="/admin")
 
 #PRESTADOR
 
-from routes.prestador.prestador_router import router as prestador_router
-from routes.prestador_routes import router as prestador_router 
+# from routes.prestador.prestador_router import router as prestador_router
+# from routes.prestador_routes import router as prestador_router 
 
 
-app.include_router(prestador_router, prefix="/prestador")
+# app.include_router(prestador_router, prefix="/prestador")
 
 #CLIENTE
 
