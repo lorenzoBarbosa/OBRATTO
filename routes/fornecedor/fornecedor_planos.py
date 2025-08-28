@@ -27,7 +27,6 @@ async def listar_planos(request: Request):
 
 
 
-
 # Mostrar formulário de alteração de plano
 @router.get("/alterar")
 async def mostrar_alterar_plano(request: Request):
