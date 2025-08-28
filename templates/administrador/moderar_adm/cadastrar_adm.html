@@ -1,12 +1,240 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBRATTO</title>
-</head>
-<body>
-    <h1>Cadastrar Administrador</h1>
-    <hr>
-</body>
-</html>
+{% extends "publico/base2.html" %}
+{% block css %}<link rel="stylesheet" href="/static/css/cadastrar_adm.css">{% endblock %}
+{% block titulo %}Cadastro de Administrador{% endblock %}
+{% block conteudo %}
+<div class="admin-container">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/administrador/home">Home page</a></li>
+                <li class="breadcrumb-item"><a href="#">Usuários</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cadastrar Administrador</li>
+            </ol>
+        </nav>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="admin-card">
+                    <div class="admin-header">
+                        <i class="bi bi-person-plus-fill icon-admin"></i>
+                        <h1 class="admin-title">Cadastrar Administrador</h1>
+                        <p class="admin-subtitle">Adicione um novo administrador ao sistema com permissões específicas</p>
+                    </div>
+
+                    <!-- Alerta informativo -->
+                    <div class="alert alert-info" role="alert">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Importante:</strong> Apenas administradores master podem cadastrar novos administradores. Certifique-se de definir as permissões adequadas para cada usuário.
+                    </div>
+
+                    <form id="adminForm" method="POST" action="/publico/cadastrar_usuario">
+                        <!-- Informações Pessoais -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome completo" required>
+                                    <label for="nome">Nome Completo *</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
+                                    <label for="email">E-mail *</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="Telefone">
+                                    <label for="telefone">Telefone</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF">
+                                    <label for="cpf">CPF</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informações de Acesso -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
+                                    <label for="senha">Senha *</label>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="strengthBar"></div>
+                                    </div>
+                                    <small class="form-text" id="strengthText">A senha deve ter pelo menos 8 caracteres</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" placeholder="Confirmar senha" required>
+                                    <label for="confirmarSenha">Confirmar Senha *</label>
+                                </div>
+                                <small class="form-text" id="passwordMatch"></small>
+                            </div>
+                        </div>
+
+                        <!-- Nível de Acesso -->
+                        <div class="mb-4">
+                            <label for="nivelAcesso" class="form-label fw-bold">Nível de Acesso *</label>
+                            <select class="form-select" id="nivelAcesso" name="nivelAcesso" required>
+                                <option value="">Selecione o nível de acesso</option>
+                                <option value="admin_master">Administrador Master</option>
+                                <option value="admin_geral">Administrador Geral</option>
+                            </select>
+                            <div class="form-text">
+                                <strong>Master:</strong> Acesso total ao sistema<br>
+                                <strong>Geral:</strong> Gerenciamento de usuários e conteúdo<br>
+                            </div>
+                        </div>
+
+                        <!-- Permissões Específicas -->
+                        <div class="permissions-section">
+                            <h5 class="permissions-title">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Permissões Específicas
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="permission-group">
+                                        <h6 class="fw-bold mb-3">Usuários</h6>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_usuarios_visualizar" name="permissoes[]" value="usuarios_visualizar">
+                                            <label class="form-check-label" for="perm_usuarios_visualizar">
+                                                Visualizar usuários
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_usuarios_editar" name="permissoes[]" value="usuarios_editar">
+                                            <label class="form-check-label" for="perm_usuarios_editar">
+                                                Editar usuários
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_usuarios_excluir" name="permissoes[]" value="usuarios_excluir">
+                                            <label class="form-check-label" for="perm_usuarios_excluir">
+                                                Excluir usuários
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="permission-group">
+                                        <h6 class="fw-bold mb-3">Conteúdo</h6>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_conteudo_criar" name="permissoes[]" value="conteudo_criar">
+                                            <label class="form-check-label" for="perm_conteudo_criar">
+                                                Criar conteúdo
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_conteudo_editar" name="permissoes[]" value="conteudo_editar">
+                                            <label class="form-check-label" for="perm_conteudo_editar">
+                                                Editar conteúdo
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_conteudo_excluir" name="permissoes[]" value="conteudo_excluir">
+                                            <label class="form-check-label" for="perm_conteudo_excluir">
+                                                Excluir conteúdo
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="permission-group">
+                                        <h6 class="fw-bold mb-3">Financeiro</h6>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_financeiro_visualizar" name="permissoes[]" value="financeiro_visualizar">
+                                            <label class="form-check-label" for="perm_financeiro_visualizar">
+                                                Visualizar relatórios
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_financeiro_editar" name="permissoes[]" value="financeiro_editar">
+                                            <label class="form-check-label" for="perm_financeiro_editar">
+                                                Editar transações
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="permission-group">
+                                        <h6 class="fw-bold mb-3">Sistema</h6>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_sistema_configurar" name="permissoes[]" value="sistema_configurar">
+                                            <label class="form-check-label" for="perm_sistema_configurar">
+                                                Configurar sistema
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="perm_sistema_logs" name="permissoes[]" value="sistema_logs">
+                                            <label class="form-check-label" for="perm_sistema_logs">
+                                                Visualizar logs
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Configurações Adicionais -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="ativo" name="ativo" value="1" checked>
+                                    <label class="form-check-label" for="ativo">
+                                        Conta ativa
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="notificacoes" name="notificacoes" value="1" checked>
+                                    <label class="form-check-label" for="notificacoes">
+                                        Receber notificações por e-mail
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Observações -->
+                        <div class="form-floating mb-4">
+                            <textarea class="form-control" id="observacoes" name="observacoes" style="height: 100px" placeholder="Observações"></textarea>
+                            <label for="observacoes">Observações</label>
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="d-flex gap-3 justify-content-end">
+                            <button type="button" class="btn btn-secondary" onclick="history.back()">
+                                <i class="bi bi-arrow-left me-2"></i>Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-person-plus me-2"></i>Cadastrar Administrador
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}<script src="/static/js/cadastro_adm.js"></script>{% endblock %}
+{% endblock %}
+
