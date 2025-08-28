@@ -503,3 +503,15 @@
     }
 }
 
+#rodapé {
+    background-color: #171370;
+}
+
+#rodapé .text-muted {
+    color: #E1DEE3 !important;
+}
+
+#logo-footer {
+    width: 150px;
+    height: auto;
+}
