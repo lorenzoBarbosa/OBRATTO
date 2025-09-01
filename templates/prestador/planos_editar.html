@@ -1,0 +1,32 @@
+<!-- templates/prestador/planos/alterar_assinatura.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Alterar Plano</title>
+</head>
+<body>
+    <h2>Alterar Plano</h2>
+
+    {% if mensagem %}
+        <p style="color:red;">{{ mensagem }}</p>
+    {% endif %}
+
+    <form method="post" action="/prestador/alterar-assinatura">
+        <input type="hidden" name="id_prestador" value="1">
+
+        <label for="id_plano">Selecione o novo plano:</label>
+        <select name="id_plano" id="id_plano" required>
+            <option value="1">Gratuito</option>
+            <option value="2">Pro</option>
+            <option value="3">Pro Max</option>
+        </select>
+
+        <br><br>
+        <button type="submit">Alterar</button>
+    </form>
+
+    <br>
+    <a href="/prestador/planos">Voltar</a>
+</body>
+</html>

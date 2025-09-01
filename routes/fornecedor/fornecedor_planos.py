@@ -40,7 +40,6 @@ async def mostrar_alterar_plano(request: Request):
         return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {"request": request, "planos": [], "mensagem": f"Erro: {str(e)}"})
 
 
-
 # Processar alteração de plano
 @router.post("/alterar")
 async def alterar_plano(request: Request, id_plano: int = Form(...), id_fornecedor: int = Form(...)):

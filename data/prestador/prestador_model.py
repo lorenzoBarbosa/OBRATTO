@@ -9,3 +9,4 @@ class Prestador(Usuario):
     tipo_pessoa: str
     razao_social: str
     descricao_servicos: str
+

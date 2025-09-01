@@ -13,7 +13,7 @@ from routes.administrador import administrador_anuncios
 from routes.administrador import administrador_usuarios
 from routes.prestador import prestador
 from routes.prestador import prestador_agenda
-from routes.prestador import prestador_assinatura   
+from routes.prestador import prestador_planos
 from routes.prestador import prestador_solicitacoes
 from routes.prestador import prestador_servicos
 from routes.cliente import cliente
@@ -49,7 +49,7 @@ app.include_router(administrador_anuncios.router, prefix="/administrador")
 # PRESTADOR
 app.include_router(prestador.router, prefix="/prestador")
 app.include_router(prestador_agenda.router, prefix="/prestador")
-app.include_router(prestador_assinatura.router, prefix="/prestador")
+app.include_router(prestador_planos.router, prefix="/prestador")
 app.include_router(prestador_solicitacoes.router, prefix="/prestador")   
 app.include_router(prestador_servicos.router, prefix="/prestador")
 
