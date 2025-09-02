@@ -264,8 +264,8 @@
     <div class="navbar">
         <h1>🏢 OBRATTO - {% if cartao %}Editar{% else %}Adicionar{% endif %} Cartão</h1>
         <div class="nav-links">
-            <a href="/fornecedor/planos/listar">💳 Planos</a>
-            <a href="/fornecedor/planos/cartoes">💳 Cartões</a>
+                <a href="/fornecedor/planos/listar">💳 Planos</a>
+                <a href="/fornecedor/pagamentos/cartoes">💳 Cartões</a>
         </div>
     </div>
 
@@ -296,6 +296,7 @@
                 </div>
 
                 <form method="post" action="{% if cartao %}/fornecedor/planos/cartoes/editar/{{ cartao.id_cartao }}{% else %}/fornecedor/planos/cartoes/adicionar{% endif %}">
+                    <form method="post" action="{% if cartao %}/fornecedor/pagamentos/cartoes/editar/{{ cartao.id_cartao }}{% else %}/fornecedor/pagamentos/cartoes/adicionar{% endif %}">
                     <input type="hidden" name="id_fornecedor" value="{{ id_fornecedor or 1 }}">
                     
                     {% if not cartao %}
@@ -376,6 +377,7 @@
                             {% if cartao %}💾 Salvar Alterações{% else %}➕ Adicionar Cartão{% endif %}
                         </button>
                         <a href="/fornecedor/planos/cartoes" class="btn btn-secondary">
+                            <a href="/fornecedor/pagamentos/cartoes" class="btn btn-secondary">
                             ↩️ Cancelar
                         </a>
                     </div>

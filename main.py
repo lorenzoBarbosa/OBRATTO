@@ -9,6 +9,7 @@ from routes.fornecedor import fornecedor_planos
 from routes.fornecedor import fornecedor_perfil
 from routes.fornecedor import fornecedor_promocoes
 from routes.fornecedor import fornecedor_solicitacoes_orcamento
+from routes.fornecedor import fornecedor_pagamentos
 from routes.administrador import administrador_anuncios
 from routes.administrador import administrador_usuarios
 from routes.prestador import prestador
@@ -19,7 +20,6 @@ from routes.prestador import prestador_servicos
 from routes.cliente import cliente
 from routes.cliente import cliente_contratacoes
 from routes.cliente import cliente_solicitacao
-
 
 
 app = FastAPI(
@@ -41,6 +41,7 @@ app.include_router(fornecedor_perfil.router, prefix="/fornecedor")
 app.include_router(fornecedor_solicitacoes_orcamento.router, prefix="/fornecedor")
 app.include_router(fornecedor_produtos.router, prefix="/fornecedor/produtos")
 app.include_router(fornecedor_planos.router, prefix="/fornecedor/planos")
+app.include_router(fornecedor_pagamentos.router, prefix="/fornecedor/pagamentos")
 
 # ADMINISTRADOR
 app.include_router(administrador_usuarios.router, prefix="/administrador")

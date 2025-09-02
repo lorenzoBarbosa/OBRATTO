@@ -287,16 +287,16 @@
     <div class="navbar">
         <h1>🏢 OBRATTO - Meus Cartões</h1>
         <div class="nav-links">
-            <a href="/fornecedor/planos/listar">💳 Planos</a>
-            <a href="/fornecedor/planos/meu_plano">👤 Meu Plano</a>
-            <a href="/fornecedor/planos/cartoes">💳 Cartões</a>
+                <a href="/fornecedor/planos/listar">💳 Planos</a>
+                <a href="/fornecedor/planos/meu_plano">👤 Meu Plano</a>
+                <a href="/fornecedor/pagamentos/cartoes">💳 Cartões</a>
         </div>
     </div>
 
     <div class="container">
         <div class="header-actions">
             <h2>💳 Meus Cartões de Crédito</h2>
-            <a href="/fornecedor/planos/cartoes/adicionar" class="btn btn-primary">
+                <a href="/fornecedor/pagamentos/cartoes/adicionar" class="btn btn-primary">
                 ➕ Adicionar Cartão
             </a>
         </div>
@@ -338,7 +338,7 @@
                         
                         <div class="card-actions">
                             {% if not cartao.principal %}
-                                <form method="post" action="/fornecedor/planos/cartoes/definir_principal" style="display: inline;">
+                                    <form method="post" action="/fornecedor/pagamentos/cartoes/definir_principal" style="display: inline;">
                                     <input type="hidden" name="id_cartao" value="{{ cartao.id_cartao }}">
                                     <button type="submit" class="btn btn-warning btn-small">
                                         ⭐ Tornar Principal
@@ -346,12 +346,12 @@
                                 </form>
                             {% endif %}
                             
-                            <a href="/fornecedor/planos/cartoes/editar/{{ cartao.id_cartao }}" class="btn btn-secondary btn-small">
+                                <a href="/fornecedor/pagamentos/cartoes/editar/{{ cartao.id_cartao }}" class="btn btn-secondary btn-small">
                                 ✏️ Editar
                             </a>
                             
                             {% if not cartao.principal %}
-                                <form method="post" action="/fornecedor/planos/cartoes/excluir" style="display: inline;">
+                                    <form method="post" action="/fornecedor/pagamentos/cartoes/excluir" style="display: inline;">
                                     <input type="hidden" name="id_cartao" value="{{ cartao.id_cartao }}">
                                     <button type="submit" class="btn btn-danger btn-small" 
                                             onclick="return confirm('Tem certeza que deseja excluir este cartão?')">
@@ -373,14 +373,14 @@
                 <h3>💳 Nenhum Cartão Cadastrado</h3>
                 <p>Adicione um cartão de crédito para facilitar seus pagamentos futuros.</p>
                 
-                <a href="/fornecedor/planos/cartoes/adicionar" class="btn btn-primary">
+                    <a href="/fornecedor/pagamentos/cartoes/adicionar" class="btn btn-primary">
                     ➕ Adicionar Primeiro Cartão
                 </a>
             </div>
         {% endif %}
         
         <div style="text-align: center; margin-top: 2rem;">
-            <a href="/fornecedor/planos/listar" class="btn btn-secondary">
+                <a href="/fornecedor/planos/listar" class="btn btn-secondary">
                 ↩️ Voltar aos Planos
             </a>
         </div>
