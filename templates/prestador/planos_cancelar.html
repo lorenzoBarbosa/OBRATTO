@@ -1,6 +1,45 @@
 {% extends "prestador/base.html" %}
+
 {% block titulo %}Cancelar Assinatura{% endblock %}
+
 {% block conteudo %}
-<h1 class="h3">Cancelar Plano</h1>
-<p>Esta página está em construção.</p>
+    <h1 class="h3">Cancelar Assinatura</h1>
+
+    <!-- Bloco para exibir mensagens de sucesso, erro ou confirmação -->
+    {% if mensagem %}
+        <!-- A cor da mensagem muda se o cancelamento foi bem-sucedido -->
+        <div class="alert {% if cancelado %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+            {{ mensagem }}
+        </div>
+    {% endif %}
+
+    <!-- Lógica de exibição: Se o plano ainda NÃO foi cancelado, mostra o formulário. -->
+    {% if not cancelado %}
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    Você tem certeza de que deseja cancelar seu plano? Esta ação não pode ser desfeita.
+                      
+
+                    Para confirmar, digite "<strong>confirmar</strong>" no campo abaixo e clique no botão.
+                </p>
+
+                <!-- Formulário para processar o cancelamento -->
+                <form method="post" action="{{ url_for('processar_cancelamento_plano') }}">
+                    <input type="hidden" name="id_prestador" value="1">
+
+                    <div class="mb-3">
+                        <label for="confirmacao" class="form-label">Digite para confirmar:</label>
+                        <input type="text" name="confirmacao" id="confirmacao" class="form-control" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger">Confirmar Cancelamento</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="mt-3">
+        <a href="{{ url_for('planos_prestador') }}" class="btn btn-secondary">Voltar para a Página de Planos</a>
+    </div>
 {% endblock %}
