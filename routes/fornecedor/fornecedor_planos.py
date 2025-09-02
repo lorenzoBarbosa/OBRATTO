@@ -19,92 +19,65 @@ templates = Jinja2Templates(directory="templates")
 # Listar planos disponíveis
 @router.get("/listar")
 async def listar_planos(request: Request):
-    try:
-        planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=10)
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {"request": request, "planos": planos})
-    except Exception as e:
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {"request": request, "planos": [], "mensagem": f"Erro ao carregar planos: {str(e)}"})
+    planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=10)
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {"request": request, "planos": planos})
 
 
 
 # Mostrar formulário de alteração de plano
 @router.get("/alterar")
 async def mostrar_alterar_plano(request: Request):
-    try:
-        planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-        plano_atual = None
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
-            "request": request, "planos": planos, "plano_atual": plano_atual
-        })
-    except Exception as e:
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {"request": request, "planos": [], "mensagem": f"Erro: {str(e)}"})
+    planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
+    plano_atual = None
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
+        "request": request, "planos": planos, "plano_atual": plano_atual
+    })
 
 
 # Processar alteração de plano
 @router.post("/alterar")
 async def alterar_plano(request: Request, id_plano: int = Form(...), id_fornecedor: int = Form(...)):
-    try:
-        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
-        if not assinatura_ativa:
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
-                "request": request, "mensagem": "Você não possui assinatura ativa para alterar."
-            })
-        plano = plano_repo.obter_plano_por_id(id_plano)
-        if plano:
-            planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {
-                "request": request, "planos": planos, "mensagem": f"Plano alterado para: {plano.nome_plano}"
-            })
-        else:
-            planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
-                "request": request, "planos": planos, "mensagem": "Plano não encontrado"
-            })
-    except Exception as e:
-        planos = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
+    assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+    if not assinatura_ativa:
         return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
-            "request": request, "planos": planos, "mensagem": f"Erro ao alterar plano: {str(e)}"
+            "request": request, "mensagem": "Você não possui assinatura ativa para alterar."
         })
+    plano = plano_repo.obter_plano_por_id(id_plano)
+    if plano:
+        # Aqui você implementaria a lógica de alteração do plano
+        response = RedirectResponse("/fornecedor/planos/listar", status_code=303)
+        return response
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/alterar_plano.html", {
+        "request": request, "mensagem": "Erro ao alterar plano."
+    })
 
 
 
 # Mostrar confirmação de cancelamento de plano
 @router.get("/cancelar")
 async def mostrar_cancelar_plano(request: Request):
-    try:
-        plano_atual = None
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
-            "request": request, "plano_atual": plano_atual
-        })
-    except Exception as e:
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
-            "request": request, "mensagem": f"Erro: {str(e)}"
-        })
+    plano_atual = None
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
+        "request": request, "plano_atual": plano_atual
+    })
 
 
 
 # Processar cancelamento de plano
 @router.post("/cancelar")
 async def cancelar_plano(request: Request, id_fornecedor: int = Form(...), confirmacao: str = Form(...)):
-    try:
-        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
-        if not assinatura_ativa:
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
-                "request": request, "mensagem": "Você não possui assinatura ativa para cancelar."
-            })
-        if confirmacao.lower() == "confirmar":
-          
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
-                "request": request, "mensagem": "Plano cancelado com sucesso!", "cancelado": True
-            })
-        else:
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
-                "request": request, "mensagem": "Cancelamento não confirmado. Digite 'confirmar' para cancelar o plano."
-            })
-    except Exception as e:
+    assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+    if not assinatura_ativa:
         return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
-            "request": request, "mensagem": f"Erro ao cancelar plano: {str(e)}"
+            "request": request, "mensagem": "Você não possui assinatura ativa para cancelar."
         })
+    if confirmacao.lower() == "confirmar":
+        # Aqui você implementaria a lógica de cancelamento do plano
+        response = RedirectResponse("/fornecedor/planos/listar", status_code=303)
+        return response
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/cancelar_plano.html", {
+        "request": request, "mensagem": "Cancelamento não confirmado. Digite 'confirmar' para cancelar o plano."
+    })
 
 
 
@@ -112,16 +85,11 @@ async def cancelar_plano(request: Request, id_fornecedor: int = Form(...), confi
 # Mostrar formulário de renovação de plano
 @router.get("/renovar")
 async def mostrar_renovar_plano(request: Request):
-    try:
-        planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-        plano_atual = planos_disponiveis[0] if planos_disponiveis else None
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
-            "request": request, "planos_disponiveis": planos_disponiveis, "plano_atual": plano_atual
-        })
-    except Exception as e:
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
-            "request": request, "planos_disponiveis": [], "mensagem": f"Erro: {str(e)}"
-        })
+    planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
+    plano_atual = planos_disponiveis[0] if planos_disponiveis else None
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
+        "request": request, "planos_disponiveis": planos_disponiveis, "plano_atual": plano_atual
+    })
 
 
 
@@ -129,28 +97,19 @@ async def mostrar_renovar_plano(request: Request):
 # Processar renovação de plano
 @router.post("/renovar")
 async def renovar_plano(request: Request, plano_id: int = Form(...), id_fornecedor: int = Form(...)):
-    try:
-        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
-        if not assinatura_ativa:
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
-                "request": request, "mensagem": "Você não possui assinatura ativa para renovar."
-            })
-        plano = plano_repo.obter_plano_por_id(plano_id)
-        if plano:
-            planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/listar_planos.html", {
-                "request": request, "planos": planos_disponiveis, "mensagem": f"Plano renovado com sucesso: {plano.nome_plano}"
-            })
-        else:
-            planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
-                "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Plano não encontrado"
-            })
-    except Exception as e:
-        planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
+    assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+    if not assinatura_ativa:
         return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
-            "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": f"Erro ao renovar plano: {str(e)}"
+            "request": request, "mensagem": "Você não possui assinatura ativa para renovar."
         })
+    plano = plano_repo.obter_plano_por_id(plano_id)
+    if plano:
+        # Aqui você implementaria a lógica de renovação do plano
+        response = RedirectResponse("/fornecedor/planos/listar", status_code=303)
+        return response
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/renovar_plano.html", {
+        "request": request, "mensagem": "Erro ao renovar plano."
+    })
 
 
 
@@ -158,15 +117,10 @@ async def renovar_plano(request: Request, plano_id: int = Form(...), id_forneced
 # Mostrar formulário de assinatura de plano
 @router.get("/assinar")
 async def mostrar_assinar_plano(request: Request):
-    try:
-        planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
-            "request": request, "planos_disponiveis": planos_disponiveis
-        })
-    except Exception as e:
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
-            "request": request, "planos_disponiveis": [], "mensagem": f"Erro: {str(e)}"
-        })
+    planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
+        "request": request, "planos_disponiveis": planos_disponiveis
+    })
 
 
 
@@ -174,84 +128,72 @@ async def mostrar_assinar_plano(request: Request):
 # Processar assinatura de plano
 @router.post("/assinar")
 async def assinar_plano(request: Request, plano_id: int = Form(...), id_fornecedor: int = Form(default=1)):
-    try:
-        assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
-        if assinatura_ativa:
-            planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
-                "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Você já possui uma assinatura ativa. Cancele antes de assinar outro plano."
-            })
-        plano = plano_repo.obter_plano_por_id(plano_id)
-        if not plano:
-            planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
-                "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Plano não encontrado"
-            })
-        pagamento_repo.criar_tabela_pagamento()
-        preference_result = mp_config.create_preference(
-            plano_id=plano.id_plano,
-            plano_nome=plano.nome_plano,
-            valor=plano.valor_mensal,
-            fornecedor_id=id_fornecedor
-        )
-        if preference_result["success"]:
-            pagamento = Pagamento(
-                plano_id=plano.id_plano,
-                fornecedor_id=id_fornecedor,
-                mp_preference_id=preference_result["preference_id"],
-                valor=plano.valor_mensal,
-                status="pendente",
-                external_reference=f"plano_{plano.id_plano}_fornecedor_{id_fornecedor}"
-            )
-            pagamento_id = pagamento_repo.inserir_pagamento(pagamento)
-            if pagamento_id:
-                return templates.TemplateResponse("fornecedor/planos e pagamentos/processar_pagamento.html", {
-                    "request": request,
-                    "plano": plano,
-                    "preference_id": preference_result["preference_id"],
-                    "init_point": preference_result["init_point"],
-                    "sandbox_init_point": preference_result["sandbox_init_point"],
-                    "mp_public_key": mp_config.PUBLIC_KEY
-                })
-            else:
-                planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-                return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
-                    "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": "Erro ao criar registro de pagamento"
-                })
-        else:
-            planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
-            return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
-                "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": f"Erro ao criar preferência de pagamento: {preference_result.get('error', 'Erro desconhecido')}"
-            })
-    except Exception as e:
-        planos_disponiveis = plano_repo.obter_plano_por_pagina(pagina=1, tamanho_pagina=20)
+    assinatura_ativa = inscricao_plano_repo.obter_assinatura_ativa_por_fornecedor(id_fornecedor)
+    if assinatura_ativa:
         return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
-            "request": request, "planos_disponiveis": planos_disponiveis, "mensagem": f"Erro ao processar assinatura: {str(e)}"
+            "request": request, "mensagem": "Você já possui uma assinatura ativa. Cancele antes de assinar outro plano."
         })
+    
+    plano = plano_repo.obter_plano_por_id(plano_id)
+    if not plano:
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
+            "request": request, "mensagem": "Plano não encontrado"
+        })
+    
+    pagamento_repo.criar_tabela_pagamento()
+    preference_result = mp_config.create_preference(
+        plano_id=plano.id_plano,
+        plano_nome=plano.nome_plano,
+        valor=plano.valor_mensal,
+        fornecedor_id=id_fornecedor
+    )
+    
+    if preference_result["success"]:
+        pagamento = Pagamento(
+            plano_id=plano.id_plano,
+            fornecedor_id=id_fornecedor,
+            mp_preference_id=preference_result["preference_id"],
+            valor=plano.valor_mensal,
+            status="pendente",
+            external_reference=f"plano_{plano.id_plano}_fornecedor_{id_fornecedor}"
+        )
+        pagamento_id = pagamento_repo.inserir_pagamento(pagamento)
+        
+        if pagamento_id:
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/processar_pagamento.html", {
+                "request": request,
+                "plano": plano,
+                "preference_id": preference_result["preference_id"],
+                "init_point": preference_result["init_point"],
+                "sandbox_init_point": preference_result["sandbox_init_point"],
+                "mp_public_key": mp_config.PUBLIC_KEY
+            })
+        return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
+            "request": request, "mensagem": "Erro ao criar registro de pagamento"
+        })
+    
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/assinar_plano.html", {
+        "request": request, "mensagem": "Erro ao processar assinatura."
+    })
 
 
 # Callback de sucesso do Mercado Pago
 @router.get("/pagamento/sucesso")
 async def pagamento_sucesso(request: Request, payment_id: str = None, status: str = None, external_reference: str = None):
-    try:
-        if payment_id:
-            payment_info = mp_config.get_payment_info(payment_id)
-            if payment_info.get("status") == "approved":
-                pagamento_repo.atualizar_status_pagamento(
-                    mp_payment_id=payment_id,
-                    status="aprovado",
-                    metodo_pagamento=payment_info.get("payment_method_id")
-                )
-                return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_sucesso.html", {
-                    "request": request, "payment_info": payment_info, "mensagem": "Pagamento aprovado com sucesso! Seu plano está ativo."
-                })
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_sucesso.html", {
-            "request": request, "mensagem": "Pagamento processado com sucesso!"
-        })
-    except Exception as e:
-        return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_erro.html", {
-            "request": request, "mensagem": f"Erro ao processar pagamento: {str(e)}"
-        })
+    if payment_id:
+        payment_info = mp_config.get_payment_info(payment_id)
+        if payment_info.get("status") == "approved":
+            pagamento_repo.atualizar_status_pagamento(
+                mp_payment_id=payment_id,
+                status="aprovado",
+                metodo_pagamento=payment_info.get("payment_method_id")
+            )
+            return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_sucesso.html", {
+                "request": request, "payment_info": payment_info, "mensagem": "Pagamento aprovado com sucesso! Seu plano está ativo."
+            })
+    return templates.TemplateResponse("fornecedor/planos e pagamentos/pagamento_sucesso.html", {
+        "request": request, "mensagem": "Pagamento processado com sucesso!"
+    })
 
 
 
