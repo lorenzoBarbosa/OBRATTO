@@ -433,12 +433,14 @@
         }
         
         // Inicializar preview para edição
-        {% if cartao %}
+      
+        document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('previewBrand').textContent = '{{ cartao.bandeira }}';
             document.getElementById('previewNumber').textContent = '•••• •••• •••• {{ cartao.ultimos_4_digitos }}';
-            document.getElementById('previewName').textContent = '{{ cartao.nome_titular }}'.toUpperCase();
+            document.getElementById('previewName').textContent = '{{ cartao.nome_titular|upper }}';
             document.getElementById('previewValidity').textContent = '{{ cartao.mes_vencimento }}/{{ cartao.ano_vencimento }}';
-        {% endif %}
+        });
+        
     </script>
 </body>
 </html>
