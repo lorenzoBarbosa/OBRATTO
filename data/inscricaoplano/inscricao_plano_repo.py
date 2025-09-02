@@ -15,11 +15,11 @@ def criar_tabela_inscricao_plano() -> bool:
 def inserir_inscricao_plano(inscricao_plano: InscricaoPlano) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR_INSCRICAO_PLANO,(
+        cursor.execute(INSERIR_INSCRICAO_PLANO, (
                 inscricao_plano.id_fornecedor,
                 inscricao_plano.id_prestador,
                 inscricao_plano.id_plano,
-        )),
+        ))
         conn.commit()
         return cursor.lastrowid
 
@@ -36,7 +36,7 @@ def obter_inscricao_plano() -> List[InscricaoPlano]:
                     id_plano=row["id_plano"],
                     id_fornecedor=row["id_fornecedor"],
                     id_prestador=row["id_prestador"],
-                )),
+                ))
         return inscricoes
 
 

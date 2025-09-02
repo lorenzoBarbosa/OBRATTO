@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancelar Plano - OBRATTO Fornecedor</title>
+    <title>Confirmar Cancelamento - OBRATTO</title>
     <style>
         * {
             margin: 0;
@@ -49,47 +49,48 @@
         }
         
         .container {
-            max-width: 700px;
+            max-width: 600px;
             margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .card {
-            background: white;
+            background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-        
-        .card-header {
-            background-color: #dc3545;
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .card-header h2 {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-        
-        .card-body {
             padding: 2rem;
         }
         
-        .current-plan {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+        .warning-header {
+            text-align: center;
+            margin-bottom: 2rem;
         }
         
-        .current-plan h3 {
+        .warning-icon {
+            font-size: 4rem;
             color: #dc3545;
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+        }
+        
+        .warning-title {
+            color: #dc3545;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .warning-subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .plan-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .plan-info h3 {
+            color: #dc3545;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
         
         .plan-detail {
@@ -107,22 +108,26 @@
             margin-top: 0.75rem;
         }
         
-        .cancel-info {
+        .consequences {
             background-color: #fff3cd;
             border: 1px solid #ffeaa7;
             border-radius: 8px;
             padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-left: 5px solid #ffc107;
+            margin: 2rem 0;
         }
         
-        .cancel-info h4 {
+        .consequences h4 {
             color: #856404;
             margin-bottom: 1rem;
+            font-size: 1.1rem;
         }
         
-        .cancel-info p {
+        .consequences ul {
             color: #856404;
+            margin-left: 1.5rem;
+        }
+        
+        .consequences li {
             margin-bottom: 0.5rem;
         }
         
@@ -181,7 +186,7 @@
         @media (max-width: 768px) {
             .container {
                 margin: 1rem;
-                padding: 0 0.5rem;
+                padding: 1.5rem;
             }
             
             .form-actions {
@@ -190,11 +195,6 @@
             
             .btn {
                 width: 100%;
-            }
-            
-            .plan-detail {
-                flex-direction: column;
-                gap: 0.25rem;
             }
         }
     </style>
@@ -209,72 +209,69 @@
     </div>
 
     <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h2>❌ Cancelar Assinatura</h2>
-            </div>
-            
-            <div class="card-body">
-                {% if mensagem %}
-                    <div class="alert alert-error">
-                        {{ mensagem }}
-                    </div>
-                {% endif %}
-
-                {% if plano_atual %}
-                    <div class="current-plan">
-                        <h3>📦 Plano Atual</h3>
-                        <div class="plan-detail">
-                            <span><strong>Nome:</strong></span>
-                            <span>{{ plano_atual.nome_plano }}</span>
-                        </div>
-                        <div class="plan-detail">
-                            <span><strong>Tipo:</strong></span>
-                            <span>{{ plano_atual.tipo_plano.title() }}</span>
-                        </div>
-                        <div class="plan-detail">
-                            <span><strong>Limite de Serviços:</strong></span>
-                            <span>{{ plano_atual.limite_servico }} por mês</span>
-                        </div>
-                        <div class="plan-detail">
-                            <span><strong>Descrição:</strong></span>
-                            <span>{{ plano_atual.descricao }}</span>
-                        </div>
-                        <div class="plan-detail">
-                            <span><strong>Valor Mensal:</strong></span>
-                            <span>R$ {{ "%.2f"|format(plano_atual.valor_mensal) }}</span>
-                        </div>
-                    </div>
-
-                    <div class="cancel-info">
-                        <h4>⚠️ Importante sobre o cancelamento:</h4>
-                        <p>• O cancelamento será efetivo imediatamente</p>
-                        <p>• Você perderá acesso a todos os benefícios do plano</p>
-                        <p>• Não haverá reembolso do período já pago</p>
-                        <p>• Para reativar, será necessário fazer uma nova assinatura</p>
-                    </div>
-
-                    <div class="form-actions">
-                        <form method="post" action="/fornecedor/planos/cancelar" style="display: inline;">
-                            <input type="hidden" name="id_fornecedor" value="{{ id_fornecedor }}">
-                            <button type="submit" class="btn btn-danger">
-                                🚫 Prosseguir com Cancelamento
-                            </button>
-                        </form>
-                        
-                        <a href="/fornecedor/planos/listar" class="btn btn-secondary">
-                            ↩️ Voltar aos Planos
-                        </a>
-                    </div>
-                {% else %}
-                    <div class="alert alert-error">
-                        <strong>Erro:</strong> Você não possui um plano ativo para cancelar. 
-                        <a href="/fornecedor/planos/assinar">Assine um plano primeiro</a> ou 
-                        <a href="/fornecedor/planos/listar">veja os planos disponíveis</a>.
-                    </div>
-                {% endif %}
-            </div>
+        <div class="warning-header">
+            <div class="warning-icon">⚠️</div>
+            <h1 class="warning-title">Confirmar Cancelamento</h1>
+            <p class="warning-subtitle">Você está prestes a cancelar sua assinatura</p>
         </div>
+
+        {% if mensagem %}
+            <div class="alert alert-error">
+                {{ mensagem }}
+            </div>
+        {% endif %}
+
+        {% if plano_atual %}
+            <div class="plan-info">
+                <h3>📋 Plano que será cancelado:</h3>
+                <div class="plan-detail">
+                    <span><strong>Nome:</strong></span>
+                    <span>{{ plano_atual.nome_plano }}</span>
+                </div>
+                <div class="plan-detail">
+                    <span><strong>Tipo:</strong></span>
+                    <span>{{ plano_atual.tipo_plano.title() }}</span>
+                </div>
+                <div class="plan-detail">
+                    <span><strong>Limite de Serviços:</strong></span>
+                    <span>{{ plano_atual.limite_servico }} por mês</span>
+                </div>
+                <div class="plan-detail">
+                    <span><strong>Valor Mensal:</strong></span>
+                    <span>R$ {{ "%.2f"|format(plano_atual.valor_mensal) }}</span>
+                </div>
+            </div>
+
+            <div class="consequences">
+                <h4>⚠️ Consequências do cancelamento:</h4>
+                <ul>
+                    <li>Você perderá acesso imediato a todos os benefícios do plano</li>
+                    <li>Seus serviços ativos podem ser suspensos</li>
+                    <li>Não haverá reembolso do período já pago</li>
+                    <li>Para reativar, será necessário fazer uma nova assinatura</li>
+                    <li>Seus dados serão mantidos por 30 dias para eventual reativação</li>
+                </ul>
+            </div>
+
+            <div class="form-actions">
+                <form method="post" action="/fornecedor/planos/confirmar_cancelamento" style="display: inline;">
+                    <input type="hidden" name="id_fornecedor" value="{{ id_fornecedor }}">
+                    <button type="submit" class="btn btn-danger" 
+                            onclick="return confirm('Tem certeza absoluta que deseja cancelar? Esta ação não pode ser desfeita!')">
+                        ❌ Sim, Cancelar Definitivamente
+                    </button>
+                </form>
+                
+                <a href="/fornecedor/planos/cancelar" class="btn btn-secondary">
+                    ↩️ Voltar
+                </a>
+            </div>
+        {% else %}
+            <div class="alert alert-error">
+                <strong>Erro:</strong> Não foi possível encontrar seu plano atual. 
+                <a href="/fornecedor/planos/listar">Voltar aos planos</a>
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>

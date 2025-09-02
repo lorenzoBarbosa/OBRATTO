@@ -495,22 +495,8 @@
                     {% endfor %}
                 </div>
 
-                <form method="POST" id="signupForm" class="selection-form">
-                    <div class="form-group">
-                        <label for="plano_id">Plano Selecionado:</label>
-                        <select name="plano_id" id="plano_id" required onchange="updatePlanSummary()">
-                            <option value="">Selecione um plano acima...</option>
-                            {% for plano in planos_disponiveis %}
-                            <option value="{{ plano.id_plano }}" 
-                                    data-nome="{{ plano.nome_plano }}"
-                                    data-valor="{{ plano.valor_mensal }}"
-                                    data-limite="{{ plano.limite_servico }}"
-                                    data-descricao="{{ plano.descricao or '' }}">
-                                {{ plano.nome_plano }} - R$ {{ "%.2f"|format(plano.valor_mensal) }}/mês
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                <form method="POST" id="signupForm" class="selection-form" style="display: none;">
+                    <input type="hidden" name="plano_id" id="plano_id" required>
 
                     <div id="planSummary" class="plan-summary">
                         <h4>📋 Resumo da Assinatura</h4>
@@ -575,62 +561,41 @@
             const planDescription = cardElement.dataset.planoDescricao;
             const planLimit = cardElement.dataset.planoLimite;
             
-            // Chama a função original
-            selectPlan(planId, planName, planPrice, planDescription, planLimit, cardElement);
-        }
-        
-        function selectPlan(planId, planName, planPrice, planDescription, planLimit, targetCard = null) {
-            // Atualiza o select
-            const select = document.getElementById('plano_id');
-            select.value = planId;
-            
             // Remove seleção anterior
             document.querySelectorAll('.plan-card').forEach(card => {
                 card.classList.remove('selected');
             });
             
             // Adiciona seleção atual
-            if (targetCard) {
-                targetCard.classList.add('selected');
-            } else if (event && event.currentTarget) {
-                event.currentTarget.classList.add('selected');
-            }
+            cardElement.classList.add('selected');
+            
+            // Atualiza o hidden input
+            document.getElementById('plano_id').value = planId;
             
             // Atualiza resumo
-            updatePlanSummary();
+            updatePlanSummary(planName, planPrice, planLimit, planDescription);
+            
+            // Mostra o formulário
+            const form = document.getElementById('signupForm');
+            form.style.display = 'block';
             
             // Scroll suave para o formulário
-            document.getElementById('signupForm').scrollIntoView({
+            form.scrollIntoView({
                 behavior: 'smooth',
                 block: 'center'
             });
         }
         
-        function updatePlanSummary() {
-            const select = document.getElementById('plano_id');
-            const summary = document.getElementById('planSummary');
+        function updatePlanSummary(planName, planPrice, planLimit, planDescription) {
+            // Atualiza informações do resumo
+            document.getElementById('summaryName').textContent = planName;
+            document.getElementById('summaryPrice').textContent = `R$ ${planPrice.toFixed(2)}/mês`;
+            document.getElementById('summaryLimit').textContent = 
+                planLimit == 999 ? 'Serviços Ilimitados' : `Até ${planLimit} serviços`;
+            document.getElementById('summaryDescription').textContent = 
+                planDescription || 'Plano completo com todos os recursos essenciais';
             
-            if (select.value) {
-                const option = select.selectedOptions[0];
-                const planData = {
-                    nome: option.dataset.nome,
-                    valor: parseFloat(option.dataset.valor),
-                    limite: option.dataset.limite,
-                    descricao: option.dataset.descricao
-                };
-                
-                // Atualiza informações do resumo
-                document.getElementById('summaryName').textContent = planData.nome;
-                document.getElementById('summaryPrice').textContent = `R$ ${planData.valor.toFixed(2)}/mês`;
-                document.getElementById('summaryLimit').textContent = 
-                    planData.limite == 999 ? 'Serviços Ilimitados' : `Até ${planData.limite} serviços`;
-                document.getElementById('summaryDescription').textContent = 
-                    planData.descricao || 'Plano completo com todos os recursos essenciais';
-                
-                summary.style.display = 'block';
-            } else {
-                summary.style.display = 'none';
-            }
+            document.getElementById('planSummary').style.display = 'block';
         }
 
         // Confirmação antes do envio
