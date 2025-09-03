@@ -12,6 +12,15 @@ router = APIRouter()
 async def planos_prestador(request: Request):
     return templates.TemplateResponse("prestador/planos.html", {"request": request})
 
+# Cadastrar plano
+@router.get("/planos/cadastrar", name="exibir_formulario_cadastro")
+async def exibir_formulario_cadastro(request: Request):
+    return templates.TemplateResponse("prestador/planos_cadastrar.html", {"request": request})
+
+
+@outer.post("/planos/cadastrar", name="processar_cadastro_assinatura")
+async def processar_cadastro_assinatura(request:Request):
+
 
 # Editar plano
 @router.get("/planos/editar", name="exibir_formulario_edicao")
