@@ -14,16 +14,21 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark fundo-azul">
             <div class="container">
-                <a class="navbar-brand py-3" href="#">
-                    <img src="./static/img/logo_branca_casinha.png" height="30">
-                    <img src="/static/img/logo_branca_nome.png" height="30" alt="">
+                <a class="navbar-brand py-2" href="#">
+                    <img src="./static/img/logo_preta_casinha.png" height="40">
+                    <img src="/static/img/logo_preta_nome.png" height="30" alt="">
                 </a>
                 <a href="/publico/login" class="text-white">
-                    <h5>ENTRAR</h5>
+                    <h5><strong>ENTRAR</strong></h5>
                 </a>
             </div>
         </nav>
     </header>
+    {% if mensagem %}
+        <div class="alert alert-sucess" role="alert">
+            {{ mensagem }}
+        </div>
+    {% endif %}
     {% block conteudo %}
     {% endblock %}
     <footer class="text-white p-3 mt-auto">

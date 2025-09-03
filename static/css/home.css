@@ -11,10 +11,11 @@ body {
 }
 
 .fundo-azul {
-    background: linear-gradient(135deg, #e17126, #e0905b);
+    background: white;
 }
 
 .navbar-brand img {
+    height: 25px;
     transition: transform 0.3s ease;
 }
 
@@ -26,7 +27,7 @@ body {
     border: 2px solid #E1DEE3;
     background-color: white;
     color: #333333;
-    min-width: 300px;
+    min-width:300px;
 }
 
 .navbar .form-control:focus {
@@ -35,14 +36,15 @@ body {
 }
 
 .navbar .text-white{
-    color: white !important;
+    color: black !important;
     font-weight: 600;
     text-decoration: none;
+    transition: transform 0.3s ease;
 }
 
 .navbar .text-white:hover {
     color: #171370 !important;
-    transition: color 0.3s ease;
+    transform: scale(1.05);
 }
 
 .hero-section {

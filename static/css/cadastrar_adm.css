@@ -1,6 +1,5 @@
-/* Estilos adicionais para páginas administrativas */
 .fundo-azul {
-    background: linear-gradient(135deg, #e17126, #e0905b) !important;
+    background: white !important;
 }
 
 .admin-container {
