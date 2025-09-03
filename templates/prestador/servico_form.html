@@ -1,7 +1,24 @@
 {% extends "prestador/base.html" %}
-{% block titulo %}Meus Serviços{% endblock %}
+{% block titulo %}Cadastrar Novo Serviço{% endblock %}
 
 {% block conteudo %}
-<h1 class="h3">Meus Serviços</h1>
-<p>Esta página está em construção.</p>
+<h1 class="h3">Cadastrar Novo Serviço</h1>
+
+<form method="post" action="/prestador/servicos/novo">
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome do Serviço:</label>
+        <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+    <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição:</label>
+        <textarea class="form-control" id="descricao" name="descricao" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="preco" class="form-label">Preço (R$)</label>
+        <input type="number" class="form-control" id="preco" name="preco" step="0.01" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
 {% endblock %}
+
+

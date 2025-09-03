@@ -113,3 +113,21 @@ def obter_assinatura_ativa_por_fornecedor(id_fornecedor: int) -> Optional[Inscri
                 id_prestador=row["id_prestador"]
             )
         return None
+
+def obter_inscricao_por_prestador(id_prestador: int) -> Optional[InscricaoPlano]:
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT * FROM inscricao_plano
+            WHERE id_prestador = ? 
+            ORDER BY id_inscricao_plano DESC LIMIT 1
+        """, (id_prestador,))
+        row = cursor.fetchone()
+        if row:
+            return InscricaoPlano(
+                id_inscricao_plano=row["id_inscricao_plano"],
+                id_plano=row["id_plano"],
+                id_fornecedor=row["id_fornecedor"],
+                id_prestador=row["id_prestador"]
+            )
+        return None
