@@ -15,11 +15,11 @@ def criar_tabela_inscricao_plano() -> bool:
 def inserir_inscricao_plano(inscricao_plano: InscricaoPlano) -> Optional[int]:
     with open_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR_INSCRICAO_PLANO,(
+        cursor.execute(INSERIR_INSCRICAO_PLANO, (
                 inscricao_plano.id_fornecedor,
                 inscricao_plano.id_prestador,
                 inscricao_plano.id_plano,
-        )),
+        ))
         conn.commit()
         return cursor.lastrowid
 
@@ -36,7 +36,7 @@ def obter_inscricao_plano() -> List[InscricaoPlano]:
                     id_plano=row["id_plano"],
                     id_fornecedor=row["id_fornecedor"],
                     id_prestador=row["id_prestador"],
-                )),
+                ))
         return inscricoes
 
 
@@ -91,3 +91,25 @@ def deletar_inscricao_plano(id_inscricao: int) -> bool:
         cursor.execute(DELETAR_INSCRICAO_PLANO, (id_inscricao,))
         conn.commit()
         return cursor.rowcount > 0
+
+def obter_assinatura_ativa_por_fornecedor(id_fornecedor: int) -> Optional[InscricaoPlano]:
+    """
+    Retorna a inscrição ativa do fornecedor, se existir.
+    Considera como ativa a inscrição mais recente do fornecedor.
+    """
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT * FROM inscricao_plano
+            WHERE id_fornecedor = ?
+            ORDER BY id_inscricao_plano DESC LIMIT 1
+        """, (id_fornecedor,))
+        row = cursor.fetchone()
+        if row:
+            return InscricaoPlano(
+                id_inscricao_plano=row["id_inscricao_plano"],
+                id_plano=row["id_plano"],
+                id_fornecedor=row["id_fornecedor"],
+                id_prestador=row["id_prestador"]
+            )
+        return None

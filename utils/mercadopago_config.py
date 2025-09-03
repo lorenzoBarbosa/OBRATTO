@@ -1,7 +1,7 @@
 """
 Configuração e utilitários para integração com Mercado Pago
 """
-import mercadopago
+# import mercadopago  # Comentado para simulação
 import os
 from typing import Dict, Any, Optional
 
@@ -19,7 +19,8 @@ class MercadoPagoConfig:
         self.PENDING_URL = "http://127.0.0.1:8000/fornecedor/planos/pagamento/pendente"
         
         # Inicializa o SDK
-        self.sdk = mercadopago.SDK(self.ACCESS_TOKEN)
+        # self.sdk = mercadopago.SDK(self.ACCESS_TOKEN)  # Comentado para simulação
+        self.sdk = None
     
     def create_preference(self, plano_id: int, plano_nome: str, valor: float, fornecedor_id: int = 1) -> Dict[str, Any]:
         """

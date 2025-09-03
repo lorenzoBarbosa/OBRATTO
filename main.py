@@ -1,6 +1,26 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
+
+from routes.publico import publico_routes
+from routes.fornecedor import fornecedor_produtos
+from routes.fornecedor import fornecedor_planos
+from routes.fornecedor import fornecedor_perfil
+from routes.fornecedor import fornecedor_promocoes
+from routes.fornecedor import fornecedor_solicitacoes_orcamento
+from routes.fornecedor import fornecedor_pagamentos
+from routes.administrador import administrador_anuncios
+from routes.administrador import administrador_usuarios
+from routes.prestador import prestador
+from routes.prestador import prestador_agenda
+from routes.prestador import prestador_planos
+from routes.prestador import prestador_solicitacoes
+from routes.prestador import prestador_servicos
+from routes.cliente import cliente
+from routes.cliente import cliente_contratacoes
+from routes.cliente import cliente_solicitacao
+
 
 app = FastAPI(
     title="Obratto",
@@ -9,60 +29,36 @@ app = FastAPI(
     # lifespan=lifespan
 )
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 
 
-#PÚBLICO
+# PÚBLICO
+app.include_router(publico_routes.router)
 
-from routes.publico_routes import router as publico_router # alterado por maroquio
+# FORNECEDOR
+app.include_router(fornecedor_promocoes.router, prefix="/fornecedor/promocao")
+app.include_router(fornecedor_perfil.router, prefix="/fornecedor")
+app.include_router(fornecedor_solicitacoes_orcamento.router, prefix="/fornecedor")
+app.include_router(fornecedor_produtos.router, prefix="/fornecedor/produtos")
+app.include_router(fornecedor_planos.router, prefix="/fornecedor/planos")
+app.include_router(fornecedor_pagamentos.router, prefix="/fornecedor/pagamentos")
 
+# ADMINISTRADOR
+app.include_router(administrador_usuarios.router, prefix="/administrador")
+app.include_router(administrador_anuncios.router, prefix="/administrador")
 
-app.include_router(publico_router)
-
-#FORNECEDOR
-
-from routes.fornecedor.fornecedor_produtos import router as fornecedor_produtos_router
-from routes.fornecedor.fornecedor_planos import router as fornecedor_planos_router
-from routes.fornecedor import fornecedor_perfil
-from routes.fornecedor import fornecedor_promocoes
-from routes.fornecedor import fornecedor_solicitacoes
-from routes.fornecedor_routes import router as fornecedor_router 
-
-
-app.include_router(fornecedor_promocoes.router)
-app.include_router(fornecedor_perfil.router)
-app.include_router(fornecedor_solicitacoes.router)
-app.include_router(fornecedor_produtos_router)
-app.include_router(fornecedor_planos_router)
-app.include_router(fornecedor_router, prefix="/fornecedor")
-
-#ADMINISTRADOR
-
-from routes.administrador import administrador_anuncios
-from routes.administrador import administrador_usuarios
-from routes.administrador import administrador_anuncios
-from routes.admin_routes import router as administrador_router 
+# PRESTADOR
+app.include_router(prestador.router, prefix="/prestador")
+app.include_router(prestador_agenda.router, prefix="/prestador")
+app.include_router(prestador_planos.router, prefix="/prestador")
+app.include_router(prestador_solicitacoes.router, prefix="/prestador")   
+app.include_router(prestador_servicos.router, prefix="/prestador")
 
 
-app.include_router(administrador_usuarios.router)
-app.include_router(administrador_anuncios.router)
-app.include_router(administrador_router, prefix="/admin")
-
-
-#PRESTADOR
-
-from routes.prestador.prestador_router import router as prestador_router
-from routes.prestador_routes import router as prestador_router 
-
-
-app.include_router(prestador_router, prefix="/prestador")
-
-#CLIENTE
-
-from routes.cliente.cliente_router import router as cliente_router
-from routes.cliente_routes import router as cliente_router 
-
-
-app.include_router(cliente_router, prefix="/cliente")
+# CLIENTE
+app.include_router(cliente.router, prefix="/cliente")
+app.include_router(cliente_contratacoes.router, prefix="/cliente")
+app.include_router(cliente_solicitacao.router, prefix="/cliente")
 
 
 if __name__ == "__main__":

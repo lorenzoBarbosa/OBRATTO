@@ -2,6 +2,7 @@ import pytest
 import os
 import sys
 import tempfile
+import gc
 
 # Adiciona o diretório raiz do projeto ao PYTHONPATH
 # Isso permite importar módulos do projeto nos testes
@@ -18,6 +19,11 @@ def test_db():
     os.environ['TEST_DATABASE_PATH'] = db_path
     # Retorna o caminho do banco de dados temporário
     yield db_path    
+    # Força fechamento de conexões SQLite
+    gc.collect()
     # Remove o arquivo temporário ao concluir o teste
     if os.path.exists(db_path):
-        os.unlink(db_path)
+        try:
+            os.unlink(db_path)
+        except PermissionError:
+            pass

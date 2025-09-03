@@ -16,4 +16,3 @@ class Usuario:
     tipo_usuario: str
 
 
-    
