@@ -11,10 +11,9 @@
         <p style="color:red;">{{ mensagem }}</p>
     {% endif %}
 
-    <!-- Ação do formulário corrigida para a URL unificada -->
     <form method="post" action="/prestador/planos/editar">
-        
-        <input type="hidden" name="id_fornecedor" value="1">
+        <input type="hidden" name="id_prestador" value="1">
+
 
         <label for="id_plano">Selecione o novo plano:</label>
         <select name="id_plano" id="id_plano" required>
@@ -25,8 +24,6 @@
         
         <button type="submit">Alterar</button>
     </form>
-
-      
 
     <a href="/prestador/planos">Voltar</a>
 </body>

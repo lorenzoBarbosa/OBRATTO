@@ -23,7 +23,8 @@
                 <p>Clique no botão abaixo para confirmar a renovação do seu plano.</p>
 
                 {# --- FORMULÁRIO DE RENOVAÇÃO --- #}
-                <form method="post" action="{{ url_for('processar_renovacao_plano') }}">
+                 <form method="post" action="/prestador/planos/editar">
+        <input type="hidden" name="id_prestador" value="1">
                     
                     {# 
                         Campo oculto para enviar o ID do prestador.
