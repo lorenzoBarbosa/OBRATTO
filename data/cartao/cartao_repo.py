@@ -7,7 +7,22 @@ import hashlib
 
 class CartaoRepository:
     """Repository para gerenciamento de cartões de crédito"""
-    
+
+    def definir_todos_nao_principal(self, id_fornecedor: int) -> bool:
+        """Define todos os cartões do fornecedor como não principal"""
+        try:
+            with open_connection() as con:
+                cursor = con.cursor()
+                cursor.execute(
+                    "UPDATE cartao_credito SET principal = 0, data_atualizacao = ? WHERE id_fornecedor = ?",
+                    (datetime.now().isoformat(), id_fornecedor)
+                )
+                con.commit()
+                return True
+        except Exception as e:
+            print(f"Erro ao definir todos como não principal: {e}")
+            return False
+
     def criar_tabela_cartao(self):
         """Cria a tabela de cartões se não existir"""
         try:

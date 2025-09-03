@@ -4,12 +4,12 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
 from routes.publico import publico_routes
+from routes.publico import publico_pagamento
 from routes.fornecedor import fornecedor_produtos
 from routes.fornecedor import fornecedor_planos
 from routes.fornecedor import fornecedor_perfil
 from routes.fornecedor import fornecedor_promocoes
 from routes.fornecedor import fornecedor_solicitacoes_orcamento
-from routes.fornecedor import fornecedor_pagamentos
 from routes.administrador import administrador_anuncios
 from routes.administrador import administrador_usuarios
 from routes.prestador import prestador
@@ -34,6 +34,7 @@ app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 
 # PÚBLICO
 app.include_router(publico_routes.router)
+app.include_router(publico_pagamento.router, prefix="/publico/pagamento")
 
 # FORNECEDOR
 app.include_router(fornecedor_promocoes.router, prefix="/fornecedor/promocao")
@@ -41,7 +42,6 @@ app.include_router(fornecedor_perfil.router, prefix="/fornecedor")
 app.include_router(fornecedor_solicitacoes_orcamento.router, prefix="/fornecedor")
 app.include_router(fornecedor_produtos.router, prefix="/fornecedor/produtos")
 app.include_router(fornecedor_planos.router, prefix="/fornecedor/planos")
-app.include_router(fornecedor_pagamentos.router, prefix="/fornecedor/pagamentos")
 
 # ADMINISTRADOR
 app.include_router(administrador_usuarios.router, prefix="/administrador")

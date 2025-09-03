@@ -289,14 +289,14 @@
         <div class="nav-links">
                 <a href="/fornecedor/planos/listar">💳 Planos</a>
                 <a href="/fornecedor/planos/meu_plano">👤 Meu Plano</a>
-                <a href="/fornecedor/pagamentos/cartoes">💳 Cartões</a>
+                <a href="/publico/pagamento/cartoes{% if id_fornecedor %}?id_fornecedor={{ id_fornecedor }}{% elif id_prestador %}?id_prestador={{ id_prestador }}{% elif id_cliente %}?id_cliente={{ id_cliente }}{% endif %}">💳 Cartões</a>
         </div>
     </div>
 
     <div class="container">
         <div class="header-actions">
             <h2>💳 Meus Cartões de Crédito</h2>
-                <a href="/fornecedor/pagamentos/cartoes/adicionar" class="btn btn-primary">
+                <a href="/publico/pagamento/cartoes/adicionar?tipo_usuario=fornecedor{% if id_fornecedor %}&id_fornecedor={{ id_fornecedor }}{% elif id_prestador %}&id_prestador={{ id_prestador }}{% elif id_cliente %}&id_cliente={{ id_cliente }}{% endif %}" class="btn btn-primary">
                 ➕ Adicionar Cartão
             </a>
         </div>
@@ -338,21 +338,28 @@
                         
                         <div class="card-actions">
                             {% if not cartao.principal %}
-                                    <form method="post" action="/fornecedor/pagamentos/cartoes/definir_principal" style="display: inline;">
+                                    <form method="post" action="/publico/pagamento/cartoes/definir_principal" style="display: inline;">
                                     <input type="hidden" name="id_cartao" value="{{ cartao.id_cartao }}">
+                                    {% if id_fornecedor %}
+                                    <input type="hidden" name="id_fornecedor" value="{{ id_fornecedor }}">
+                                    {% elif id_prestador %}
+                                    <input type="hidden" name="id_prestador" value="{{ id_prestador }}">
+                                    {% elif id_cliente %}
+                                    <input type="hidden" name="id_cliente" value="{{ id_cliente }}">
+                                    {% endif %}
                                     <button type="submit" class="btn btn-warning btn-small">
                                         ⭐ Tornar Principal
                                     </button>
                                 </form>
                             {% endif %}
                             
-                                <a href="/fornecedor/pagamentos/cartoes/editar/{{ cartao.id_cartao }}" class="btn btn-secondary btn-small">
+                                <a href="/publico/pagamento/cartoes/editar/{{ cartao.id_cartao }}{% if id_fornecedor %}?id_fornecedor={{ id_fornecedor }}{% elif id_prestador %}?id_prestador={{ id_prestador }}{% elif id_cliente %}?id_cliente={{ id_cliente }}{% endif %}" class="btn btn-secondary btn-small">
                                 ✏️ Editar
                             </a>
                             
                             {% if not cartao.principal %}
-                                    <form method="post" action="/fornecedor/pagamentos/cartoes/excluir" style="display: inline;">
-                                    <input type="hidden" name="id_cartao" value="{{ cartao.id_cartao }}">
+                                    <form method="post" action="/publico/pagamento/cartoes/excluir/{{ cartao.id_cartao }}" style="display: inline;">
+                                        <input type="hidden" name="tipo_usuario" value="fornecedor">
                                     <button type="submit" class="btn btn-danger btn-small" 
                                             onclick="return confirm('Tem certeza que deseja excluir este cartão?')">
                                         🗑️ Excluir
@@ -373,7 +380,7 @@
                 <h3>💳 Nenhum Cartão Cadastrado</h3>
                 <p>Adicione um cartão de crédito para facilitar seus pagamentos futuros.</p>
                 
-                    <a href="/fornecedor/pagamentos/cartoes/adicionar" class="btn btn-primary">
+                    <a href="/publico/pagamento/cartoes/adicionar?tipo_usuario=fornecedor{% if id_fornecedor %}&id_fornecedor={{ id_fornecedor }}{% elif id_prestador %}&id_prestador={{ id_prestador }}{% elif id_cliente %}&id_cliente={{ id_cliente }}{% endif %}" class="btn btn-primary">
                     ➕ Adicionar Primeiro Cartão
                 </a>
             </div>

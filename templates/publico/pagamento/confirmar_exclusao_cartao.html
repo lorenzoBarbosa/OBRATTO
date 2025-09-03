@@ -311,12 +311,13 @@
                 </div>
 
                 <div class="form-actions">
-                    <form method="post" action="/fornecedor/planos/cartoes/excluir/{{ cartao.id_cartao }}" style="display: inline;">
+                    <form method="post" action="/publico/pagamento/cartoes/excluir/{{ cartao.id_cartao }}" style="display: inline;">
+                        <input type="hidden" name="tipo_usuario" value="fornecedor">
                         <button type="submit" class="btn btn-danger">
                             🗑️ Sim, Excluir Cartão
                         </button>
                     </form>
-                    <a href="/fornecedor/planos/cartoes" class="btn btn-secondary">
+                    <a href="/publico/pagamento/cartoes" class="btn btn-secondary">
                         ↩️ Cancelar
                     </a>
                 </div>

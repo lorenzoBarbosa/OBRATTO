@@ -1,3 +1,4 @@
+
 from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, JSONResponse
@@ -16,28 +17,17 @@ mercadopago_config = mp_config
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
+# Alias para compatibilidade: redireciona /fornecedor/planos/cartoes para /publico/pagamento/cartoes
+@router.get("/cartoes")
+async def alias_cartoes(request: Request, id_fornecedor: int = None, id_prestador: int = None, id_cliente: int = None):
+    url = f"/publico/pagamento/cartoes?id_fornecedor={id_fornecedor}" if id_fornecedor else "/publico/pagamento/cartoes"
+    return RedirectResponse(url=url, status_code=307)
+
 # Rota para exibir o plano atual do fornecedor
-@router.get("/fornecedor/planos/meu_plano")
+@router.get("/meu_plano")
 async def mostrar_meu_plano(request: Request, id_fornecedor: int = 1):
     # Aqui você pode buscar os dados do plano do fornecedor se necessário
     return templates.TemplateResponse("fornecedor/planos/minha_assinatura.html", {"request": request, "id_fornecedor": id_fornecedor})
-from fastapi import APIRouter, Request, Form
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse, JSONResponse
-from data.plano.plano_model import Plano
-from data.plano import plano_repo
-from data.inscricaoplano.inscricao_plano_model import InscricaoPlano
-from data.inscricaoplano import inscricao_plano_repo
-from data.pagamento.pagamento_repo import PagamentoRepository
-from data.cartao.cartao_repo import CartaoRepository
-from utils.mercadopago_config import mp_config
-
-# Criar instância dos repositórios
-pagamento_repo = PagamentoRepository()
-cartao_repo = CartaoRepository()
-mercadopago_config = mp_config
-router = APIRouter()
-templates = Jinja2Templates(directory="templates")
 
 
 
@@ -82,7 +72,7 @@ async def alterar_plano(request: Request, id_plano: int = Form(...)):
         # Verificar se há diferença de valor que requer pagamento
         if plano_novo.valor_mensal > plano_atual.valor_mensal:
             # Redirecionar para dados de pagamento se o novo plano é mais caro
-            response = RedirectResponse(f"/fornecedor/pagamentos/dados_pagamento?plano_id={id_plano}&id_fornecedor={id_fornecedor}&tipo=alteracao", status_code=303)
+            response = RedirectResponse(f"/publico/pagamento/formulario?plano_id={id_plano}&id_fornecedor={id_fornecedor}&tipo=alteracao", status_code=303)
             return response
         else:
             # Atualizar diretamente se o novo plano é igual ou mais barato
@@ -173,7 +163,7 @@ async def renovar_plano(request: Request, id_fornecedor: int = Form(...)):
     plano_atual = plano_repo.obter_plano_por_id(assinatura_ativa.id_plano)
     if plano_atual:
         # Redirecionar para dados de pagamento
-        response = RedirectResponse(f"/fornecedor/pagamentos/dados_pagamento?plano_id={plano_atual.id_plano}&id_fornecedor={id_fornecedor}&tipo=renovacao", status_code=303)
+        response = RedirectResponse(f"/publico/pagamento/formulario?plano_id={plano_atual.id_plano}&id_fornecedor={id_fornecedor}&tipo=renovacao", status_code=303)
         return response
     
     return templates.TemplateResponse("fornecedor/planos/renovar_plano.html", {
@@ -212,7 +202,7 @@ async def assinar_plano(request: Request, plano_id: int = Form(...), id_forneced
         })
     
     # Redirecionar para dados de pagamento
-    response = RedirectResponse(f"/fornecedor/pagamentos/dados_pagamento?plano_id={plano_id}&id_fornecedor={id_fornecedor}&tipo=assinatura", status_code=303)
+    response = RedirectResponse(f"/publico/pagamento/formulario?plano_id={plano_id}&id_fornecedor={id_fornecedor}&tipo=assinatura", status_code=303)
     return response
 
 
