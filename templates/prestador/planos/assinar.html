@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assinar Plano</title>
+</head>
+<body>
+    <h1>Assinar Novo Plano</h1>
+    <form method="post" action="/prestador/planos/assinar">
+        <label for="id_prestador">ID do Prestador:</label>
+        <input type="text" name="id_prestador"><br><br>
+
+        <label for="id_plano">Plano:</label>
+        <select name="id_plano">
+            <option value="1">Plano Básico</option>
+            <option value="2">Plano Profissional</option>
+            <option value="3">Plano Premium</option>
+        </select><br><br>
+
+        <button type="submit">Assinar</button>
+    </form>
+</body>
+</html>

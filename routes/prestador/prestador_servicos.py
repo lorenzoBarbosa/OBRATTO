@@ -11,19 +11,34 @@ async def listar_servicos(request: Request):
 
 
 # Rota para cadastrar novo serviço
-@router.get("/servicos/novo")
-async def form_novo_servico(request: Request):
-    return templates.TemplateResponse("prestador/servico_form.html", {"request": request})
+@router.get("/novo")
+async def form_novo_servicos(request: Request):
+    return templates.TemplateResponse("prestador/servicos/novo.html", {"request": request})
 
 # Editar serviço
-@router.get("/servicos/editar")
-async def editar_servico(request: Request, id_servico: int):
-    return templates.TemplateResponse("prestador/servico_editar.html", {"request": request, "id_servico": id_servico})
+@router.get("/editar")
+async def editar_servicos(request: Request, id_servico: int):
+    return templates.TemplateResponse("prestador/servicos/editar.html", {"request": request, "id_servico": id_servico})
+
+# Detalhes do serviço
+@router.get("/detalhes")
+async def detalhes_servicos(request: Request, id_servico: int):
+    return templates.TemplateResponse("prestador/servicos/detalhes.html", {"request": request, "id_servico": id_servico})
+
+# Buscar serviço
+@router.get("/Buscar")
+async def buscra_servicos(request: Request, id_servico: int):
+    return templates.TemplateResponse("prestador/servicos/buscar.html", {"request": request, "id_servico": id_servico})
+
+# status do serviço
+@router.get("/status")
+async def status_servicos(request: Request, id_servico: int): 
+    return templates.TemplateResponse("prestador/servicos/status.html", {"request": request, "id_servico": id_servico})
 
 # Excluir serviço
 @router.get("/servicos/excluir")
 async def excluir_servico(request: Request, id_servico: int):
-    return templates.TemplateResponse("prestador/servico_excluir.html", {"request": request, "id_servico": id_servico})
+    return templates.TemplateResponse("prestador/servicos/excluir.html", {"request": request, "id_servico": id_servico})
 
 
 

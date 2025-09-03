@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Request, Form, status
 from fastapi.responses import RedirectResponse
 from config import templates
+from data.inscricaoplano import inscricao_plano_repo
 
 router = APIRouter()
-
 
 #Meu plano
 @router.get("/meu/plano")
@@ -16,22 +16,27 @@ async def planos_prestador(request: Request):
     return templates.TemplateResponse("prestador/planos/planos.html", {"request": request})
 
 #Assinar plano
-@router.get("/planos/assinar")
+@router.get("/assinar")
 async def assinar_plano(request: Request):
     return templates.TemplateResponse("prestador/planos/assinar.html", {"request": request})
 
+#Confirmar assinatura
+@router.get("/confirmar/assinatura")
+async def confirmar_assinatura(request: Request):
+    return templates.TemplateResponse("prestador/planos/confirmar_assinatura.html", {"request": request})
+
 #Editar plano
-@router.get("/planos/editar")
+@router.get("/editar")
 async def exibir_formulario_edicao(request: Request, id_prestador: int):
     return templates.TemplateResponse("prestador/planos/editar.html", {"request": request, "id_prestador": id_prestador})
 
 #Renovar plano 
-@router.get("/planos/renovar")
+@router.get("/renovar")
 async def exibir_pagina_renovacao(request: Request):
     return templates.TemplateResponse("prestador/planos/renovar.html", {"request": request})
 
 #Cancelar plano 
-@router.get("/planos/cancelar")
+@router.get("/cancelar")
 async def exibir_pagina_cancelamento(request: Request, id_prestador: int):
     return templates.TemplateResponse(
         "prestador/planos/cancelar.html",
@@ -39,9 +44,9 @@ async def exibir_pagina_cancelamento(request: Request, id_prestador: int):
     )
 
 #Confirmação de cancelamento
-@router.get("confirmar/cancelamento")
+@router.get("/confirmar/cancelamento")
 async def confirmar_cancelamento(request: Request):
-    return templates.TemplatesResponse("prestador/confirmar_cancelamento.html", {"request": Request})
+    return templates.TemplateResponse("prestador/confirmar_cancelamento.html", {"request": Request})
 
 
 

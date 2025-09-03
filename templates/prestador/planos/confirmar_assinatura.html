@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Assinatura</title>
+</head>
+<body>
+    <h2>Confirmação de Assinatura</h2>
+
+    <p><strong>Plano selecionado:</strong> Simples</p>
+    <p><strong>Valor:</strong> R$ 29,90/mês</p>
+
+    <form method="post" action="/prestador/planos/assinar">
+        <input type="hidden" name="id_prestador" value="123"> <!-- Substitua dinamicamente -->
+        <input type="hidden" name="id_plano" value="1"> <!-- ID do plano simples -->
+        <button type="submit">Confirmar Assinatura</button>
+    </form>
+
+    {% if mensagem %}
+        <p>{{ mensagem }}</p>
+    {% endif %}
+</body>
+</html>
