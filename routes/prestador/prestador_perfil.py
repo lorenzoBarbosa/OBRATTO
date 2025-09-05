@@ -4,6 +4,9 @@ from typing import Optional, List
 from config import templates
 from fastapi.templating import Jinja2Templates
 
+
+# Tudo funcionando corretamente!
+
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
@@ -36,7 +39,7 @@ async def editar_perfil_prestador(request: Request):
 async def excluir_perfil_prestador(request: Request):
     return templates.TemplateResponse("prestador/perfil/excluir.html", {"request": request})
 
-@router.get("/perfil_publico/{id}")
+@router.get("/perfil_publico")
 async def exibir_perfil_publico(request: Request):
     return templates.TemplateResponse("prestador/perfil/perfil_publico.html", {"request": request})
 

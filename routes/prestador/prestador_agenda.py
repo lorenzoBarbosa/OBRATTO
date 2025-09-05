@@ -8,5 +8,9 @@ router = APIRouter()
 # Rota para agenda do prestador
 @router.get("/agenda")
 async def agenda_prestador(request: Request):
-    return templates.TemplateResponse("prestador/agenda.html", {"request": request})
+    return templates.TemplateResponse("prestador/agenda/agenda.html", {"request": request})
 
+# Rota para visualizar detalhes da agenda
+@router.get("/agenda/detalhes/{id_agenda}")
+async def detalhes_agenda(request: Request, id_agenda: int):
+    return templates.TemplateResponse("prestador/agenda/detalhes.html", {"request": request})

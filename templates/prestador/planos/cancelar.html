@@ -5,8 +5,8 @@
 </head>
 <body>
     <h1>Cancelar Plano</h1>
-    <form method="post" action="/prestador/planos/cancelar">
-        <input type="hidden" name="id_prestador" value="{{ id_prestador }}">
+    <form method="get" action="/prestador/planos/cancelar">
+        <input type="hidden" name="id_plano" value="{{ id_plano }}">
         
         <label>Digite "confirmar" para cancelar:</label>
         <input type="text" name="confirmacao"><br><br>

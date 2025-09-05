@@ -4,10 +4,13 @@ from typing import Optional, List
 from config import templates
 router = APIRouter()
 
+
+# Tudo funcionando perfeitamente
+
 # Rota para listar serviços do Prestador 
 @router.get("/meus/servicos")
 async def listar_servicos(request: Request):
-    return templates.TemplateResponse("prestador/servicos_listar.html", {"request": request})
+    return templates.TemplateResponse("prestador/servicos/meus_servicos.html", {"request": request})
 
 
 # Rota para cadastrar novo serviço
@@ -16,9 +19,9 @@ async def form_novo_servicos(request: Request):
     return templates.TemplateResponse("prestador/servicos/novo.html", {"request": request})
 
 # Editar serviço
-@router.get("/editar")
+@router.get("/editar/servicos")
 async def editar_servicos(request: Request, id_servico: int):
-    return templates.TemplateResponse("prestador/servicos/editar.html", {"request": request, "id_servico": id_servico})
+    return templates.TemplateResponse("prestador/servicos/editar_servico.html", {"request": request, "id_servico": id_servico})
 
 # Detalhes do serviço
 @router.get("/detalhes")
@@ -26,8 +29,8 @@ async def detalhes_servicos(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/detalhes.html", {"request": request, "id_servico": id_servico})
 
 # Buscar serviço
-@router.get("/Buscar")
-async def buscra_servicos(request: Request, id_servico: int):
+@router.get("/buscar")
+async def buscar_servicos(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/buscar.html", {"request": request, "id_servico": id_servico})
 
 # status do serviço

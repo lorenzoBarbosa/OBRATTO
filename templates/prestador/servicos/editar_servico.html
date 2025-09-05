@@ -3,7 +3,7 @@
 <head><meta charset="UTF-8"><title>Editar Serviço</title></head>
 <body>
     <h2>Editar Serviço #{{ id_servico }}</h2>
-    <form method="post" action="/servicos/editar">
+    <form method="get" action="prestador/servicos/editar">
         <input type="hidden" name="id_servico" value="{{ id_servico }}">
         <label>Nome:</label><br>
         <input type="text" name="nome" value="Nome atual"><br><br>

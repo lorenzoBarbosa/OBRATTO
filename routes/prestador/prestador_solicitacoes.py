@@ -6,15 +6,21 @@ from config import templates
 router = APIRouter()
 
 
+# Tudo funcionando perfeitamente!!
+
 # Rota para solicitações do prestador
-@router.get("/solicitacoes")
+@router.get("/minhas/solicitacoes")
 async def prestador_solicitacoes(request: Request):
-    return templates.TemplateResponse("prestador/solicitacoes_listar.html", {"request": request})
+    return templates.TemplateResponse("prestador/solicitacoes/minhas_solicitacoes.html", {"request": request})
 
 
-# Rota para responder a solicitação do prestador
-@router.get("/solicitacoes/responder/{id_solicitacao}")
+# Rota para visualizar detalhes da solicitação
+@router.get("/detalhes/solicitacao/{id_solicitacao}")
 async def responder_solicitacao(request: Request, id_solicitacao: int):
-    return templates.TemplateResponse("prestador/solicitacao_detalhes.html", {"request": request})
+    return templates.TemplateResponse("prestador/solicitacoes/detalhes.html", {"request": request})
 
 
+# Rota para responder a solicitação
+@router.get("/responder/solicitacao/{id_solicitacao}")
+async def aceitar_solicitacao(request: Request, id_solicitacao: int):
+ return templates.TemplateResponse("prestador/solicitacoes/responder.html", {"request": request})

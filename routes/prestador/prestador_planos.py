@@ -5,10 +5,17 @@ from data.inscricaoplano import inscricao_plano_repo
 
 router = APIRouter()
 
+# Tudo funcionando corretamente!!
+
 #Meu plano
-@router.get("/meu/plano")
-async def meu_plano(request: Request):
-    return templates.TemplateResponse("prestador/planos/meu_plano.html", {"request": request})
+@router.get("/meu_plano")
+async def exibir_meu_plano(request: Request):
+    plano = {
+        "nome": "Plano Pro",
+        "validade": "30 dias",
+        "status": "Ativo"
+    }
+    return templates.TemplateResponse("prestador/planos/meu_plano.html", {"request": request, "plano": plano})
 
 #Página principal de planos
 @router.get("/planos")
@@ -26,7 +33,7 @@ async def confirmar_assinatura(request: Request):
     return templates.TemplateResponse("prestador/planos/confirmar_assinatura.html", {"request": request})
 
 #Editar plano
-@router.get("/editar")
+@router.get("/editar/plano")
 async def exibir_formulario_edicao(request: Request, id_prestador: int):
     return templates.TemplateResponse("prestador/planos/editar.html", {"request": request, "id_prestador": id_prestador})
 
@@ -36,17 +43,17 @@ async def exibir_pagina_renovacao(request: Request):
     return templates.TemplateResponse("prestador/planos/renovar.html", {"request": request})
 
 #Cancelar plano 
-@router.get("/cancelar")
-async def exibir_pagina_cancelamento(request: Request, id_prestador: int):
+@router.get("/cancelar/{plano_id}")
+async def cancelar_plano(request: Request, plano_id: int):
     return templates.TemplateResponse(
         "prestador/planos/cancelar.html",
-        {"request": request, "id_prestador": id_prestador}
+        {"request": request, "id": plano_id}
     )
 
 #Confirmação de cancelamento
 @router.get("/confirmar/cancelamento")
 async def confirmar_cancelamento(request: Request):
-    return templates.TemplateResponse("prestador/confirmar_cancelamento.html", {"request": Request})
+    return templates.TemplateResponse("prestador/planos/confirmar_cancelamento.html", {"request": request})
 
 
 
