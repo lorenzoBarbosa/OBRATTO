@@ -97,7 +97,15 @@ def obter_usuarios_por_pagina (pg_num: int, pg_size:int) -> List[Usuario]:
         return usuarios
     except Exception as e:
         print(f"Erro ao obter usuários por página: {e}")
+
+#def obter_usuario_por_email(): Optional[Usuario]
+
          
+
+#def obter_todos_por_perfil():
+
+
+
 def atualizar_usuario(usuario: Usuario) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()

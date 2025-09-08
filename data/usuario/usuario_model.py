@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import datetime
 from sqlite3.dbapi2 import Timestamp
+from typing import Optional
 
 
 @dataclass
@@ -13,6 +14,11 @@ class Usuario:
     telefone: str
     data_cadastro:Timestamp
     endereco: str
-    tipo_usuario: str
+    #tipo_usuario: str
+    #perfil: str ='cliente'
+    foto: Optional[str] = None
+    token_redefinicao: Optional[str] = None
+    data_token: Optional[str] = None
+    data_cadastro: Optional[str] = None
 
 
