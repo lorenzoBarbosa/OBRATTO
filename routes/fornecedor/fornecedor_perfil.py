@@ -1,14 +1,156 @@
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter, Request, Form, UploadFile, File, HTTPException
 from fastapi.templating import Jinja2Templates
 from data.fornecedor.fornecedor_model import Fornecedor
 from data.fornecedor import fornecedor_repo
+from utils.security import criar_hash_senha
+from data.usuario import usuario_repo
+from datetime import datetime
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
+
 @router.get("/cadastro")
 async def exibir_cadastro_fornecedor(request: Request):
     return templates.TemplateResponse("fornecedor/cadastro_fornecedor.html", {"request": request})
+
+# Cadastro de fornecedor (POST)
+
+@router.post("/cadastro")
+async def cadastrar_fornecedor(
+    request: Request,
+    nome: str = Form(...),
+    email: str = Form(...),
+    senha: str = Form(...),
+    cpf_cnpj: str = Form(...),
+    telefone: str = Form(...),
+    endereco: str = Form(...),
+    razao_social: str = Form(...)
+):
+    
+    # Verificar se o email já existe
+    usuario_existente = usuario_repo.obter_usuario_por_email(email)
+    if usuario_existente:
+        from fastapi import status
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(
+            "/fornecedor/cadastro?erro=email_existe",
+            status_code=status.HTTP_303_SEE_OTHER
+        )
+    # Criar o novo fornecedor
+    senha_hash = criar_hash_senha(senha)
+    novo_fornecedor = Fornecedor(
+        id=0,
+        nome=nome,
+        email=email,
+        senha=senha_hash,
+        cpf_cnpj=cpf_cnpj,
+        telefone=telefone,
+        data_cadastro=datetime.now(),
+        endereco=endereco,
+        tipo_usuario="Fornecedor",
+        razao_social=razao_social
+    )
+    from data.fornecedor import fornecedor_repo
+    id_gerado = fornecedor_repo.inserir_fornecedor(novo_fornecedor)
+    from fastapi import status
+    from fastapi.responses import RedirectResponse
+    if id_gerado:
+        return RedirectResponse(
+            f"/fornecedor/perfil_publico/{id_gerado}",
+            status_code=status.HTTP_303_SEE_OTHER
+        )
+    else:
+        return RedirectResponse(
+            "/fornecedor/cadastro?erro=erro_cadastro",
+            status_code=status.HTTP_303_SEE_OTHER
+        )
+    
+        
+@router.get("/perfil/{id}")
+async def visualizar_perfil_fornecedor(request: Request, id: int):
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+    if not fornecedor:
+        raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
+    return templates.TemplateResponse("fornecedor/perfil.html", {"request": request, "fornecedor": fornecedor})
+
+# 2. Editar/atualizar perfil do fornecedor
+@router.post("/perfil/{id}/editar")
+async def editar_perfil_fornecedor(request: Request, id: int, nome: str = Form(...), email: str = Form(...), telefone: str = Form(...), endereco: str = Form(...), razao_social: str = Form(...)):
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+    if not fornecedor:
+        raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
+    fornecedor.nome = nome
+    fornecedor.email = email
+    fornecedor.telefone = telefone
+    fornecedor.endereco = endereco
+    fornecedor.razao_social = razao_social
+    fornecedor_repo.atualizar_fornecedor(fornecedor)
+    mensagem = "Perfil atualizado com sucesso."
+    return templates.TemplateResponse("fornecedor/perfil.html", {"request": request, "fornecedor": fornecedor, "mensagem": mensagem})
+
+# 3. Alterar senha do fornecedor
+
+from utils.security import verificar_senha, criar_hash_senha
+
+@router.post("/perfil/{id}/alterar-senha")
+async def alterar_senha_fornecedor(
+    request: Request,
+    id: int,
+    senha_atual: str = Form(...),
+    nova_senha: str = Form(...)
+):
+    from data.usuario import usuario_repo
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+    if not fornecedor:
+        raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
+    # Verifica se a senha atual está correta (usando hash)
+    if not verificar_senha(senha_atual, fornecedor.senha):
+        from fastapi import status
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(
+            f"/fornecedor/perfil/{id}?erro=senha_incorreta",
+            status_code=status.HTTP_303_SEE_OTHER
+        )
+    # Atualiza a senha com hash
+    nova_senha_hash = criar_hash_senha(nova_senha)
+    usuario_repo.atualizar_senha_usuario(id, nova_senha_hash)
+    from fastapi import status
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(
+        f"/fornecedor/perfil/{id}?msg=senha_alterada",
+        status_code=status.HTTP_303_SEE_OTHER
+    )
+
+# 4. Upload/atualização de foto de perfil
+@router.post("/perfil/{id}/foto")
+async def upload_foto_perfil(request: Request, id: int, foto: UploadFile = File(...)):
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+    if not fornecedor:
+        raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
+    # Exemplo simples: salvar arquivo em static/img/fornecedores
+    import os
+    pasta_destino = "static/img/fornecedores"
+    os.makedirs(pasta_destino, exist_ok=True)
+    caminho_arquivo = os.path.join(pasta_destino, f"fornecedor_{id}.jpg")
+    with open(caminho_arquivo, "wb") as buffer:
+        buffer.write(await foto.read())
+    mensagem = "Foto de perfil atualizada com sucesso."
+    return templates.TemplateResponse("fornecedor/perfil.html", {"request": request, "fornecedor": fornecedor, "mensagem": mensagem, "foto_path": caminho_arquivo})
+
+# 13. Deletar conta do fornecedor
+@router.post("/perfil/{id}/excluir")
+async def deletar_conta_fornecedor(request: Request, id: int):
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+    if not fornecedor:
+        raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
+    fornecedor_repo.deletar_fornecedor(id)
+    from fastapi import status
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(
+        "/fornecedor/cadastro?msg=conta_excluida",
+        status_code=status.HTTP_303_SEE_OTHER
+    )
 
 # Visualizar perfil do fornecedor
 @router.get("/conta/{id}")
@@ -16,21 +158,8 @@ async def visualizar_conta(request: Request, id: int):
     fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
     return templates.TemplateResponse("fornecedor/conta.html", {"request": request, "fornecedor": fornecedor})
 
-# Excluir conta do fornecedor
-@router.post("/conta/excluir/{id}")
-async def excluir_conta(request: Request, id: int):
-    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
-    if fornecedor:
-        fornecedor_repo.deletar_fornecedor(id)
-        mensagem = "Conta excluída com sucesso"
-        fornecedor = None
-    else:
-        mensagem = "Fornecedor não encontrado"
-    return templates.TemplateResponse("fornecedor/conta.html", {"request": request, "fornecedor": fornecedor, "mensagem": mensagem})
 
-@router.get("/perfil_publico/{id}")
-async def exibir_perfil_publico(request: Request, id: int):
-    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
-    return templates.TemplateResponse("fornecedor/perfil.html", {"request": request, "fornecedor": fornecedor})
+
+
 
 
