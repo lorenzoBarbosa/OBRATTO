@@ -44,6 +44,8 @@ body {
     font-weight: 700;
 }
 
+/* menu dropdown */
+
 .navbar .dropdown-menu {
     border: none;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
