@@ -18,10 +18,34 @@ async def listar_servicos(request: Request):
 async def form_novo_servicos(request: Request):
     return templates.TemplateResponse("prestador/servicos/novo.html", {"request": request})
 
+# Rota para processar o formulário de novo serviço
+@router.post("/novo")
+async def processar_novo_servico(request: Request,
+    id_servico: int = Form(...), 
+    id_prestador: int = Form(...), 
+    titulo: str = Form(...),
+    descricao: str = Form(...),
+    categoria: str = Form(...),
+    valor_base: float = Form(...),
+    nome_prestador: str = Form(...)):
+    return templates.TemplateResponse("prestador/servicos/novo.html", {"request": request})
+
 # Editar serviço
 @router.get("/editar/servicos")
 async def editar_servicos(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/editar_servico.html", {"request": request, "id_servico": id_servico})
+
+# Rota para processar o formulário de edição do serviço
+@router.post("/editar/servicos")
+async def processar_edicao_servico(request: Request, 
+    id_servico: int = Form(...), 
+    id_prestador: int = Form(...), 
+    titulo: str = Form(...),
+    descricao: str = Form(...),
+    categoria: str = Form(...),
+    valor_base: float = Form(...),
+    nome_prestador: str = Form(...)):
+    return templates.TemplateResponse("prestador/servicos/editar_servico.html", {"request": request})
 
 # Detalhes do serviço
 @router.get("/detalhes")
@@ -43,7 +67,17 @@ async def status_servicos(request: Request, id_servico: int):
 async def excluir_servico(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/excluir.html", {"request": request, "id_servico": id_servico})
 
-
+# Rota para processar a exclusão do serviço
+@router.post("/servicos/excluir")
+async def processar_exclusao_servico(request: Request, 
+    id_servico: int = Form(...), 
+    id_prestador: int = Form(...), 
+    titulo: str = Form(...),
+    descricao: str = Form(...),
+    categoria: str = Form(...),
+    valor_base: float = Form(...),
+    nome_prestador: str = Form(...)):
+    return templates.TemplateResponse("prestador/servicos/excluir.html", {"request": request, "id_servico": id_servico})
 
 
 
