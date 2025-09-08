@@ -340,21 +340,34 @@ body {
 .plano-features {
     list-style: none;
     margin-bottom: 2rem;
+    padding: 0;
 }
 
 .plano-features li {
-    padding: 0.5rem 0;
-    color: #333333;
+    background: #f9f9f9; /* leve contraste */
+    margin: 0.5rem 0;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #333;
     position: relative;
-    padding-left: 1.5rem;
+    transition: all 0.3s ease;
 }
 
 .plano-features li::before {
-    content: '✓';
+    content: '✔';
     position: absolute;
-    left: 0;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
     color: #E8894B;
     font-weight: bold;
+    font-size: 1rem;
+}
+
+.plano-features li:hover {
+    background: #f0f0f5;
+    transform: translateX(5px);
 }
 
 .btn-plano {
