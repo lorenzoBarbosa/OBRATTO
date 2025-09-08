@@ -1,20 +1,22 @@
 CRIAR_TABELA_PRODUTO = """
-CREATE TABLE IF NOT EXISTs PRODUTO (
+CREATE TABLE IF NOT EXISTS PRODUTO (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     descricao TEXT,
     preco REAL NOT NULL,
-    quantidade INTEGER NOT NULL
+    quantidade INTEGER NOT NULL,
+    em_promocao INTEGER DEFAULT 0,
+    desconto REAL DEFAULT 0.0
 );
 """
 
 INSERIR_PRODUTO = """
-INSERT INTO PRODUTO (id, nome, descricao, preco, quantidade)
-VALUES (?, ?, ?, ?, ?);
+INSERT INTO PRODUTO (id, nome, descricao, preco, quantidade, em_promocao, desconto)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 """
 
 OBTER_PRODUTO = """
-SELECT id, nome, descricao, preco, quantidade
+SELECT id, nome, descricao, preco, quantidade, em_promocao, desconto
 FROM PRODUTO
 WHERE id = ?;
 """
@@ -38,8 +40,10 @@ ATUALIZAR_PRODUTO = """
 UPDATE PRODUTO
 SET nome = ?,
     descricao = ?,
-    preco = ?,  
-    quantidade = ?
+    preco = ?,
+    quantidade = ?,
+    em_promocao = ?,
+    desconto = ?
 WHERE id = ?;
 """
 

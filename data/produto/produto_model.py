@@ -10,3 +10,5 @@ class Produto:
     descricao: str
     preco: float
     quantidade: int
+    em_promocao: bool = False
+    desconto: float = 0.0

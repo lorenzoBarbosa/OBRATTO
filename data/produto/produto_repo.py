@@ -18,14 +18,14 @@ def inserir_produto(produto: Produto):
         if produto.id is None:
             # Insert without ID (autoincrement)
             conn.execute(
-                "INSERT INTO PRODUTO (nome, descricao, preco, quantidade) VALUES (?, ?, ?, ?)",
-                (produto.nome, produto.descricao, produto.preco, produto.quantidade)
+                "INSERT INTO PRODUTO (nome, descricao, preco, quantidade, em_promocao, desconto) VALUES (?, ?, ?, ?, ?, ?)",
+                (produto.nome, produto.descricao, produto.preco, produto.quantidade, int(produto.em_promocao), produto.desconto)
             )
         else:
             # Insert with ID
             conn.execute(
                 INSERIR_PRODUTO,
-                (produto.id, produto.nome, produto.descricao, produto.preco, produto.quantidade)
+                (produto.id, produto.nome, produto.descricao, produto.preco, produto.quantidade, int(produto.em_promocao), produto.desconto)
             )
         conn.commit()
 
@@ -34,21 +34,30 @@ def obter_produto_por_id(id: int) -> Optional[Produto]:
         cursor = conn.execute(OBTER_PRODUTO_POR_ID, (id,))
         row = cursor.fetchone()
         if row:
-            return Produto(id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4])
+            return Produto(
+                id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4],
+                em_promocao=bool(row[5]), desconto=row[6]
+            )
         return None
 
 def obter_produto_por_pagina(limit: int, offset: int) -> List[Produto]:
     with open_connection() as conn:
         cursor = conn.execute(OBTER_PRODUTO_POR_PAGINA, (limit, offset))
         return [
-            Produto(id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4])
+            Produto(
+                id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4],
+                em_promocao=bool(row[5]), desconto=row[6]
+            )
             for row in cursor.fetchall()
         ]
 def obter_produto_por_nome(nome: str) -> List[Produto]:
     with open_connection() as conn:
         cursor = conn.execute("SELECT * FROM PRODUTO WHERE nome LIKE ?", (f"%{nome}%",))
         return [
-            Produto(id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4])
+            Produto(
+                id=row[0], nome=row[1], descricao=row[2], preco=row[3], quantidade=row[4],
+                em_promocao=bool(row[5]), desconto=row[6]
+            )
             for row in cursor.fetchall()
         ]
 
@@ -56,7 +65,7 @@ def atualizar_produto(produto: Produto):
     with open_connection() as conn:
         conn.execute(
             ATUALIZAR_PRODUTO,
-            (produto.nome, produto.descricao, produto.preco, produto.quantidade, produto.id)
+            (produto.nome, produto.descricao, produto.preco, produto.quantidade, int(produto.em_promocao), produto.desconto, produto.id)
         )
         conn.commit()
 

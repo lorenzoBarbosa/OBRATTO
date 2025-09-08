@@ -1,5 +1,8 @@
 from fastapi import APIRouter, Request
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
+from data.produto.produto_repo import obter_produto_por_id, atualizar_produto
+from data.produto.produto_model import Produto
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -9,17 +12,84 @@ templates = Jinja2Templates(directory="templates")
 async def listar_promocoes(request: Request):
     return templates.TemplateResponse("fornecedor/promocao/promocoes.html", {"request": request})
 
-# Rota para cadastrar promoção
+
+# Rota para cadastrar promoção (GET)
 @router.get("/cadastrar")
 async def cadastrar_promocao(request: Request):
     return templates.TemplateResponse("fornecedor/promocao/cadastrar_promocoes.html", {"request": request})
 
-# Rota para alterar promoção
+# Rota para cadastrar promoção (POST)
+@router.post("/cadastrar")
+async def cadastrar_promocao_post(request: Request):
+    dados = await request.form()
+    id_produto = int(dados.get("id_produto"))
+    desconto = float(dados.get("desconto", 0))
+    produto = obter_produto_por_id(id_produto)
+    if produto:
+        produto.em_promocao = True
+        produto.desconto = desconto
+        atualizar_produto(produto)
+        mensagem = f"Promoção cadastrada para o produto {produto.nome}!"
+    else:
+        mensagem = "Produto não encontrado."
+    return templates.TemplateResponse("fornecedor/promocao/cadastrar_promocoes.html", {"request": request, "mensagem": mensagem})
+
+
+# Rota para alterar promoção (GET)
 @router.get("/alterar")
 async def alterar_promocao(request: Request):
     return templates.TemplateResponse("fornecedor/promocaoalterar_promocoes.html", {"request": request})
 
-# Rota para confirmar exclusão de promoção
+# Rota para alterar promoção (POST)
+@router.post("/alterar")
+async def alterar_promocao_post(request: Request):
+    dados = await request.form()
+    id_produto = int(dados.get("id_produto"))
+    desconto = float(dados.get("desconto", 0))
+    produto = obter_produto_por_id(id_produto)
+    if produto:
+        produto.em_promocao = True
+        produto.desconto = desconto
+        atualizar_produto(produto)
+        mensagem = f"Promoção alterada para o produto {produto.nome}!"
+    else:
+        mensagem = "Produto não encontrado."
+    return templates.TemplateResponse("fornecedor/promocaoalterar_promocoes.html", {"request": request, "mensagem": mensagem})
+
+
+@router.post("/excluir")
+async def excluir_promocao_post(request: Request):
+    dados = await request.form()
+    id_promocao = dados.get("id")
+    return RedirectResponse(url=f"/fornecedor/promocoes/confirmar_exclusao?id={id_promocao}", status_code=303)
+
+# Rota para confirmar exclusão de promoção (GET)
 @router.get("/confirmar_exclusao")
 async def confirmar_exclusao_promocao(request: Request):
-    return templates.TemplateResponse("fornecedor/promocao/confirmar_exclusao_promocao.html", {"request": request})
+    id_promocao = request.query_params.get("id")
+    produto = None
+    if id_promocao:
+        try:
+            produto = obter_produto_por_id(int(id_promocao))
+        except Exception:
+            produto = None
+    return templates.TemplateResponse(
+        "fornecedor/promocao/confirmar_exclusao_promocao.html",
+        {"request": request, "id": id_promocao, "produto": produto}
+    )
+
+
+# Rota para confirmar exclusão de promoção (POST)
+@router.post("/confirmar_exclusao")
+async def confirmar_exclusao_promocao_post(request: Request):
+    dados = await request.form()
+    id_produto = int(dados.get("id_produto"))
+    produto = obter_produto_por_id(id_produto)
+    if produto:
+        produto.em_promocao = False
+        produto.desconto = 0.0
+        atualizar_produto(produto)
+        mensagem = f"Promoção removida do produto {produto.nome}. O preço voltou ao normal."
+    else:
+        mensagem = "Produto não encontrado."
+    return templates.TemplateResponse("fornecedor/promocao/confirmar_exclusao_promocao.html", {"request": request, "mensagem": mensagem})
