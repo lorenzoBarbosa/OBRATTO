@@ -12,7 +12,6 @@ CRIAR_TABELA_USUARIO = """
 
 """
 
-
 INSERIR_USUARIO = """
 INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
