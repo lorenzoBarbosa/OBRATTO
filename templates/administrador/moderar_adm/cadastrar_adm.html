@@ -1,6 +1,22 @@
 {% extends "publico/base2.html" %}
 {% block css %}<link rel="stylesheet" href="/static/css/cadastrar_adm.css">{% endblock %}
 {% block titulo %}Cadastro de Administrador{% endblock %}
+{% block menu %} 
+<div class="navbar-nav ms-auto">
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-accent d-flex align-items-center" href="/publico/perfil/editar/{id}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle fs-5 me-2"></i>
+            Administrador
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/publico/perfil/editar/{id}"><i class="bi bi-person me-2"></i>Perfil</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="/"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
 {% block conteudo %}
 <div class="admin-container">
     <div class="container">

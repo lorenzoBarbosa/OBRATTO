@@ -12,7 +12,7 @@ administrador_usuarios = APIRouter()
 # Rota para exibir o formulário de cadastro do administrador
 @router.get("/cadastro")
 async def exibir_cadastro_administrador(request: Request):
-    return templates.TemplateResponse("administrador/cadastro_adm.html", {"request": request})
+    return templates.TemplateResponse("administrador/moderar_adm/cadastrar_adm.html", {"request": request})
 
 # Rota para cadastrar um novo administrador
 @router.post("/cadastro")
@@ -28,7 +28,7 @@ async def cadastrar_administrador(
         "senha": senha 
     }
     administrador_repo.criar_administrador(novo_adm)
-    return templates.TemplateResponse("admiistrador/cadastro_adm.html", {"request": request})
+    return templates.TemplateResponse("administrador/moderar_adm/cadastrar_adm.html", {"request": request})
 
 # Rota para home do administrador
 @router.get("/home")
