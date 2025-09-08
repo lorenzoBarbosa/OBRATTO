@@ -10,3 +10,8 @@ mercadopago
 pytest
 pytest-asyncio
 pytest-cov
+
+# Dependências de autenticação
+
+passlib[bcrypt]
+python-jose[cryptography]
