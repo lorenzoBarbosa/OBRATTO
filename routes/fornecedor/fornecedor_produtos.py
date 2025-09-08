@@ -63,8 +63,9 @@ async def atualizar_produto(request: Request, id: int, nome: str = Form(...), de
     response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto atualizado com sucesso"})
     return response
 
-@router.post("/excluir/{id}")
-async def excluir_produto(request: Request, id: int):
+
+@router.get("/excluir/{id}")
+async def excluir_produto_get(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)
     if produto:
         produto_repo.deletar_produto(id)
@@ -76,8 +77,8 @@ async def excluir_produto(request: Request, id: int):
     return response
 
 
-@router.get("/excluir/{id}")
-async def excluir_produto_get(request: Request, id: int):
+@router.post("/excluir/{id}")
+async def excluir_produto(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)
     if produto:
         produto_repo.deletar_produto(id)
