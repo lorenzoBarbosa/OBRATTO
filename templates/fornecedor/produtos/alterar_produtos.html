@@ -137,7 +137,7 @@
         </div>
         
         {% if mensagem %}
-        <div class="message">{{ mensagem }}</div>
+        <div class="message">{ mensagem }</div>
         {% endif %}
         
         {% if produtos %}
@@ -155,14 +155,14 @@
             <tbody>
                 {% for produto in produtos %}
                 <tr>
-                    <td>{{ produto.id }}</td>
-                    <td><strong>{{ produto.nome }}</strong></td>
-                    <td>{{ produto.descricao }}</td>
-                    <td><strong>R$ {{ "%.2f"|format(produto.preco) }}</strong></td>
-                    <td>{{ produto.quantidade }} unidades</td>
+                    <td>{ produto.id }</td>
+                    <td><strong>{ produto.nome }</strong></td>
+                    <td>{ produto.descricao }</td>
+                    <td><strong>R$ { "%.2f"|format(produto.preco) }</strong></td>
+                    <td>{ produto.quantidade } unidades</td>
                     <td class="actions">
-                        <a href="/fornecedor/produtos/atualizar/{{ produto.id }}" class="btn btn-warning">✏️ Editar</a>
-                        <a href="/fornecedor/produtos/confi_exclusao/{{ produto.id }}" class="btn btn-danger">🗑️ Excluir</a>
+                        <a href="/fornecedor/produtos/atualizar/{ produto.id }" class="btn btn-warning">✏️ Editar</a>
+                        <a href="/fornecedor/produtos/confi_exclusao/{ produto.id }" class="btn btn-danger">🗑️ Excluir</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -170,7 +170,7 @@
         </table>
         
         <div style="text-align: center; margin-top: 30px; color: #666;">
-            <p>Total de produtos: <strong>{{ produtos|length }}</strong></p>
+            <p>Total de produtos: <strong>{produtos|length }</strong></p>
         </div>
         {% else %}
         <div class="no-products">
