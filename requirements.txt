@@ -5,7 +5,8 @@ Babel
 python-multipart
 itsdangerous
 mercadopago
-bcrypt
+[bcrypt]
+
 
 # Dependências de teste
 pytest
