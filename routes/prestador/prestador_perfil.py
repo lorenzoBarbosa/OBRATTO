@@ -121,13 +121,13 @@ async def processar_cadastro_prestador(
     prestador_id = prestador_repo.inserir(prestador)
     
     # Se tiver CPF/telefone, inserir na tabela cliente
-    if cpf_cnpj and telefone:
-        cliente = Cliente(
-            # id=usuario_id,
-            # cpf=cpf,
-            # telefone=telefone
-        )
-        prestador_repo.inserir(cliente)
+    # if cpf_cnpj and telefone:
+    #     cliente = Cliente(
+    #         # id=usuario_id,
+    #         # cpf=cpf,
+    #         # telefone=telefone
+    #     )
+    #     prestador_repo.inserir(cliente)
     
     return RedirectResponse("/login", status.HTTP_303_SEE_OTHER)
 

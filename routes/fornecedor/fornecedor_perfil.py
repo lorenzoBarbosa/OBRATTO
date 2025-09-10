@@ -68,19 +68,26 @@ async def cadastrar_fornecedor(
         )
     
         
-@router.get("/perfil/{id}")
+@router.get("/perfil")
 @requer_autenticacao(['fornecedor'])
-async def visualizar_perfil_fornecedor(request: Request, id: int):
-    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+async def visualizar_perfil_fornecedor(request: Request, usuario_logado: dict = None):
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(usuario_logado.id)
     if not fornecedor:
         raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
     return templates.TemplateResponse("fornecedor/perfil.html", {"request": request, "fornecedor": fornecedor})
 
 # 2. Editar/atualizar perfil do fornecedor
-@router.post("/perfil/{id}/editar")
+@router.post("/perfil/editar")
 @requer_autenticacao(['fornecedor'])
-async def editar_perfil_fornecedor(request: Request, id: int, nome: str = Form(...), email: str = Form(...), telefone: str = Form(...), endereco: str = Form(...), razao_social: str = Form(...)):
-    fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
+async def editar_perfil_fornecedor(
+    request: Request, 
+    nome: str = Form(...), 
+    email: str = Form(...), 
+    telefone: str = Form(...), 
+    endereco: str = Form(...), 
+    razao_social: str = Form(...),
+    usuario_logado: dict = None):
+    fornecedor = fornecedor_repo.obter_fornecedor_por_id(usuario_logado.id)
     if not fornecedor:
         raise HTTPException(status_code=404, detail="Fornecedor não encontrado")
     fornecedor.nome = nome
