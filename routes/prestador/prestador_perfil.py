@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 from data.cliente.cliente_model import Cliente
 from data.prestador import prestador_repo
 from data.prestador.prestador_model import Prestador
-from utils.auth_decorator import criar_sessao
+from utils.auth_decorator import criar_sessao, requer_autenticacao
 from utils.security import criar_hash_senha, verificar_senha
 
 
@@ -23,21 +23,25 @@ async def home_prestador(request: Request):
 
 # Rota para painel do Prestador
 @router.get("/painel")
+@requer_autenticacao(["prestador"])
 async def painel_prestador(request: Request):
     return templates.TemplateResponse("prestador/perfil/painel.html", {"request": request})
 
 # Visualizar perfil do fornecedor
 @router.get("/perfil")
+@requer_autenticacao(["prestador"])
 async def exibir_perfil_prestador(request: Request):
     return templates.TemplateResponse("prestador/perfil/perfil.html", {"request": request})
 
 # Editar perfil
 @router.get("/editar")
+@requer_autenticacao(["prestador"])
 async def editar_perfil_prestador(request: Request):
     return templates.TemplateResponse("prestador/perfil/editar.html", {"request": request})
 
 # Rota para processar o formulário de edição
 @router.post("/editar")
+@requer_autenticacao(["prestador"])
 async def processar_edicao_perfil_prestador(
     request: Request,
     nome: str = Form(...),
@@ -53,6 +57,7 @@ async def processar_edicao_perfil_prestador(
 
 # Excluir perfil
 @router.get("/excluir")
+@requer_autenticacao(["prestador"])
 async def excluir_perfil_prestador(request: Request):
     return templates.TemplateResponse("prestador/perfil/excluir.html", {"request": request})
 
