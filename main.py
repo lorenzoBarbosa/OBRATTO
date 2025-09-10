@@ -22,7 +22,10 @@ from routes.prestador import prestador_servicos
 from routes.cliente import cliente_perfil
 from routes.cliente import cliente_contratacoes
 from routes.cliente import cliente_solicitacao
+from utils.seed import criar_tabelas
 
+
+criar_tabelas()
 
 app = FastAPI(
     title="Obratto",

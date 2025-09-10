@@ -12,12 +12,11 @@ class Usuario:
     senha: str
     cpf_cnpj: str
     telefone: str
-    data_cadastro:Timestamp
     endereco: str
     tipo_usuario: str
-    foto: Optional[str] = None
-    token_redefinicao: Optional[str] = None
-    data_token: Optional[str] = None
-    data_cadastro: Optional[str] = None
+    data_cadastro: datetime
+    foto: Optional[str]
+    token_redefinicao: Optional[str]
+    data_token: Optional[str]
 
 
