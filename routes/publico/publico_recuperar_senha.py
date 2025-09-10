@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from data.usuario import usuario_repo
-from utils.security import gerar_token, criar_hash_senha
+from utils.security import gerar_token_redefinicao, criar_hash_senha
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -16,7 +16,7 @@ async def recuperar_senha_post(request: Request, email: str = Form(...)):
     usuario = usuario_repo.obter_usuario_por_email(email)
     if usuario:
         # Gera token e salva no usuário
-        token = gerar_token()
+        token = gerar_token_redefinicao()
         usuario.token_redefinicao = token
         usuario_repo.atualizar_usuario(usuario)
         # Aqui você enviaria o e-mail real. Exemplo:
