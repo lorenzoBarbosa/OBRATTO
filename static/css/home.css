@@ -36,14 +36,14 @@ body {
 }
 
 .navbar .text-white{
-    color: black !important;
+    color: #171370 !important;
     font-weight: 600;
     text-decoration: none;
     transition: transform 0.3s ease;
 }
 
 .navbar .text-white:hover {
-    color: #171370 !important;
+    color: black !important;
     transform: scale(1.05);
 }
 
@@ -282,6 +282,9 @@ body {
     height: 100%;
     position: relative;
     overflow: hidden;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
 }
 
 .plano-card.destaque {

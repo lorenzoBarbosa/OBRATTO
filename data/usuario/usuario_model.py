@@ -6,7 +6,7 @@ from typing import Optional
 
 @dataclass
 class Usuario:
-    id: int 
+    id: int
     nome: str
     email: str
     senha: str
@@ -14,9 +14,10 @@ class Usuario:
     telefone: str
     endereco: str
     tipo_usuario: str
-    data_cadastro: datetime
-    foto: Optional[str]
-    token_redefinicao: Optional[str]
-    data_token: Optional[str]
+    data_cadastro: Timestamp = None
+    foto: Optional[str] = None
+    token_redefinicao: Optional[str] = None
+    data_token: Optional[str] = None
+    data_cadastro: Optional[str] = None
 
 

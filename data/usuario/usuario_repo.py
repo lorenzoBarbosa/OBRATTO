@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
 from data.usuario.usuario_model import Usuario
-from data.usuario.usuario_sql import ATUALIZAR_SENHA_USUARIO, ATUALIZAR_TIPO_USUARIO, CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO_POR_EMAIL, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO, OBTER_USUARIO_POR_PAGINA
+from data.usuario.usuario_sql import ATUALIZAR_SENHA_USUARIO, ATUALIZAR_TIPO_USUARIO, CRIAR_TABELA_USUARIO, INSERIR_USUARIO, OBTER_USUARIO_POR_EMAIL, OBTER_USUARIO_POR_ID, ATUALIZAR_USUARIO, DELETAR_USUARIO, OBTER_USUARIO_POR_PAGINA, OBTER_USUARIOS_POR_PERFIL
 from utils.db import open_connection
 
 
@@ -98,11 +98,32 @@ def obter_usuarios_por_pagina (pg_num: int, pg_size:int) -> List[Usuario]:
     except Exception as e:
         print(f"Erro ao obter usuários por página: {e}")
 
-#def obter_usuario_por_email(): Optional[Usuario]
-
-         
-
 #def obter_todos_por_perfil():
+def obter_todos_por_perfil(tipo_usuario: str) -> List[Usuario]:
+    try:
+        with open_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(OBTER_USUARIOS_POR_PERFIL, (tipo_usuario,))
+            rows = cursor.fetchall()
+            usuarios = [
+                Usuario(
+                    id=row["id"],
+                    nome=row["nome"],
+                    email=row["email"],
+                    senha=row["senha"],
+                    cpf_cnpj=row["cpf_cnpj"],
+                    telefone=row["telefone"],
+                    data_cadastro=row["data_cadastro"],
+                    endereco=row["endereco"],
+                    tipo_usuario=row["tipo_usuario"]
+                ) for row in rows
+            ]
+        return usuarios
+    except Exception as e:
+        print(f"Erro ao obter usuários por perfil: {e}")
+        return []
+    
+
 
 
 

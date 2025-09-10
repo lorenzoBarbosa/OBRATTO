@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
 from routes.publico import publico_mensagens
+from routes.publico import publico_recuperar_senha
 from routes.publico import publico_pagamento
 from routes.publico import publico_login
 from routes.publico import publico_routes
@@ -39,9 +40,10 @@ app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 
 # PÚBLICO
 app.include_router(publico_mensagens.router, prefix="/publico/mensagens")
+app.include_router(publico_recuperar_senha.router, prefix="/publico")
 app.include_router(publico_pagamento.router, prefix="/publico/pagamento")
 app.include_router(publico_login.router, prefix="/publico/login")
-app.include_router(publico_routes.router, prefix="/publico")
+app.include_router(publico_routes.router)
 # FORNECEDOR
 app.include_router(fornecedor_promocoes.router, prefix="/fornecedor/promocao")
 app.include_router(fornecedor_perfil.router, prefix="/fornecedor")

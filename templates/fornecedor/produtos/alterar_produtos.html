@@ -140,45 +140,26 @@
         <div class="message">{ mensagem }</div>
         {% endif %}
         
-        {% if produtos %}
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Descrição</th>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for produto in produtos %}
-                <tr>
-                    <td>{ produto.id }</td>
-                    <td><strong>{ produto.nome }</strong></td>
-                    <td>{ produto.descricao }</td>
-                    <td><strong>R$ { "%.2f"|format(produto.preco) }</strong></td>
-                    <td>{ produto.quantidade } unidades</td>
-                    <td class="actions">
-                        <a href="/fornecedor/produtos/atualizar/{ produto.id }" class="btn btn-warning">✏️ Editar</a>
-                        <a href="/fornecedor/produtos/confi_exclusao/{ produto.id }" class="btn btn-danger">🗑️ Excluir</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-        <div style="text-align: center; margin-top: 30px; color: #666;">
-            <p>Total de produtos: <strong>{produtos|length }</strong></p>
-        </div>
-        {% else %}
-        <div class="no-products">
-            <h3>📦 Nenhum produto encontrado</h3>
-            <p>Você ainda não tem produtos cadastrados.</p>
-            <a href="/fornecedor/produtos/inserir" class="btn btn-primary">➕ Cadastrar Primeiro Produto</a>
-        </div>
-        {% endif %}
+        <h2>Editar Produto</h2>
+        <form method="post" enctype="multipart/form-data">
+            <label>Nome:</label><br>
+            <input type="text" name="nome" value="{{ produto.nome }}" required><br>
+            <label>Descrição:</label><br>
+            <textarea name="descricao" required>{{ produto.descricao }}</textarea><br>
+            <label>Preço:</label><br>
+            <input type="number" step="0.01" name="preco" value="{{ produto.preco }}" required><br>
+            <label>Quantidade:</label><br>
+            <input type="number" name="quantidade" value="{{ produto.quantidade }}" required><br>
+            <label>Foto atual:</label><br>
+            {% if produto.foto %}
+                <img src="/{{ produto.foto }}" alt="Foto do produto" style="max-width:150px;"><br>
+            {% else %}
+                <span>Sem foto</span><br>
+            {% endif %}
+            <label>Nova foto:</label><br>
+            <input type="file" name="foto" accept="image/*"><br><br>
+            <button type="submit">Salvar Alterações</button>
+        </form>
     </div>
 </body>
 </html>

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request, Form, UploadFile, File, HTTPException
+from utils.auth_decorator import requer_autenticacao
 from fastapi.templating import Jinja2Templates
 from data.fornecedor.fornecedor_model import Fornecedor
 from data.fornecedor import fornecedor_repo
@@ -68,6 +69,7 @@ async def cadastrar_fornecedor(
     
         
 @router.get("/perfil/{id}")
+@requer_autenticacao(['fornecedor'])
 async def visualizar_perfil_fornecedor(request: Request, id: int):
     fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
     if not fornecedor:
@@ -76,6 +78,7 @@ async def visualizar_perfil_fornecedor(request: Request, id: int):
 
 # 2. Editar/atualizar perfil do fornecedor
 @router.post("/perfil/{id}/editar")
+@requer_autenticacao(['fornecedor'])
 async def editar_perfil_fornecedor(request: Request, id: int, nome: str = Form(...), email: str = Form(...), telefone: str = Form(...), endereco: str = Form(...), razao_social: str = Form(...)):
     fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
     if not fornecedor:
@@ -94,6 +97,7 @@ async def editar_perfil_fornecedor(request: Request, id: int, nome: str = Form(.
 from utils.security import verificar_senha, criar_hash_senha
 
 @router.post("/perfil/{id}/alterar-senha")
+@requer_autenticacao(['fornecedor'])
 async def alterar_senha_fornecedor(
     request: Request,
     id: int,
@@ -124,6 +128,7 @@ async def alterar_senha_fornecedor(
 
 # 4. Upload/atualização de foto de perfil
 @router.post("/perfil/{id}/foto")
+@requer_autenticacao(['fornecedor'])
 async def upload_foto_perfil(request: Request, id: int, foto: UploadFile = File(...)):
     fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
     if not fornecedor:
@@ -140,6 +145,7 @@ async def upload_foto_perfil(request: Request, id: int, foto: UploadFile = File(
 
 # 13. Deletar conta do fornecedor
 @router.post("/perfil/{id}/excluir")
+@requer_autenticacao(['fornecedor'])
 async def deletar_conta_fornecedor(request: Request, id: int):
     fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
     if not fornecedor:
@@ -154,6 +160,7 @@ async def deletar_conta_fornecedor(request: Request, id: int):
 
 # Visualizar perfil do fornecedor
 @router.get("/conta/{id}")
+@requer_autenticacao(['fornecedor'])
 async def visualizar_conta(request: Request, id: int):
     fornecedor = fornecedor_repo.obter_fornecedor_por_id(id)
     return templates.TemplateResponse("fornecedor/conta.html", {"request": request, "fornecedor": fornecedor})

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request
+from utils.auth_decorator import requer_autenticacao
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from data.produto.produto_repo import obter_produto_por_id, atualizar_produto
@@ -9,17 +10,20 @@ templates = Jinja2Templates(directory="templates")
 
 # Rota para listar todas promoções
 @router.get("/listar")
+@requer_autenticacao(['fornecedor'])
 async def listar_promocoes(request: Request):
     return templates.TemplateResponse("fornecedor/promocao/promocoes.html", {"request": request})
 
 
 # Rota para cadastrar promoção (GET)
 @router.get("/cadastrar")
+@requer_autenticacao(['fornecedor'])
 async def cadastrar_promocao(request: Request):
     return templates.TemplateResponse("fornecedor/promocao/cadastrar_promocoes.html", {"request": request})
 
 # Rota para cadastrar promoção (POST)
 @router.post("/cadastrar")
+@requer_autenticacao(['fornecedor'])
 async def cadastrar_promocao_post(request: Request):
     dados = await request.form()
     id_produto = int(dados.get("id_produto"))
@@ -37,11 +41,13 @@ async def cadastrar_promocao_post(request: Request):
 
 # Rota para alterar promoção (GET)
 @router.get("/alterar")
+@requer_autenticacao(['fornecedor'])
 async def alterar_promocao(request: Request):
     return templates.TemplateResponse("fornecedor/promocaoalterar_promocoes.html", {"request": request})
 
 # Rota para alterar promoção (POST)
 @router.post("/alterar")
+@requer_autenticacao(['fornecedor'])
 async def alterar_promocao_post(request: Request):
     dados = await request.form()
     id_produto = int(dados.get("id_produto"))
@@ -58,6 +64,7 @@ async def alterar_promocao_post(request: Request):
 
 
 @router.post("/excluir")
+@requer_autenticacao(['fornecedor'])
 async def excluir_promocao_post(request: Request):
     dados = await request.form()
     id_promocao = dados.get("id")
@@ -65,6 +72,7 @@ async def excluir_promocao_post(request: Request):
 
 # Rota para confirmar exclusão de promoção (GET)
 @router.get("/confirmar_exclusao")
+@requer_autenticacao(['fornecedor'])
 async def confirmar_exclusao_promocao(request: Request):
     id_promocao = request.query_params.get("id")
     produto = None
@@ -81,6 +89,7 @@ async def confirmar_exclusao_promocao(request: Request):
 
 # Rota para confirmar exclusão de promoção (POST)
 @router.post("/confirmar_exclusao")
+@requer_autenticacao(['fornecedor'])
 async def confirmar_exclusao_promocao_post(request: Request):
     dados = await request.form()
     id_produto = int(dados.get("id_produto"))
