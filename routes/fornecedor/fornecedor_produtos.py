@@ -53,7 +53,7 @@ async def cadastrar_produto(
     foto: UploadFile = File(...)
 ):
     import os
-    pasta_fotos = "static/img/produtos/"
+    pasta_fotos = "uploads/produtos/"
     os.makedirs(pasta_fotos, exist_ok=True)
     caminho_foto = None
     if foto:
@@ -100,7 +100,7 @@ async def atualizar_produto(
                 os.remove(caminho_foto)
             except Exception:
                 pass
-        pasta_fotos = "static/img/produtos/"
+        pasta_fotos = "uploads/produtos/"
         os.makedirs(pasta_fotos, exist_ok=True)
         nome_arquivo = f"{nome.replace(' ', '_')}_{foto.filename}"
         caminho_foto = os.path.join(pasta_fotos, nome_arquivo)

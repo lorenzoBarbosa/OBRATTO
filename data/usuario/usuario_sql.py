@@ -36,7 +36,7 @@ LIMIT ? OFFSET ?;
 #OBTER_USUARIO_POR_PERFIL = """
 #OBTER_TODOS_POR_PERFIL
 OBTER_USUARIOS_POR_PERFIL = """
-SELECT * FROM usuarios WHERE tipo_usuario = ?;
+SELECT * FROM usuario WHERE tipo_usuario = ?;
 """
 
 ATUALIZAR_USUARIO = """
