@@ -106,6 +106,8 @@ def obter_usuarios_por_pagina (pg_num: int, pg_size:int) -> List[Usuario]:
 
 
 
+
+
 def atualizar_usuario(usuario: Usuario) -> bool:
     with open_connection() as conn:
         cursor = conn.cursor()
