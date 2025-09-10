@@ -5,6 +5,7 @@ from data.usuario.usuario_model import Usuario
 from data.administrador import administrador_repo
 from data.administrador.administrador_model import Administrador
 from datetime import datetime
+from utils.seed import criar_tabelas
 
 
 def criar_admin_padrao():
@@ -34,5 +35,5 @@ def criar_admin_padrao():
         print("Já existe administrador cadastrado.")
 
 
-if __name__ == "__main__":
-    criar_admin_padrao()
+criar_tabelas()
+criar_admin_padrao()

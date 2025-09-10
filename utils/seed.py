@@ -13,7 +13,7 @@ from data.prestador.prestador_repo import criar_tabela_prestador
 from data.produto.produto_repo import criar_tabela_produto
 from data.servico.servico_repo import criar_tabela_servico
 from data.usuario.usuario_repo import criar_tabela_usuario
-from orcamento_repo import criar_tabela_orcamento
+from data.orcamento.orcamento_repo import criar_tabela_orcamento
 
 def criar_tabelas():
     criar_tabela_usuario()

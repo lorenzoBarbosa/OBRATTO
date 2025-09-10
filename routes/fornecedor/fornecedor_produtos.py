@@ -14,7 +14,10 @@ templates = Jinja2Templates(directory="templates")
 @requer_autenticacao(['fornecedor'])
 async def home_adm(request: Request):
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-    return templates.TemplateResponse("fornecedor/home_teste.html", {"request": request, "produtos": produtos})
+    return templates.TemplateResponse(
+        "fornecedor/home_teste.html", 
+        {"request": request, 
+        "produtos": produtos})
 
 
 @router.get("/buscar")
@@ -27,19 +30,27 @@ async def buscar_produto(request: Request, id: int = None, nome: str = None):
             produtos = [produto]
     elif nome:
         produtos = produto_repo.obter_produto_por_nome(nome)
-    return templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos})
+    return templates.TemplateResponse(
+        "fornecedor/produtos/produtos.html", 
+        {"request": request, 
+         "produtos": produtos})
 
 @router.get("/listar")
 @requer_autenticacao(['fornecedor'])
 async def listar_produtos(request: Request):
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-    response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos})
+    response = templates.TemplateResponse(
+        "fornecedor/produtos/produtos.html", 
+        {"request": request, 
+         "produtos": produtos})
     return response
 
 @router.get("/inserir")
 @requer_autenticacao(['fornecedor'])
 async def mostrar_formulario_produto(request: Request):
-    response = templates.TemplateResponse("fornecedor/produtos/cadastrar_produtos.html", {"request": request})
+    response = templates.TemplateResponse(
+        "fornecedor/produtos/cadastrar_produtos.html", 
+        {"request": request})
     return response
 
 @router.post("/inserir")
@@ -62,21 +73,39 @@ async def cadastrar_produto(
         caminho_foto = os.path.join(pasta_fotos, nome_arquivo)
         with open(caminho_foto, "wb") as buffer:
             buffer.write(await foto.read())
-    produto = Produto(id=None, nome=nome, descricao=descricao, preco=preco, quantidade=quantidade, foto=caminho_foto)
+    produto = Produto(
+        id=None, 
+        nome=nome, 
+        descricao=descricao, 
+        preco=preco, 
+        quantidade=quantidade, 
+        foto=caminho_foto
+    )
     produto_repo.inserir_produto(produto)
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-    response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto inserido com sucesso"})
+    response = templates.TemplateResponse(
+        "fornecedor/produtos/produtos.html", 
+        {"request": request, 
+         "produtos": produtos, 
+         "mensagem": "Produto inserido com sucesso"})
     return response
 
-@router.get("/atualizar/{id}")
+@router.get("/atualizar")
 @requer_autenticacao(['fornecedor'])
-async def mostrar_formulario_atualizar_produto(request: Request, id: int):
+async def mostrar_formulario_atualizar_produto(request: Request, id: int, usuario_logado: dict = None):
     produto = produto_repo.obter_produto_por_id(id)
-    if produto:
-        response = templates.TemplateResponse("fornecedor/produtos/alterar_produtos.html", {"request": request, "produto": produto})
+    if produto and produto.fornecedor_id == usuario_logado['id']:
+        response = templates.TemplateResponse(
+            "fornecedor/produtos/alterar_produtos.html", 
+            {"request": request, 
+             "produto": produto})
     else:
         produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-        response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto não encontrado"})
+        response = templates.TemplateResponse(
+            "fornecedor/produtos/produtos.html", 
+            {"request": request, 
+             "produtos": produtos, 
+             "mensagem": "Produto não encontrado ou acesso negado"})
     return response
 
 @router.post("/atualizar/{id}")
@@ -88,11 +117,19 @@ async def atualizar_produto(
     descricao: str = Form(...),
     preco: float = Form(...),
     quantidade: int = Form(...),
-    foto: UploadFile = File(None)
+    foto: UploadFile = File(None),
+    usuario_logado: dict = None
 ):
-    import os
     produto = produto_repo.obter_produto_por_id(id)
-    caminho_foto = produto.foto if produto else None
+    if not produto or produto.fornecedor_id != usuario_logado['id']:
+        produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
+        return templates.TemplateResponse(
+            "fornecedor/produtos/produtos.html", 
+            {"request": request, 
+             "produtos": produtos, 
+             "mensagem": "Produto não encontrado ou acesso negado"})
+    caminho_foto = produto.foto
+    import os
     if foto and foto.filename:
         # Apaga a foto antiga se existir
         if caminho_foto and os.path.exists(caminho_foto):
@@ -116,40 +153,68 @@ async def atualizar_produto(
     )
     produto_repo.atualizar_produto(produto_atualizado)
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-    response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto atualizado com sucesso"})
+    response = templates.TemplateResponse(
+        "fornecedor/produtos/produtos.html", 
+        {"request": request, 
+         "produtos": produtos, 
+         "mensagem": "Produto atualizado com sucesso"})
     return response
-
 
 @router.get("/excluir/{id}")
 @requer_autenticacao(['fornecedor'])
-async def excluir_produto_get(request: Request, id: int):
+async def excluir_produto_get(request: Request, id: int, usuario_logado: dict = None):
     produto = produto_repo.obter_produto_por_id(id)
-    if produto:
+    if produto and produto.fornecedor_id == usuario_logado['id']:
         produto_repo.deletar_produto(id)
         produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-        response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto excluído com sucesso"})
+        response = templates.TemplateResponse(
+            "fornecedor/produtos/produtos.html", 
+            {"request": request, 
+            "produtos": produtos, 
+            "mensagem": "Produto excluído com sucesso"})
     else:
         produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-        response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto não encontrado"})
+        response = templates.TemplateResponse(
+            "fornecedor/produtos/produtos.html", 
+            {"request": request, 
+             "produtos": produtos, 
+             "mensagem": "Produto não encontrado ou acesso negado"})
     return response
-
 
 @router.post("/excluir/{id}")
 @requer_autenticacao(['fornecedor'])
-async def excluir_produto(request: Request, id: int):
+async def excluir_produto(request: Request, id: int, usuario_logado: dict = None):
     produto = produto_repo.obter_produto_por_id(id)
-    if produto:
+    if produto and produto.fornecedor_id == usuario_logado['id']:
         produto_repo.deletar_produto(id)
         produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-        response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto excluído com sucesso"})
+        response = templates.TemplateResponse(
+            "fornecedor/produtos/produtos.html", 
+            {"request": request, 
+            "produtos": produtos, 
+            "mensagem": "Produto excluído com sucesso"})
     else:
         produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
-        response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos, "mensagem": "Produto não encontrado"})
+        response = templates.TemplateResponse(
+            "fornecedor/produtos/produtos.html", 
+            {"request": request, 
+             "produtos": produtos, 
+             "mensagem": "Produto não encontrado ou acesso negado"})
     return response
-
 
 @router.get("/confi_exclusao/{id}")
 @requer_autenticacao(['fornecedor'])
-async def confi_exclusao_produto(request: Request, id: int):
+async def confi_exclusao_produto(request: Request, id: int,  usuario_logado: dict = None):
     produto = produto_repo.obter_produto_por_id(id)
-    return templates.TemplateResponse("fornecedor/produtos/excluir_produtos.html", {"request": request, "produto": produto})
+    if produto and produto.fornecedor_id == usuario_logado['id']:
+        return templates.TemplateResponse(
+            "fornecedor/produtos/excluir_produtos.html", 
+            {"request": request, 
+             "produto": produto})
+    else:
+        produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
+        return templates.TemplateResponse(
+            "fornecedor/produtos/produtos.html", 
+            {"request": request, 
+             "produtos": produtos,
+               "mensagem": "Produto não encontrado ou acesso negado"})
