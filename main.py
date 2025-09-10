@@ -4,7 +4,6 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
 from routes.publico import publico_mensagens
-from routes.publico import publico_recuperar_senha
 from routes.publico import publico_pagamento
 from routes.publico import publico_routes
 from routes.publico import publico_routes
