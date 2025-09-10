@@ -230,9 +230,6 @@ async def pagamento_pendente(request: Request):
 
 # ===== ROTAS DE GERENCIAMENTO DE CARTÕES =====
 
-# Listar cartões do usuário
-
-
 
 # Exemplo de função para buscar id do usuário logado (pode ser adaptada para seu sistema de autenticação)
 def get_current_user_id(request):
