@@ -7,5 +7,5 @@ from typing import Optional
 
 @dataclass
 class Fornecedor(Usuario):
-    razao_social: str
+    razao_social: Optional[str] = None
 

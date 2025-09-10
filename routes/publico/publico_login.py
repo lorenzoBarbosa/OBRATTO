@@ -9,13 +9,13 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/publico/login")
+@router.get("/")
 async def mostrar_login(request: Request):
     return templates.TemplateResponse("publico/login.html", {"request": request})
 
 # Rota POST para processar login
 
-@router.post("/publico/login")
+@router.post("/")
 async def processar_login(request: Request, email: str = Form(...), senha: str = Form(...)):
     # Validação de campos
     if not email or not senha:
