@@ -28,7 +28,7 @@ async def ver_mensagens(request: Request, id: int):
     mensagens = [m for m in todas_mensagens if m.id_destinatario == id or m.id_remetente == id]
     return templates.TemplateResponse("publico/mensagens.html", {"request": request, "mensagens": mensagens})
 
-@router.post("/publico/mensagens/enviar")
+@router.post("/enviar")
 async def enviar_mensagem(request: Request, id_remetente: int = Form(...), id_destinatario: int = Form(...), conteudo: str = Form(...), nome_remetente: str = Form(...), nome_destinatario: str = Form(...)):
     mensagem = Mensagem(
         id_mensagem=None,
@@ -43,7 +43,7 @@ async def enviar_mensagem(request: Request, id_remetente: int = Form(...), id_de
     mensagem_texto = "Mensagem enviada com sucesso"
     return templates.TemplateResponse("publico/mensagens.html", {"request": request, "mensagem": mensagem_texto})
 
-@router.post("/publico/mensagens/responder/{id}")
+@router.post("/responder/{id}")
 async def responder_mensagem(request: Request, id: int, resposta: str = Form(...), nome_remetente: str = Form(...), nome_destinatario: str = Form(...)):
     mensagem_original = mensagem_repo.obter_mensagem_por_id(id)
     if mensagem_original:
