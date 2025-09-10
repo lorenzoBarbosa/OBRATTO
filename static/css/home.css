@@ -282,6 +282,9 @@ body {
     height: 100%;
     position: relative;
     overflow: hidden;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
 }
 
 .plano-card.destaque {
