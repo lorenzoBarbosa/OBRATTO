@@ -19,7 +19,7 @@ from routes.prestador import prestador_agenda, prestador_contratacoes, prestador
 from routes.prestador import prestador_planos
 from routes.prestador import prestador_solicitacoes
 from routes.prestador import prestador_servicos
-from routes.cliente import cliente
+from routes.cliente import cliente_perfil
 from routes.cliente import cliente_contratacoes
 from routes.cliente import cliente_solicitacao
 
@@ -60,7 +60,7 @@ app.include_router(prestador_contratacoes.router, prefix="/prestador")
 
 
 # CLIENTE
-app.include_router(cliente.router, prefix="/cliente")
+app.include_router(cliente_perfil.router, prefix="/cliente")
 app.include_router(cliente_contratacoes.router, prefix="/cliente")
 app.include_router(cliente_solicitacao.router, prefix="/cliente")
 

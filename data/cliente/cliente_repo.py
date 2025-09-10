@@ -23,7 +23,7 @@ def inserir_cliente(cliente: Cliente) -> Optional[int]:
             cursor.execute(INSERIR_CLIENTE, (
                 id_usuario_gerado,
                 cliente.genero,
-                data_nascimento_str
+                data_nascimento_str,
             ))
             conn.commit()
             return id_usuario_gerado
@@ -47,7 +47,10 @@ def obter_cliente() -> List[Cliente]:
                 endereco=row["endereco"],
                 tipo_usuario=row["tipo_usuario"],
                 genero=row["genero"],
-                data_nascimento=date.fromisoformat(row["data_nascimento"])
+                data_nascimento=date.fromisoformat(row["data_nascimento"]),
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
             ))
         return clientes
 
@@ -66,9 +69,12 @@ def obter_cliente_por_id(cliente_id: int) -> Optional[Cliente]:
                 telefone=row["telefone"],
                 data_cadastro=datetime.fromisoformat(row["data_cadastro"]),
                 endereco=row["endereco"],
-                tipo_usuario=row["tipo_usuario"],
                 genero=row["genero"],
-                data_nascimento=date.fromisoformat(row["data_nascimento"])
+                data_nascimento=date.fromisoformat(row["data_nascimento"]),
+                tipo_usuario=row["tipo_usuario"],
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
             )
         return None
     
@@ -89,10 +95,22 @@ def obter_cliente_por_pagina(conn, limit: int, offset: int) -> list[Cliente]:
             endereco=row["endereco"],
             genero=row["genero"],
             data_nascimento=row["data_nascimento"],
-            tipo_usuario=row["tipo_usuario"]
+            tipo_usuario=row["tipo_usuario"],
+            foto=row["foto"],
+            token_redefinicao=row["token_redefinicao"],
+            data_token=row["data_token"],
         )
         for row in rows
     ]
+
+def obter_cliente_por_email(email: str) -> Optional[Cliente]:
+    with open_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM usuario WHERE email = ?", (email,))
+        row = cursor.fetchone()
+        if row:
+            return obter_cliente_por_id(row["id"])
+        return None
 
 def atualizar_cliente(cliente: Cliente) -> bool:
     with open_connection() as conn:
@@ -102,7 +120,6 @@ def atualizar_cliente(cliente: Cliente) -> bool:
         cursor.execute(ATUALIZAR_CLIENTE, (
             cliente.genero,
             data_nascimento_str,
-            cliente.id
         ))
         conn.commit()
         return sucesso_usuario or cursor.rowcount > 0
