@@ -14,8 +14,7 @@ class Usuario:
     telefone: str
     data_cadastro:Timestamp
     endereco: str
-    #tipo_usuario: str
-    #perfil: str ='cliente'
+    tipo_usuario: str
     foto: Optional[str] = None
     token_redefinicao: Optional[str] = None
     data_token: Optional[str] = None
