@@ -38,7 +38,7 @@ app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
 app.include_router(publico_mensagens.router, prefix="/publico/mensagens")
 app.include_router(publico_pagamento.router, prefix="/publico/pagamento")
 app.include_router(publico_login.router, prefix="/publico/login")
-app.include_router(publico_routes.router, prefix="/publico")
+app.include_router(publico_routes.router)
 # FORNECEDOR
 app.include_router(fornecedor_promocoes.router, prefix="/fornecedor/promocao")
 app.include_router(fornecedor_perfil.router, prefix="/fornecedor")
