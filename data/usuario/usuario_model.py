@@ -18,5 +18,6 @@ class Usuario:
     foto: Optional[str] = None
     token_redefinicao: Optional[str] = None
     data_token: Optional[str] = None
+    data_cadastro: Optional[str] = None
 
 
