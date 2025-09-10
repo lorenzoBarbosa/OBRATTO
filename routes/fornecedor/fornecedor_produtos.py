@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request, Form, UploadFile, File
+from utils.auth_decorator import requer_autenticacao
 from fastapi.templating import Jinja2Templates
 
 from data.produto.produto_model import Produto
@@ -10,12 +11,14 @@ templates = Jinja2Templates(directory="templates")
 
 # Rota home do fornecedor
 @router.get("/")
+@requer_autenticacao(['fornecedor'])
 async def home_adm(request: Request):
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
     return templates.TemplateResponse("fornecedor/home_teste.html", {"request": request, "produtos": produtos})
 
 
 @router.get("/buscar")
+@requer_autenticacao(['fornecedor'])
 async def buscar_produto(request: Request, id: int = None, nome: str = None):
     produtos = []
     if id is not None:
@@ -27,17 +30,20 @@ async def buscar_produto(request: Request, id: int = None, nome: str = None):
     return templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos})
 
 @router.get("/listar")
+@requer_autenticacao(['fornecedor'])
 async def listar_produtos(request: Request):
     produtos = produto_repo.obter_produto_por_pagina(limit=10, offset=0)
     response = templates.TemplateResponse("fornecedor/produtos/produtos.html", {"request": request, "produtos": produtos})
     return response
 
 @router.get("/inserir")
+@requer_autenticacao(['fornecedor'])
 async def mostrar_formulario_produto(request: Request):
     response = templates.TemplateResponse("fornecedor/produtos/cadastrar_produtos.html", {"request": request})
     return response
 
 @router.post("/inserir")
+@requer_autenticacao(['fornecedor'])
 async def cadastrar_produto(
     request: Request,
     nome: str = Form(...),
@@ -63,6 +69,7 @@ async def cadastrar_produto(
     return response
 
 @router.get("/atualizar/{id}")
+@requer_autenticacao(['fornecedor'])
 async def mostrar_formulario_atualizar_produto(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)
     if produto:
@@ -73,6 +80,7 @@ async def mostrar_formulario_atualizar_produto(request: Request, id: int):
     return response
 
 @router.post("/atualizar/{id}")
+@requer_autenticacao(['fornecedor'])
 async def atualizar_produto(
     request: Request,
     id: int,
@@ -113,6 +121,7 @@ async def atualizar_produto(
 
 
 @router.get("/excluir/{id}")
+@requer_autenticacao(['fornecedor'])
 async def excluir_produto_get(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)
     if produto:
@@ -126,6 +135,7 @@ async def excluir_produto_get(request: Request, id: int):
 
 
 @router.post("/excluir/{id}")
+@requer_autenticacao(['fornecedor'])
 async def excluir_produto(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)
     if produto:
@@ -139,6 +149,7 @@ async def excluir_produto(request: Request, id: int):
 
 
 @router.get("/confi_exclusao/{id}")
+@requer_autenticacao(['fornecedor'])
 async def confi_exclusao_produto(request: Request, id: int):
     produto = produto_repo.obter_produto_por_id(id)
     return templates.TemplateResponse("fornecedor/produtos/excluir_produtos.html", {"request": request, "produto": produto})
