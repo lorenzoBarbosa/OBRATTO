@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from data.cliente import cliente_repo
 from data.cliente.cliente_model import Cliente
+from utils.auth_decorator import requer_autenticacao
 from utils.security import criar_hash_senha
 
 router = APIRouter()
@@ -16,17 +17,20 @@ async def get_page(request: Request):
 
 # Visualizar perfil do cliente
 @router.get("/perfil")
+@requer_autenticacao(["cliente"])
 async def exibir_perfil_cliente(request: Request):
     return templates.TemplateResponse("cliente/perfil/perfil.html", {"request": request})
 
 # Editar perfil
 @router.get("/editar")
+@requer_autenticacao(["cliente"])
 async def editar_perfil_cliente(request: Request):
     return templates.TemplateResponse("cliente/perfil/editar.html", {"request": request})
 
 
 # Rota para processar o formulário de edição
 @router.post("/editar")
+@requer_autenticacao(["cliente"])
 async def processar_edicao_perfil_cliente(
     request: Request,
     nome: str = Form(...),
@@ -47,11 +51,13 @@ async def processar_edicao_perfil_cliente(
 
 # Excluir perfil
 @router.get("/excluir")
+@requer_autenticacao(["cliente"])
 async def excluir_perfil_prestador(request: Request):
     return templates.TemplateResponse("cliente/excluir.html", {"request": request})
 
 # Rota para processar a exclusão do perfil
 @router.post("/excluir")
+@requer_autenticacao(["cliente"])
 async def processar_exclusao_perfil_cliente(
     request: Request,
     nome: str = Form(...),

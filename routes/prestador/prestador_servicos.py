@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Form, HTTPException, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Optional, List
 from config import templates
+from utils.auth_decorator import requer_autenticacao
 router = APIRouter()
 
 
@@ -15,11 +16,13 @@ async def listar_servicos(request: Request):
 
 # Rota para cadastrar novo serviço
 @router.get("/novo")
+@requer_autenticacao(["prestador"])
 async def form_novo_servicos(request: Request):
     return templates.TemplateResponse("prestador/servicos/novo.html", {"request": request})
 
 # Rota para processar o formulário de novo serviço
 @router.post("/novo")
+@requer_autenticacao(["prestador"])
 async def processar_novo_servico(request: Request,
     id_servico: int = Form(...), 
     id_prestador: int = Form(...), 
@@ -32,11 +35,13 @@ async def processar_novo_servico(request: Request,
 
 # Editar serviço
 @router.get("/editar/servicos")
+@requer_autenticacao(["prestador"])
 async def editar_servicos(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/editar_servico.html", {"request": request, "id_servico": id_servico})
 
 # Rota para processar o formulário de edição do serviço
 @router.post("/editar/servicos")
+@requer_autenticacao(["prestador"])
 async def processar_edicao_servico(request: Request, 
     id_servico: int = Form(...), 
     id_prestador: int = Form(...), 
@@ -49,26 +54,31 @@ async def processar_edicao_servico(request: Request,
 
 # Detalhes do serviço
 @router.get("/detalhes")
+@requer_autenticacao(["prestador"])
 async def detalhes_servicos(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/detalhes.html", {"request": request, "id_servico": id_servico})
 
 # Buscar serviço
 @router.get("/buscar")
+@requer_autenticacao(["prestador"])
 async def buscar_servicos(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/buscar.html", {"request": request, "id_servico": id_servico})
 
 # status do serviço
 @router.get("/status")
+@requer_autenticacao(["prestador"])
 async def status_servicos(request: Request, id_servico: int): 
     return templates.TemplateResponse("prestador/servicos/status.html", {"request": request, "id_servico": id_servico})
 
 # Excluir serviço
 @router.get("/servicos/excluir")
+@requer_autenticacao(["prestador"])
 async def excluir_servico(request: Request, id_servico: int):
     return templates.TemplateResponse("prestador/servicos/excluir.html", {"request": request, "id_servico": id_servico})
 
 # Rota para processar a exclusão do serviço
 @router.post("/servicos/excluir")
+@requer_autenticacao(["prestador"])
 async def processar_exclusao_servico(request: Request, 
     id_servico: int = Form(...), 
     id_prestador: int = Form(...), 
