@@ -19,7 +19,6 @@ from routes.prestador import prestador_solicitacoes
 from routes.prestador import prestador_servicos
 from routes.cliente import cliente_perfil
 from routes.cliente import cliente_contratacoes
-from routes.cliente import cliente_solicitacao
 from utils.seed import criar_tabelas
 
 
@@ -60,7 +59,6 @@ app.include_router(prestador_contratacoes.router, prefix="/prestador")
 # CLIENTE
 app.include_router(cliente_perfil.router, prefix="/cliente")
 app.include_router(cliente_contratacoes.router, prefix="/cliente")
-app.include_router(cliente_solicitacao.router, prefix="/cliente")
 
 
 if __name__ == "__main__":

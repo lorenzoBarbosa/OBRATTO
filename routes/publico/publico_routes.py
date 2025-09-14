@@ -7,6 +7,7 @@ from data.cliente.cliente_model import Cliente
 from data.prestador import prestador_repo
 from data.prestador.prestador_model import Prestador
 from data.usuario import usuario_repo
+from data.usuario.usuario_model import Usuario
 from utils.security import criar_hash_senha, gerar_token_redefinicao, verificar_senha
 
 router = APIRouter()
@@ -24,18 +25,19 @@ async def mostrar_escolha_cadastro(request: Request):
 
 
 # Cadastro do prestador
-@router.get("/cadastro")
-async def exibir_cadastro_fornecedor(request: Request):
+@router.get("/cadastro-prestador")
+async def exibir_cadastro_prestador(request: Request):
     return templates.TemplateResponse("prestador/perfil/prestador_cadastro.html", {"request": request})
 
 # Rota para processar o formulário de cadastro
-@router.post("/cadastro")
+@router.post("/cadastro-prestador")
 async def processar_cadastro_prestador(
     request: Request,
     nome: str = Form(...),
     email: str = Form(...),
     telefone: str = Form(...),
     senha: str = Form(...),
+    confirmar_senha: str = Form(...),
     cpf_cnpj: str = Form(...),
     endereco: str = Form(...),
     area_atuacao: str = Form(...),
@@ -43,10 +45,15 @@ async def processar_cadastro_prestador(
     descricao_servicos: Optional[str] = Form(None)
 ):
 
-    # Verificar se email já existe
-    if prestador_repo.obter_por_email(email):
+    if senha != confirmar_senha:
         return templates.TemplateResponse(
-            "cadastro.html",
+            "prestador/perfil/prestador_cadastro.html",
+            {"request": request, "erro": "As senhas não coincidem."}
+        )
+    # Verificar se email já existe
+    if prestador_repo.obter_prestador_por_email(email):
+        return templates.TemplateResponse(
+            "prestador/perfil/prestador_cadastro.html",
             {"request": request, "erro": "Email já cadastrado"}
         )
     
@@ -54,7 +61,7 @@ async def processar_cadastro_prestador(
     senha_hash = criar_hash_senha(senha)
     
     # Criar usuário
-    prestador = Prestador(
+    usuario = Usuario(
         id=0,
         nome=nome,
         email=email,
@@ -66,12 +73,28 @@ async def processar_cadastro_prestador(
         data_cadastro=None, 
         foto=None,
         token_redefinicao=None,
-        data_token=None, 
+        data_token=None,
+    )
+
+    usuario_id = usuario_repo.inserir_usuario(usuario)
+    prestador = Prestador(
+         id=0,
+        nome=nome,
+        email=email,
+        senha=senha_hash,
+        cpf_cnpj=cpf_cnpj,
+        telefone=telefone,
+        endereco=endereco,
+        tipo_usuario="Prestador",
+        data_cadastro=None, 
+        foto=None,
+        token_redefinicao=None,
+        data_token=None,
         area_atuacao=area_atuacao,
         razao_social=razao_social,
-        descricao_servicos=descricao_servicos)
-    
-    prestador_id = prestador_repo.inserir(prestador) 
+        descricao_servicos=descricao_servicos
+    )
+    prestador_id = prestador_repo.inserir_prestador(prestador)
     return RedirectResponse("/login", status.HTTP_303_SEE_OTHER)
 
 
@@ -88,36 +111,66 @@ async def post_cadastro(
     nome: str = Form(...),
     email: str = Form(...),
     senha: str = Form(...),
-    cpf_cnpj: str = Form(None),
-    telefone: str = Form(None),
-    endereco: str = Form(None),
-    data_cadastro: str = Form(None),
+    confirmar_senha: str = Form(...),
+    cpf_cnpj: str = Form(...),
+    telefone: str = Form(...),
+    endereco: str = Form(...),
     foto: str = Form(None),
-    token_definicao: str = Form(None),
-    data_token: str = Form(None),
-    genero: str = Form(None),
-    data_nascimento: str = Form(None),
-    tipo_pessoa: str = Form("cliente")):
+    genero: str = Form(...),
+    data_nascimento: str = Form(...)):
+
+
+    if senha != confirmar_senha:
+        return templates.TemplateResponse(
+            "cliente/cadastro.html",
+            {"request": request, "erro": "As senhas não coincidem."}
+        )
     # Verificar se email já existe
     if cliente_repo.obter_cliente_por_email(email):
         return templates.TemplateResponse(
-            "cadastro.html",
+            "cliente/cadastro.html",
             {"request": request, "erro": "Email já cadastrado"}
         )
-   
+    
     # Criar hash da senha
     senha_hash = criar_hash_senha(senha)
-   
+    
     # Criar usuário
+    usuario = Usuario(
+        id=0,
+        nome=nome,
+        email=email,
+        senha=senha_hash,
+        cpf_cnpj=cpf_cnpj,
+        telefone=telefone,
+        endereco=endereco,
+        tipo_usuario="Cliente",
+        data_cadastro=None, 
+        foto=foto,
+        token_redefinicao=None,
+        data_token=None,
+    )
+
+    usuario_id = usuario_repo.inserir_usuario(usuario)
+    # Criar cliente
     cliente = Cliente(
         id=0,
         nome=nome,
         email=email,
         senha=senha_hash,
-        perfil="cliente"
+        cpf_cnpj=cpf_cnpj,
+        telefone=telefone,
+        endereco=endereco,
+        tipo_usuario="Cliente",
+        data_cadastro=None, 
+        foto=None,
+        token_redefinicao=None,
+        data_token=None,
+        genero=genero,
+        data_nascimento=data_nascimento
     )
    
-    cliente_id = cliente_repo.inserir(cliente)
+    cliente_id = cliente_repo.inserir_cliente(cliente)
     return RedirectResponse("/login", status.HTTP_303_SEE_OTHER)
 
 

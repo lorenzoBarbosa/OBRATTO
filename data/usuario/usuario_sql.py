@@ -7,18 +7,21 @@ CRIAR_TABELA_USUARIO = """
     cpf_cnpj TEXT NOT NULL,
     telefone TEXT NOT NULL,
     data_cadastro TIMESTAMP NOT NULL,
+    foto TEXT,
+    token_redefinicao TEXT,
+    data_token TIMESTAMP,
     endereco TEXT NOT NULL,
     tipo_usuario TEXT NOT NULL DEFAULT 'Cliente');
 
 """
 
 INSERIR_USUARIO = """
-INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO usuario (nome, email, senha, cpf_cnpj, telefone, data_cadastro, foto, token_redefinicao, data_token, endereco, tipo_usuario) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 """
 
 OBTER_USUARIO_POR_EMAIL = """
-SELECT ID, nome, email, senha, cpf_cnpj, telefone, data_cadastro, endereco, tipo_usuario
+SELECT ID, nome, email, senha, cpf_cnpj, telefone, data_cadastro, foto, token_redefinicao, data_token, endereco, tipo_usuario
 FROM usuario
 WHERE email = ?;
 """
@@ -47,6 +50,9 @@ SET nome = ?,
     cpf_cnpj = ?,
     telefone = ?,
     data_cadastro = ?,
+    foto = ?,
+    token_redefinicao = ?,
+    data_token = ?,
     endereco = ?,
     tipo_usuario = ?
 WHERE id = ?
